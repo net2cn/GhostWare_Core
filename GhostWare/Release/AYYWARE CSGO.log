@@ -1,0 +1,34 @@
+﻿  AntiAntiAim.cpp
+  Autowall.cpp
+  Chams.cpp
+  Controls.cpp
+  CRC32.cpp
+  DLLMain.cpp
+  Dumping.cpp
+  ESP.cpp
+  GUI.cpp
+  Hacks.cpp
+  Hooks.cpp
+  ReflectiveLoader.cpp
+  Interfaces.cpp
+  LegitBot.cpp
+  MathFunctions.cpp
+  Menu.cpp
+  MetaInfo.cpp
+  MiscHacks.cpp
+  NetVars.cpp
+  Offsets.cpp
+  正在编译...
+  RageBot.cpp
+  RenderManager.cpp
+  tinyxml2.cpp
+  UTIL Functions.cpp
+  Utilities.cpp
+  Visual.cpp
+  Window.cpp
+    正在创建库 C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.lib 和对象 C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.exp
+  正在生成代码
+  All 1650 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  AYYWARE CSGO.vcxproj -> C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.dll
+  AYYWARE CSGO.vcxproj -> C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.pdb (Full PDB)
