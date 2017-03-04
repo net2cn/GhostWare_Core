@@ -45,14 +45,14 @@ void CEsp::Draw()
 			}
 
 			// If entity is the bomb
-			if (Menu::Window.VisualsTab.FiltersC4.GetState())
-			{
-				if (cClass->m_ClassID == (int)CSGOClassID::CPlantedC4)
-					DrawBombPlanted(pEntity, cClass);
+			//if (Menu::Window.VisualsTab.FiltersC4.GetState())
+			//{
+			//	if (cClass->m_ClassID == (int)CSGOClassID::CPlantedC4)
+			//		DrawBombPlanted(pEntity, cClass);
 
-				if (cClass->m_ClassID == (int)CSGOClassID::CC4)
-					DrawBomb(pEntity, cClass);
-			}
+			//	if (cClass->m_ClassID == (int)CSGOClassID::CC4)
+			//		DrawBomb(pEntity, cClass);
+			//}
 
 			// If entity is a chicken
 			if (Menu::Window.VisualsTab.FiltersChickens.GetState())

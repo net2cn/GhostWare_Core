@@ -1,4 +1,5 @@
-﻿  AntiAntiAim.cpp
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppClean.targets(76,5): warning : 文件“e:\code\ghostware_core\ghostware\release\dllmain.obj”正由另一进程使用，因此该进程无法访问此文件。
+  AntiAntiAim.cpp
   Autowall.cpp
   Chams.cpp
   Controls.cpp
@@ -26,9 +27,9 @@
   Utilities.cpp
   Visual.cpp
   Window.cpp
-    正在创建库 C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.lib 和对象 C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.exp
+    正在创建库 E:\Code\GhostWare_Core\GhostWare\Release\GhostWare.lib 和对象 E:\Code\GhostWare_Core\GhostWare\Release\GhostWare.exp
   正在生成代码
-  All 1650 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 1646 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
-  AYYWARE CSGO.vcxproj -> C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.dll
-  AYYWARE CSGO.vcxproj -> C:\Users\net2cn\Desktop\ayyware fullfix_[unknowncheats.me]_\AYYWARE CSGO\Release\GhostWare.pdb (Full PDB)
+  AYYWARE CSGO.vcxproj -> E:\Code\GhostWare_Core\GhostWare\Release\GhostWare.dll
+  AYYWARE CSGO.vcxproj -> E:\Code\GhostWare_Core\GhostWare\Release\GhostWare.pdb (Full PDB)

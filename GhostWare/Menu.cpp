@@ -605,7 +605,7 @@ void Menu::DoUIFrame()
 	if (Window.VisualsTab.FiltersAll.GetState())
 	{
 		Window.VisualsTab.FiltersEnemiesOnly.SetState(true);
-		Window.VisualsTab.FiltersC4.SetState(true);
+		//Window.VisualsTab.FiltersC4.SetState(true);
 		Window.VisualsTab.FiltersChickens.SetState(true);
 		Window.VisualsTab.FiltersPlayers.SetState(true);
 		Window.VisualsTab.FiltersWeapons.SetState(true);
