@@ -36,7 +36,7 @@ void AyyWareWindow::Setup()
 {
 	SetPosition(12, 49);
 	SetSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	SetTitle("GhostWare Released by NED Build " __DATE__);
+	SetTitle("GhostWare CSGO by NErD Hacks Build " __DATE__);
 
 	RegisterTab(&LegitBotTab);
 	RegisterTab(&RageBotTab);

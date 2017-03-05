@@ -180,7 +180,7 @@ void CMiscHacks::ChatSpamRegular()
 	if (timeSoFar < 1.5)
 		return;
 
-	SayInChat("GhostWare / build on " __DATE__);
+	SayInChat("GhostWare CSGO / build on " __DATE__);
 
 	start_t = clock();
 }
