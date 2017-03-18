@@ -32,7 +32,7 @@ bool DoUnload;
 int InitialThread()
 {
 
-	Utilities::OpenConsole("GhostWare released by Noke Build " __DATE__);
+	Utilities::OpenConsole("GhostWare released by NErd Hacks Build " __DATE__);
 
 	// Intro banner with info
 	PrintMetaHeader();
@@ -53,6 +53,8 @@ int InitialThread()
 
 	//---------------------------------------------------------
 	Utilities::Log("Hook successfully! Enjoy!");
+	Utilities::Log("Thank you for using GhostWare.");
+	Utilities::Log("Enjoy your fancy game experiences!");
 
 	// While our cheat is running
 	while (DoUnload == false)
