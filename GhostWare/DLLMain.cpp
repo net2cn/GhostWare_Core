@@ -31,8 +31,10 @@ bool DoUnload;
 
 int InitialThread()
 {
-
-	Utilities::OpenConsole("GhostWare released by NErd Hacks Build " __DATE__);
+	if(!Utilities::CheckAnySpecialDate())
+		Utilities::OpenConsole("GhostWare released by NErd Hacks Build " __DATE__);
+	else
+		Utilities::OpenConsole("GhostWare programmer birthday Build " __DATE__);
 
 	// Intro banner with info
 	PrintMetaHeader();

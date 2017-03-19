@@ -35,6 +35,8 @@ namespace Utilities
 
 	void EnableLogFile(std::string filename);
 
+	bool CheckAnySpecialDate();
+
 	void SetConsoleColor(WORD color);
 
 	// Misc Shizz

@@ -48,7 +48,7 @@ void Utilities::Log(const char *fmt, ...)
 	//Output to console
 	if (logBuf[0] != '\0')
 	{
-		SetConsoleColor(FOREGROUND_INTENSE_RED);
+		SetConsoleColor(FOREGROUND_INTENSE_GREEN);
 		printf("[%s]", GetTimeString().c_str());
 		SetConsoleColor(FOREGROUND_WHITE);
 		printf(": %s\n", logBuf);
@@ -155,4 +155,24 @@ DWORD Utilities::Memory::FindTextPattern(std::string moduleName, char* string)
 		}
 	}
 	return 0;
+}
+
+bool Utilities::CheckAnySpecialDate()
+{
+	//Time related variables
+	time_t current_time;
+	struct tm *time_info;
+	static char timeString[10];
+
+	//Get current time
+	time(&current_time);
+	time_info = localtime(&current_time);
+
+	//Get current time as string
+	strftime(timeString, sizeof(timeString), "%m-%d", time_info);
+
+	if (timeString == "3-21")
+		return true;
+	else
+		return false;
 }
