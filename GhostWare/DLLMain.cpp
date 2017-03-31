@@ -55,6 +55,7 @@ int InitialThread()
 
 	//---------------------------------------------------------
 	Utilities::Log("Hook successfully! Enjoy!");
+	Utilities::Log("Press Insert Key ingame to open the menu.");
 	Utilities::Log("Thank you for using GhostWare.");
 	Utilities::Log("Enjoy your fancy game experiences!");
 
