@@ -186,6 +186,9 @@
     <ClInclude Include="LegitBot.h">
       <Filter>Header Files\Hacks</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DLLMain.cpp">
@@ -269,9 +272,16 @@
     <ClCompile Include="LegitBot.cpp">
       <Filter>Source Files\Hacks</Filter>
     </ClCompile>
+    <ClCompile Include="SpoofedConvar.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="GhostWare.raw" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GhostWare.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -84,6 +84,9 @@ void Interfaces::Initialise()
 		}
 	}
 
+	PDWORD pdwClientVMT = *(PDWORD*)Client;
+	pInput = *(CInput**)((*(DWORD**)Client)[15] + 0x1);
+
 	Utilities::Log("Interfaces Loaded");
 }
 
@@ -106,4 +109,5 @@ namespace Interfaces
 	IEngineTrace* Trace;
 	IPhysicsSurfaceProps* PhysProps;
 	ICVar *CVar;
+	CInput* pInput;
 };

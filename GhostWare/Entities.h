@@ -406,30 +406,42 @@ public:
 	CNETVAR_FUNC(int, GetAmmoInClip, 0x97B6F70C); //m_iClip1
 	CNETVAR_FUNC(HANDLE, GetOwnerHandle, 0xC32DF98D); //m_hOwner
 	CNETVAR_FUNC(Vector, GetOrigin, 0x1231CE10); //m_vecOrigin
-
 	CPNETVAR_FUNC(int*, FallbackPaintKit, 0xADE4C870); // m_nFallbackPaintKit
 	CPNETVAR_FUNC(int*, FallbackSeed, 0xC2D0683D); // m_nFallbackSeed
 	CPNETVAR_FUNC(float*, FallbackWear, 0xA263576C); //m_flFallbackWear
 	CPNETVAR_FUNC(int*, FallbackStatTrak, 0x1ED78768); //m_nFallbackStatTrak
+	CPNETVAR_FUNC(int*, OwnerXuidLow, 0xAD8D897F);
+	CPNETVAR_FUNC(int*, OwnerXuidHigh, 0x90511E77);
+	CPNETVAR_FUNC(int*, ViewModelIndex, 0x7F7C89C1);
+	CPNETVAR_FUNC(int*, ModelIndex, 0x27016F83);
+	CPNETVAR_FUNC(int*, WorldModelIndex, 0x4D8AD9F3);
+	CPNETVAR_FUNC(char*, szCustomName, 0x0);
 
 	CPNETVAR_FUNC(AttributeContainer*, m_AttributeManager, 0xCFFCE089);
 
+	CNETVAR_FUNC(int, GetZoomLevel, 0x26553F1A);
+
 	float GetInaccuracy()
 	{
-		typedef float(__thiscall* oGetSpread)(PVOID);
-		return call_vfunc< oGetSpread>(this, Offsets::VMT::Weapon_GetSpread)(this);
+		typedef float(__thiscall* oInaccuracy)(PVOID);
+		return call_vfunc< oInaccuracy >(this, 484)(this);
 	}
 
-	float GetSpread()
+	float GetInnacc()
 	{
-		typedef float(__thiscall* oGetInac)(PVOID);
-		return call_vfunc< oGetInac>(this, Offsets::VMT::Weapon_GetSpread + 1)(this);
+		typedef float(__thiscall *OrigFn)(void *);
+		return call_vfunc<OrigFn>(this, 484)(this);
 	}
 
-	void UpdateAccuracyPenalty()
+	void UpdateAccPenalty()
 	{
-		typedef void(__thiscall* oUpdateAccuracyPenalty)(PVOID);
-		return call_vfunc< oUpdateAccuracyPenalty>(this, Offsets::VMT::Weapon_GetSpread + 2)(this);
+		typedef void(__thiscall *OrigFn)(void *);
+		return call_vfunc<OrigFn>(this, 485)(this);
+	}
+
+	bool IsScoped(int x = 0)
+	{
+		return GetZoomLevel() > 0;
 	}
 
 	CSWeaponInfo* GetCSWpnData()
@@ -456,9 +468,9 @@ public:
 class CCSBomb
 {
 public:
-	CNETVAR_FUNC(HANDLE, GetOwnerHandle, 0xC32DF98D); //m_hOwner
-	CNETVAR_FUNC(float, GetC4BlowTime, 0xB5E0CA1C); //m_flC4Blow
-	CNETVAR_FUNC(float, GetC4DefuseCountDown, 0xB959B4A6); //m_flDefuseCountDown
+	CNETVAR_FUNC(HANDLE, GetOwnerHandle, 0xC32DF98D); //m_hOwner 0x29BC
+	CNETVAR_FUNC(float, GetC4BlowTime, 0x297C); //m_flC4Blow 0x297C
+	CNETVAR_FUNC(float, GetC4DefuseCountDown, 0x2994); //m_flDefuseCountDown 0x2994
 };
 
 class CLocalPlayerExclusive

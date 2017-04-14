@@ -11,6 +11,8 @@ Syn's AyyWare Framework 2015
 #include "RenderManager.h"
 #include "MiscHacks.h"
 
+Vector LastAngleAA;
+
 #define USE_WINHTTP
 
 // Funtion Typedefs
@@ -184,8 +186,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		int HandsStyle = Menu::Window.VisualsTab.OtherNoHands.GetIndex();
 		if (ChamsStyle != 0 && Menu::Window.VisualsTab.FiltersPlayers.GetState() && strstr(ModelName, "models/player"))
 		{
-			if (pLocal && (!Menu::Window.VisualsTab.FiltersEnemiesOnly.GetState() ||
-				pModelEntity->GetTeamNum() != pLocal->GetTeamNum()))
+			if (pLocal/* && (!Menu::Window.VisualsTab.FiltersEnemiesOnly.GetState() || pModelEntity->GetTeamNum() != pLocal->GetTeamNum())*/)
 			{
 				IMaterial *covered = ChamsStyle == 1 ? CoveredLit : CoveredFlat;
 				IMaterial *open = ChamsStyle == 1 ? OpenLit : OpenFlat;
@@ -445,49 +446,163 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 // Hooked FrameStageNotify for removing visual recoil
 void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 {
+	DWORD eyeangles = NetVar.GetNetVar(0xBFEA4E7B);
+	IClientEntity *pLocal = Interfaces::EntList->GetClientEntity(Interfaces::Engine->GetLocalPlayer());
 
+	if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame() && curStage == FRAME_RENDER_START)
+	{
 
-	if (curStage == FRAME_NET_UPDATE_POSTDATAUPDATE_START)
+		if (pLocal->IsAlive())
+		{
+			if (*(bool*)((DWORD)Interfaces::pInput + 0xA5))
+				*(Vector*)((DWORD)pLocal + 0x31C8) = LastAngleAA;
+		}
+
+		if ((Menu::Window.MiscTab.OtherThirdperson.GetState()) || Menu::Window.RageBotTab.AccuracyPositionAdjustment.GetState())
+		{
+			static bool rekt = false;
+			if (!rekt)
+			{
+				ConVar* sv_cheats = Interfaces::CVar->FindVar("sv_cheats");
+				SpoofedConvar* sv_cheats_spoofed = new SpoofedConvar(sv_cheats);
+				sv_cheats_spoofed->SetInt(1);
+				rekt = true;
+			}
+		}
+
+		static bool rekt1 = false;
+		if (Menu::Window.MiscTab.OtherThirdperson.GetState() && pLocal->IsAlive() && pLocal->IsScoped() == 0)
+		{
+			if (!rekt1)
+			{
+				Interfaces::Engine->ClientCmd_Unrestricted("thirdperson");
+				rekt1 = true;
+			}
+		}
+		else if (!Menu::Window.MiscTab.OtherThirdperson.GetState())
+		{
+			rekt1 = false;
+		}
+
+		static bool rekt = false;
+		if (!Menu::Window.MiscTab.OtherThirdperson.GetState() || pLocal->IsAlive() == 0 || pLocal->IsScoped())
+		{
+			if (!rekt)
+			{
+				Interfaces::Engine->ClientCmd_Unrestricted("firstperson");
+				rekt = true;
+			}
+		}
+		else if (Menu::Window.MiscTab.OtherThirdperson.GetState() || pLocal->IsAlive() || pLocal->IsScoped() == 0)
+		{
+			rekt = false;
+		}
+
+		static bool meme = false;
+		if (Menu::Window.MiscTab.OtherThirdperson.GetState() && pLocal->IsScoped() == 0)
+		{
+			if (!meme)
+			{
+				Interfaces::Engine->ClientCmd_Unrestricted("thirdperson");
+				meme = true;
+			}
+		}
+		else if (pLocal->IsScoped())
+		{
+			meme = false;
+		}
+
+		static bool kek = false;
+		if (Menu::Window.MiscTab.OtherThirdperson.GetState() && pLocal->IsAlive())
+		{
+			if (!kek)
+			{
+				Interfaces::Engine->ClientCmd_Unrestricted("thirdperson");
+				kek = true;
+			}
+		}
+		else if (pLocal->IsAlive() == 0)
+		{
+			kek = false;
+		}
+	}
+
+	if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame() && curStage == FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 	{
 		IClientEntity *pLocal = Interfaces::EntList->GetClientEntity(Interfaces::Engine->GetLocalPlayer());
+
+		/*	for (int i = 1; i < 65; i++)
+		{
+		IClientEntity* pEnt = Interfaces::EntList->GetClientEntity(i);
+		if (!pEnt) continue;
+		if (pEnt->IsDormant()) continue;
+		if (pEnt->GetHealth() < 1) continue;
+		if (pEnt->GetLifeState() != 0) continue;
+
+		*(float*)((DWORD)pEnt + eyeangles) = pEnt->GetTargetYaw();
+		//Msg("%f\n", *(float*)((DWORD)pEnt + m_angEyeAnglesYaw));
+		} */
+
 		if (Menu::Window.MiscTab.KnifeEnable.GetState() && pLocal)
 		{
 			IClientEntity* WeaponEnt = Interfaces::EntList->GetClientEntityFromHandle(pLocal->GetActiveWeaponHandle());
 			CBaseCombatWeapon* Weapon = (CBaseCombatWeapon*)WeaponEnt;
+
+			int iBayonet = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_bayonet.mdl");
+			int iButterfly = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_butterfly.mdl");
+			int iFlip = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_flip.mdl");
+			int iGut = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_gut.mdl");
+			int iKarambit = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_karam.mdl");
+			int iM9Bayonet = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_m9_bay.mdl");
+			int iHuntsman = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_tactical.mdl");
+			int iFalchion = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_falchion_advanced.mdl");
+			int iDagger = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_push.mdl");
+			int iBowie = Interfaces::ModelInfo->GetModelIndex("models/weapons/v_knife_survival_bowie.mdl");
+
+			int Model = Menu::Window.MiscTab.KnifeModel.GetIndex();
+			int Skin = Menu::Window.MiscTab.KnifeSkin.GetIndex();
+
 			if (Weapon)
 			{
-				static bool LastItemWasKnife = false;
 				if (WeaponEnt->GetClientClass()->m_ClassID == (int)CSGOClassID::CKnife)
 				{
-					*Weapon->FallbackStatTrak() = 1337;
-					int Skin = Menu::Window.MiscTab.KnifeSkin.GetIndex();
-					if (Skin == 0) *Weapon->FallbackPaintKit() = 416;
-					if (Skin == 1) *Weapon->FallbackPaintKit() = 415;
-					if (Skin == 3) *Weapon->FallbackPaintKit() = 409;
-					if (Skin == 4) *Weapon->FallbackPaintKit() = 0;
-					*Weapon->FallbackWear() = 0.0001;
-
-					//*Weapon->m_AttributeManager()->m_Item()->ItemIDHigh() = 0xFFFFF;
-					//*Weapon->m_AttributeManager()->m_Item()->ItemIDLow() = 0xFFFFF;
-
-					if (LastItemWasKnife == false)
+					if (Model == 0) // Karambit
 					{
+						*Weapon->ModelIndex() = iKarambit; // m_nModelIndex
+						*Weapon->ViewModelIndex() = iKarambit;
+						*Weapon->WorldModelIndex() = iKarambit + 1;
+						*Weapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 507;
 
-						//Meme->nFlags &= ~FCVAR_CHEAT;
-						//Interfaces::Engine->ClientCmd_Unrestricted("cl_fullupdate");
+						if (Skin == 0)
+							*Weapon->FallbackPaintKit() = 416; // Doppler Sapphire
+						else if (Skin == 1)
+							*Weapon->FallbackPaintKit() = 415; // Doppler Ruby
+						else if (Skin == 2)
+							*Weapon->FallbackPaintKit() = 409; // Tiger Tooth
+						else if (Skin == 3)
+							*Weapon->FallbackPaintKit() = 558; // Lore
+					}
+					else if (Model == 1) // Karambit
+					{
+						*Weapon->ModelIndex() = iBayonet; // m_nModelIndex
+						*Weapon->ViewModelIndex() = iBayonet;
+						*Weapon->WorldModelIndex() = iBayonet + 1;
+						*Weapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 500;
 
-						//Meme->nFlags |= FCVAR_CHEAT;
-
-						LastItemWasKnife = true;
+						if (Skin == 0)
+							*Weapon->FallbackPaintKit() = 416; // Doppler Sapphire
+						else if (Skin == 1)
+							*Weapon->FallbackPaintKit() = 415; // Doppler Ruby
+						else if (Skin == 2)
+							*Weapon->FallbackPaintKit() = 409; // Tiger Tooth
+						else if (Skin == 3)
+							*Weapon->FallbackPaintKit() = 558; // Lore
 					}
 
-					*Weapon->m_AttributeManager()->m_Item()->ItemIDLow() = 7;
-					int Model = Menu::Window.MiscTab.KnifeModel.GetIndex();
-					*Weapon->m_AttributeManager()->m_Item()->ItemIDHigh() = (Model == 0) ? 507 : 500;
-					*Weapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = (Model == 0) ? 507 : 500;
-
-					if (GUI.GetKeyState(VK_END))
-						ForceUpdate();
+					*Weapon->OwnerXuidLow() = 0;
+					*Weapon->OwnerXuidHigh() = 0;
+					*Weapon->FallbackWear() = 0.001f;
+					*Weapon->m_AttributeManager()->m_Item()->ItemIDHigh() = 1;
 				}
 			}
 		}

@@ -30,4 +30,5 @@ namespace Interfaces
 	extern IEngineTrace* Trace;
 	extern IPhysicsSurfaceProps* PhysProps;
 	extern ICVar *CVar;
+	extern CInput* pInput;
 };

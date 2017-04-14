@@ -199,6 +199,9 @@ void CRageBotTab::Setup()
 	AccuracyAngleFix.SetFileId("acc_aaa");
 	AccuracyGroup.PlaceLabledControl("Resolver", this, &AccuracyAngleFix);
 
+	AccuracyPositionAdjustment.SetFileId("acc_posadj");
+	AccuracyGroup.PlaceLabledControl("Position Adjustment", this, &AccuracyPositionAdjustment);
+
 #pragma endregion  Accuracy controls get Setup in here
 
 #pragma region AntiAim
@@ -414,11 +417,11 @@ void CVisualTab::Setup()
 	OptionsInfo.SetFileId("opt_info");
 	OptionsGroup.PlaceLabledControl("Info", this, &OptionsInfo);
 
-	//OptionsChams.SetFileId("opt_chams");
-	//OptionsChams.AddItem("Off");
-	//OptionsChams.AddItem("Normal");
-	//OptionsChams.AddItem("Flat");
-	//OptionsGroup.PlaceLabledControl("Chams", this, &OptionsChams);
+	OptionsChams.SetFileId("opt_chams");
+	OptionsChams.AddItem("Off");
+	OptionsChams.AddItem("Normal");
+	OptionsChams.AddItem("Flat");
+	OptionsGroup.PlaceLabledControl("Chams", this, &OptionsChams);
 
 	OptionsSkeleton.SetFileId("opt_bone");
 	OptionsGroup.PlaceLabledControl("Skeleton", this, &OptionsSkeleton);
@@ -477,12 +480,11 @@ void CVisualTab::Setup()
 
 	OtherNoHands.SetFileId("otr_hands");
 	OtherNoHands.AddItem("Off");
-	OtherNoHands.AddItem("Remove");
+	OtherNoHands.AddItem("None");
 	OtherNoHands.AddItem("Transparent");
-	//Committed, need to fix
-	//OtherNoHands.AddItem("Chams");
-	OtherNoHands.AddItem("Disco");
-	OtherGroup.PlaceLabledControl("Hands Style", this, &OtherNoHands);
+	OtherNoHands.AddItem("Chams");
+	OtherNoHands.AddItem("Rainbow");
+	OtherGroup.PlaceLabledControl("Hands", this, &OtherNoHands);
 
 #pragma endregion Setting up the Other controls
 }
@@ -515,41 +517,32 @@ void CMiscTab::Setup()
 	SetTitle("Misc");
 
 //Committed, need to fix
-//#pragma region Knife
-//	KnifeGroup.SetPosition(408, 48);
-//	KnifeGroup.SetSize(360, 95);
-//	KnifeGroup.SetText("Knife Changer");
-//	RegisterControl(&KnifeGroup);
-//
-//	KnifeEnable.SetFileId("knife_enable");
-//	KnifeGroup.PlaceLabledControl("Enable", this, &KnifeEnable);
-//	//bayonet karambit flip gut m9 hunts butterfly
-//	KnifeModel.SetFileId("knife_model");
-//	KnifeModel.AddItem("Off");
-//	KnifeModel.AddItem("Bayonet");
-//	KnifeModel.AddItem("Karambit");
-//	KnifeModel.AddItem("Flip Knife");
-//	KnifeModel.AddItem("Gut Knife");
-//	KnifeModel.AddItem("M9 Bayonet");
-//	KnifeModel.AddItem("Huntsman");
-//	KnifeModel.AddItem("Butterfly");
-//	KnifeModel.AddItem("Shadow Daggers");
-//	KnifeModel.AddItem("Falchion");
-//	KnifeModel.AddItem("Bowie");
-//	KnifeGroup.PlaceLabledControl("Knife", this, &KnifeModel);
-//
-//	//KnifeSkin.SetFileId("knife_skin");
-//	//KnifeSkin.AddItem("Doppler Sapphire");
-//	//KnifeSkin.AddItem("Doppler Ruby");
-//	//KnifeSkin.AddItem("Tiger");
-//	//KnifeSkin.AddItem("Plain");
-//	//KnifeGroup.PlaceLabledControl("Skin", this, &KnifeSkin);
-//
-//	KnifeApply.SetText("Apply Knife");
-//	KnifeApply.SetCallback(KnifeApplyCallbk);
-//	KnifeGroup.PlaceLabledControl("", this, &KnifeApply);
-//
-//#pragma endregion
+#pragma region Knife
+	KnifeGroup.SetPosition(16, 16);
+	KnifeGroup.SetSize(360, 126);
+	KnifeGroup.SetText("Knife Changer");
+	RegisterControl(&KnifeGroup);
+
+	KnifeEnable.SetFileId("knife_enable");
+	KnifeGroup.PlaceLabledControl("Enable", this, &KnifeEnable);
+
+	KnifeModel.SetFileId("knife_model");
+	KnifeModel.AddItem("Karam");
+	KnifeModel.AddItem("Bayo");
+	KnifeGroup.PlaceLabledControl("Knife", this, &KnifeModel);
+
+	KnifeSkin.SetFileId("knife_skin");
+	KnifeSkin.AddItem("Doppler Sapphire");
+	KnifeSkin.AddItem("Doppler Ruby");
+	KnifeSkin.AddItem("Tiger");
+	KnifeSkin.AddItem("Lore");
+	KnifeGroup.PlaceLabledControl("Skin", this, &KnifeSkin);
+
+	KnifeApply.SetText("Apply Knife");
+	KnifeApply.SetCallback(KnifeApplyCallbk);
+	KnifeGroup.PlaceLabledControl("", this, &KnifeApply);
+
+#pragma endregion
 
 #pragma region Other
 	OtherGroup.SetPosition(16, 48);
@@ -585,6 +578,9 @@ void CMiscTab::Setup()
 	
 	OtherFakeLag.SetFileId("otr_fakelag");
 	OtherGroup.PlaceLabledControl("FakeLag", this, &OtherFakeLag);
+
+	OtherThirdperson.SetFileId("aa_thirdpsr");
+	OtherGroup.PlaceLabledControl("Thirdperson", this, &OtherThirdperson);
 
 #pragma endregion other random options
 }

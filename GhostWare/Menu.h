@@ -49,6 +49,7 @@ public:
 	CCheckBox AccuracySpreadLimit;
 	CSlider	  AccuracyMinimumSpread;
 	CCheckBox AccuracyAngleFix;
+	CCheckBox AccuracyPositionAdjustment;
 
 
 	// Anti-Aim Settings
@@ -191,8 +192,7 @@ public:
 	CCheckBox  OtherServerLag;
 	CSlider OtherFakeLagActive;
 	CCheckBox OtherFakeLag;
-
-	
+	CCheckBox OtherThirdperson;
 };
 
 class AyyWareWindow : public CWindow

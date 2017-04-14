@@ -100,6 +100,7 @@
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="RageBot.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SDK.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="tinyxml2.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="RageBot.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="SpoofedConvar.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="UTIL Functions.cpp" />
     <ClCompile Include="Utilities.cpp" />
@@ -139,8 +141,10 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="GhostWare.raw" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GhostWare.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

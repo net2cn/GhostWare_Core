@@ -151,6 +151,36 @@ public:
 	virtual void PurgeTextOverlays() = 0;
 };
 
+class CInput
+{
+public:
+	void*               pvftable;                     //0x00
+	bool                m_fTrackIRAvailable;          //0x04
+	bool                m_fMouseInitialized;          //0x05
+	bool                m_fMouseActive;               //0x06
+	bool                m_fJoystickAdvancedInit;      //0x07
+	char                pad_0x08[0x2C];               //0x08
+	void*               m_pKeys;                      //0x34
+	char                pad_0x38[0x64];               //0x38
+	int					pad_0x41;
+	int					pad_0x42;
+	bool                m_fCameraInterceptingMouse;   //0x9C
+	bool                m_fCameraInThirdPerson;       //0x9D
+	bool                m_fCameraMovingWithMouse;     //0x9E
+	Vector				m_vecCameraOffset;            //0xA0
+	bool                m_fCameraDistanceMove;        //0xAC
+	int                 m_nCameraOldX;                //0xB0
+	int                 m_nCameraOldY;                //0xB4
+	int                 m_nCameraX;                   //0xB8
+	int                 m_nCameraY;                   //0xBC
+	bool                m_CameraIsOrthographic;       //0xC0
+	Vector              m_angPreviousViewAngles;      //0xC4
+	Vector              m_angPreviousViewAnglesTilt;  //0xD0
+	float               m_flLastForwardMove;          //0xDC
+	int                 m_nClearInputState;           //0xE0
+	char                pad_0xE4[0x8];                //0xE4
+};
+
 // User Cmd's
 class CUserCmd
 {
@@ -653,43 +683,17 @@ public:
 class ConVar
 {
 public:
-	virtual void SetValue(const char *pValue) = 0;
-	//void SetString(const char *pValue)
-	//{
-	//	typedef void(__thiscall* SetStringFn)(void*, const char *);
-	//	call_vfunc<SetStringFn>(this, 17)(this, pValue);
-	//}
-
-	void SetString(const char* str)
-	{
-		typedef void(__thiscall* SetStringFn)(void*, const char*);
-		return call_vfunc<SetStringFn>(this, 13)(this, str);
-	}
-	void SetValue(int iValue)
-	{
-		PVOID pThisPtr = (PVOID)this;
-
-		__asm
-		{
-			PUSH iValue
-			MOV ECX, pThisPtr
-				MOV EDX, [ECX + 0x18]
-				ADD ECX, 0x18
-				CALL[EDX]
-		}
-	}
-
-	void InternalSetString(const char* str)
-	{
-		typedef void(__thiscall* SetStringFn)(void*, const char*);
-		return call_vfunc<SetStringFn>(this, 17)(this, str);
-	}
-
-	char* GetBaseName()
-	{
-		typedef char*(__thiscall* SetStringFn)(void*);
-		return call_vfunc<SetStringFn>(this, 6)(this);
-	}
+	void SetValue(const char *value);
+	void SetValue(float value);
+	void SetValue(int value);
+	void SetValue(Color value);
+	void InternalSetString(const char* str);
+	char* GetName();
+	char* GetDefault();
+	float						GetFloat(void) const;
+	int						GetInt(void) const;
+	Color							GetColor(void) const;
+	const char*						GetString(void) const;
 
 	char pad_0x0000[0x4]; //0x0000
 	ConVar* pNext; //0x0004 
@@ -708,16 +712,116 @@ public:
 	float fMinVal; //0x0038 
 	__int32 bHasMax; //0x003C 
 	float fMaxVal; //0x0040 
-	void *fnChangeCallback; //0x0044 
+	void* fnChangeCallback; //0x0044 
 
 };//Size=0x0048
 
-class ICVar
+class SpoofedConvar {
+public:
+	SpoofedConvar();
+	SpoofedConvar(const char* szCVar);
+	SpoofedConvar(ConVar* pCVar);
+
+	~SpoofedConvar();
+
+	bool           IsSpoofed();
+	void           Spoof();
+
+	void           SetFlags(int flags);
+	int            GetFlags();
+
+	void           SetBool(bool bValue);
+	void           SetInt(int iValue);
+	void           SetFloat(float flValue);
+	void           SetString(const char* szValue);
+
+private:
+	ConVar* m_pOriginalCVar = NULL;
+	ConVar* m_pDummyCVar = NULL;
+
+	char m_szDummyName[128];
+	char m_szDummyValue[128];
+	char m_szOriginalName[128];
+	char m_szOriginalValue[128];
+	int m_iOriginalFlags;
+};
+
+class MinspecCvar
 {
 public:
-	ConVar	*FindVar(const char *var_name)
+	MinspecCvar(const char* szCVar, char* newname, float newvalue);
+	~MinspecCvar();
+
+	bool ValidCvar();
+	void Spoof();
+
+	template<typename T>
+	void SetValue(T value);
+
+	int	GetInt();
+	float GetFloat();
+	const char* GetString();
+private:
+	ConVar* m_pConVar;
+
+	char* m_szOriginalName;
+	char* m_szReplacementName;
+	float m_OriginalValue;
+	float m_newvalue;
+};
+
+class IAppSystem
+{
+public:
+	virtual ~IAppSystem()
 	{
-		typedef ConVar*(__thiscall* FindVarFn)(void*, const char *);
-		return call_vfunc<FindVarFn>(this, 15)(this, var_name);
+	}
+
+	virtual void func0() = 0;
+	virtual void func1() = 0;
+	virtual void func2() = 0;
+	virtual void func3() = 0;
+	virtual void func4() = 0;
+	virtual void func5() = 0;
+	virtual void func6() = 0;
+	virtual void func7() = 0;
+	virtual void func8() = 0;
+	virtual void func9() = 0;
+};
+
+struct CVarDLLIdentifier_t;
+
+class ICVar : public IAppSystem
+{
+public:
+	virtual void			func10() = 0;
+	virtual void			RegisterConCommand(ConVar *pCommandBase) = 0;
+	virtual void			UnregisterConCommand(ConVar *pCommandBase) = 0;
+	virtual void			func13() = 0;
+	virtual ConVar			*FindVar(const char *var_name) = 0;
+	//	virtual void            ConsoleColorPrintf(const Color& clr, const char *pFormat, ...) const = 0;
+	virtual void			func15() = 0;
+	virtual void			func16() = 0;
+	virtual void			func17() = 0;
+	virtual void			func18() = 0;
+	virtual void			func19() = 0;
+	virtual void			func20() = 0;
+
+	void const ConsoleColorPrintf(const Color& clr, const char *pFormat, ...)
+	{
+		typedef void(__cdecl *OriginalFn)(void*, const Color&, const char *, ...);
+
+		if (pFormat == nullptr)
+			return;
+
+		char buf[8192];
+
+		va_list list;
+		va_start(list, pFormat);
+		_vsnprintf_s(buf, sizeof(buf) - 1, pFormat, list);
+		va_end(list);
+		buf[sizeof(buf) - 1] = 0;
+
+		call_vfunc<OriginalFn>(this, 25)(this, clr, buf, list);
 	}
 };
