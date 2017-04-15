@@ -62,11 +62,11 @@ void Hooks::Initialise()
 	VMTPrediction.ReHook();
 	Utilities::Log("No Recoil hooking...");
 
-	// Chams (Broken)
-	//VMTModelRender.bInitialize((PDWORD*)Interfaces::ModelRender);
-	//oDrawModelExecute = (DrawModelEx_)VMTModelRender.dwHookMethod((DWORD)Hooked_DrawModelExecute, Offsets::VMT::ModelRender_DrawModelExecute);
-	//VMTModelRender.ReHook();
-	//Utilities::Log("Chams hooking...");
+	// Chams
+	VMTModelRender.bInitialize((PDWORD*)Interfaces::ModelRender);
+	oDrawModelExecute = (DrawModelEx_)VMTModelRender.dwHookMethod((DWORD)Hooked_DrawModelExecute, Offsets::VMT::ModelRender_DrawModelExecute);
+	VMTModelRender.ReHook();
+	Utilities::Log("Chams hooking...");
 
 	// Setup ClientMode Hooks
 	VMTClientMode.bInitialize((PDWORD*)Interfaces::ClientMode);
@@ -172,7 +172,6 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 	static IMaterial* OpenLit = CreateMaterial(false);
 	static IMaterial* CoveredFlat = CreateMaterial(true, false);
 	static IMaterial* OpenFlat = CreateMaterial(false, false);
-	static IMaterial* Chrome = CreateMaterial("$envmap env_cube");
 	bool DontDraw = false;
 
 	const char* ModelName = Interfaces::ModelInfo->GetModelName((model_t*)pInfo.pModel);
@@ -327,57 +326,23 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 	Interfaces::ModelRender->ForcedMaterialOverride(NULL);
 }
 
-/*bool __fastcall CreateMoveClient_Hooked(void* self, int edx, float frametime, CUserCmd* pCmd)
-{
-void* pEbp;
-__asm mov pEbp, ebp;
-
-bool* pSendPacket = (bool*)*(DWORD*)pEbp - 0x1c;
-if (*pSendPacket != 0x1)
-{
-pSendPacket = nullptr;
-}
-
-if (*pSendPacket)
-{
-pSendPacket = false;
-}
-}*/
-
 // ClientMode CreateMove
 bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime, CUserCmd* pCmd)
 {
-	// Choke packet memes
-
 	if (!pCmd->command_number)
 		return true;
 
-	if (Interfaces::Engine->IsConnected() || Interfaces::Engine->IsInGame())
+	if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame())
 	{
 
 		PVOID pebp;
-
 		__asm mov pebp, ebp;
-
 		bool* pbSendPacket = (bool*)(*(DWORD*)pebp - 0x1C);
 		bool& bSendPacket = *pbSendPacket;
 
-		if (GetKeyState(VK_NUMPAD2) && !(pCmd->buttons & IN_ATTACK))
-		{
-			static int Ticks = 0;
+		//	CUserCmd* cmdlist = *(CUserCmd**)((DWORD)Interfaces::pInput + 0xEC);
+		//	CUserCmd* pCmd = &cmdlist[sequence_number % 150];
 
-			if ((Ticks < 6))
-				bSendPacket = false;
-
-			if (Ticks == (6 * 2))
-			{
-				bSendPacket = true;
-
-				Ticks = 0;
-			}
-
-			Ticks++;
-		}
 
 		// Backup for safety
 		Vector origView = pCmd->viewangles;
@@ -393,7 +358,7 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 
 		//Movement Fix
 		//GameUtils::CL_FixMove(pCmd, origView);
-		qAimAngles.Init(0.0f, GetAutostrafeView().y, 0.0f);
+		qAimAngles.Init(0.0f, GetAutostrafeView().y, 0.0f); // if pCmd->viewangles.x > 89, set pCmd->viewangles.x instead of 0.0f on first
 		AngleVectors(qAimAngles, &viewforward, &viewright, &viewup);
 		qAimAngles.Init(0.0f, pCmd->viewangles.y, 0.0f);
 		AngleVectors(qAimAngles, &aimforward, &aimright, &aimup);
@@ -429,7 +394,7 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 			{
 				Utilities::Log("Having to re-normalise!");
 				GameUtils::NormaliseViewAngle(pCmd->viewangles);
-				Beep(750, 800);
+				Beep(750, 800); // Why does it do this
 				if (pCmd->viewangles.x < -89 || pCmd->viewangles.x > 89 || pCmd->viewangles.y < -180 || pCmd->viewangles.y > 180)
 				{
 					pCmd->viewangles = origView;
@@ -438,6 +403,19 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 				}
 			}
 		}
+
+		if (pCmd->viewangles.x > 90)
+		{
+			pCmd->forwardmove = -pCmd->forwardmove;
+		}
+
+		if (pCmd->viewangles.x < -90)
+		{
+			pCmd->forwardmove = -pCmd->forwardmove;
+		}
+
+		if (bSendPacket)
+			LastAngleAA = pCmd->viewangles;
 	}
 
 	return false;

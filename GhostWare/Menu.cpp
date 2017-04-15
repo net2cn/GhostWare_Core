@@ -516,34 +516,6 @@ void CMiscTab::Setup()
 {
 	SetTitle("Misc");
 
-//Committed, need to fix
-#pragma region Knife
-	KnifeGroup.SetPosition(16, 16);
-	KnifeGroup.SetSize(360, 126);
-	KnifeGroup.SetText("Knife Changer");
-	RegisterControl(&KnifeGroup);
-
-	KnifeEnable.SetFileId("knife_enable");
-	KnifeGroup.PlaceLabledControl("Enable", this, &KnifeEnable);
-
-	KnifeModel.SetFileId("knife_model");
-	KnifeModel.AddItem("Karam");
-	KnifeModel.AddItem("Bayo");
-	KnifeGroup.PlaceLabledControl("Knife", this, &KnifeModel);
-
-	KnifeSkin.SetFileId("knife_skin");
-	KnifeSkin.AddItem("Doppler Sapphire");
-	KnifeSkin.AddItem("Doppler Ruby");
-	KnifeSkin.AddItem("Tiger");
-	KnifeSkin.AddItem("Lore");
-	KnifeGroup.PlaceLabledControl("Skin", this, &KnifeSkin);
-
-	KnifeApply.SetText("Apply Knife");
-	KnifeApply.SetCallback(KnifeApplyCallbk);
-	KnifeGroup.PlaceLabledControl("", this, &KnifeApply);
-
-#pragma endregion
-
 #pragma region Other
 	OtherGroup.SetPosition(16, 48);
 	OtherGroup.SetSize(376, 280);
@@ -583,6 +555,33 @@ void CMiscTab::Setup()
 	OtherGroup.PlaceLabledControl("Thirdperson", this, &OtherThirdperson);
 
 #pragma endregion other random options
+
+#pragma region Knife
+	KnifeGroup.SetPosition(408, 48);
+	KnifeGroup.SetSize(360, 126);
+	KnifeGroup.SetText("Knife Changer");
+	RegisterControl(&KnifeGroup);
+
+	KnifeEnable.SetFileId("knife_enable");
+	KnifeGroup.PlaceLabledControl("Enable", this, &KnifeEnable);
+
+	KnifeModel.SetFileId("knife_model");
+	KnifeModel.AddItem("Karam");
+	KnifeModel.AddItem("Bayo");
+	KnifeGroup.PlaceLabledControl("Knife", this, &KnifeModel);
+
+	KnifeSkin.SetFileId("knife_skin");
+	KnifeSkin.AddItem("Doppler Sapphire");
+	KnifeSkin.AddItem("Doppler Ruby");
+	KnifeSkin.AddItem("Tiger");
+	KnifeSkin.AddItem("Lore");
+	KnifeGroup.PlaceLabledControl("Skin", this, &KnifeSkin);
+
+	KnifeApply.SetText("Apply Knife");
+	KnifeApply.SetCallback(KnifeApplyCallbk);
+	KnifeGroup.PlaceLabledControl("", this, &KnifeApply);
+
+#pragma endregion
 }
 
 void Menu::SetupMenu()
