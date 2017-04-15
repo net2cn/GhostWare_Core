@@ -231,6 +231,9 @@ public:
 		mousedx = src.mousedx;
 		mousedy = src.mousedy;
 
+		flSpreadX = src.flSpreadX;
+		flSpreadY = src.flSpreadY;
+
 		hasbeenpredicted = src.hasbeenpredicted;
 		headangles = src.headangles;
 		headoffset = src.headoffset;
@@ -260,6 +263,8 @@ public:
 	bool    hasbeenpredicted;
 	Vector  headangles;
 	Vector    headoffset;
+	float	flSpreadX;
+	float	flSpreadY;
 };
 
 class CGlobalVarsBase

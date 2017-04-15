@@ -668,7 +668,8 @@ int CRageBot::HitScan(IClientEntity* pEntity)
 
 void CRageBot::DoNoSpread(CUserCmd *pCmd)
 {
-
+	pCmd->viewangles.x -= RAD2DEG(atan(sqrt(flSpreadX * flSpreadX + flSpreadY * flSpreadY)));
+	pCmd->viewangles.z = RAD2DEG(atan2(flSpreadX, flSpreadY));
 }
 
 void CRageBot::DoNoRecoil(CUserCmd *pCmd)
