@@ -605,18 +605,9 @@ void Menu::DoUIFrame()
 		Window.VisualsTab.FiltersPlayers.SetState(true);
 		Window.VisualsTab.FiltersWeapons.SetState(true);
 	}
-	if (Window.MiscTab.OtherSafeMode.GetState())
-	{
-		Window.RageBotTab.AccuracySpread.SetState(false);
-	}
-	
-	
-
 	
 	GUI.Update();
 	GUI.Draw();
-
-	
 }
 
 

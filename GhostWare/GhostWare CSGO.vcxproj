@@ -69,6 +69,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AntiAntiAim.h" />
+    <ClInclude Include="AntiLeak.h" />
     <ClInclude Include="Autowall.h" />
     <ClInclude Include="BaseClient.h" />
     <ClInclude Include="bspflags.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Visuals.h" />
+    <ClInclude Include="XOR.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AntiAntiAim.cpp" />
