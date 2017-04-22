@@ -189,6 +189,15 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NoSpread.h">
+      <Filter>Header Files\Hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckSum_MD5.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DLLMain.cpp">
@@ -273,6 +282,12 @@
       <Filter>Source Files\Hacks</Filter>
     </ClCompile>
     <ClCompile Include="SpoofedConvar.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="NoSpread.cpp">
+      <Filter>Source Files\Hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckSum_MD5.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

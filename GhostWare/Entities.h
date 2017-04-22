@@ -427,13 +427,19 @@ public:
 		return call_vfunc< oInaccuracy >(this, 484)(this);
 	}
 
+	float GetSpread()
+	{
+		typedef float(__thiscall* oWeaponSpread)(PVOID);
+		return call_vfunc< oWeaponSpread >(this, 485)(this);
+	}
+
 	float GetInnacc()
 	{
 		typedef float(__thiscall *OrigFn)(void *);
 		return call_vfunc<OrigFn>(this, 484)(this);
 	}
 
-	void UpdateAccPenalty()
+	void UpdateAccuracyPenalty()
 	{
 		typedef void(__thiscall *OrigFn)(void *);
 		return call_vfunc<OrigFn>(this, 485)(this);

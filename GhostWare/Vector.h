@@ -12,6 +12,8 @@
 #define  FORCEINLINE			__forceinline
 
 typedef float vec_t;
+typedef float vec2_t[2];
+typedef float vec3_t[3];
 
 inline vec_t BitsToFloat(unsigned long i)
 {
@@ -74,6 +76,7 @@ public:
 	}
 
 	vec_t NormalizeInPlace();
+	float NormalizeInPlaceFloat();
 	Vector Normalized() const;
 
 	bool IsLengthGreaterThan(float val) const;
@@ -400,6 +403,19 @@ inline vec_t Vector::NormalizeInPlace()
 	return VectorNormalize(*this);
 }
 
+inline float Vector::NormalizeInPlaceFloat()
+{
+	Vector& v = *this;
+
+	float iradius = 1.f / (this->Length() + 1.192092896e-07F); //FLT_EPSILON
+
+	v.x *= iradius;
+	v.y *= iradius;
+	v.z *= iradius;
+
+	return iradius;
+}
+
 bool Vector::WithinAABox(Vector const &boxmin, Vector const &boxmax)
 {
 	return (
@@ -535,6 +551,17 @@ public:
 	float w;
 };
 
+static float sseSqrt(float x)
+{
+	float root = 0.0f;
 
+	__asm
+	{
+		sqrtss xmm0, x
+		movss root, xmm0
+	}
+
+	return root;
+}
 
 #endif // VECTOR_H
