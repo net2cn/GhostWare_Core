@@ -6,6 +6,7 @@ Syn's AyyWare Framework 2015
 #include "RenderManager.h"
 #include "Autowall.h"
 #include "NoSpread.h"
+#include "UTIL Functions.h"
 #include <iostream>
 
 void CRageBot::Init()

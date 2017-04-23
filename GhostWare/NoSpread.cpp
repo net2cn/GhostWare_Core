@@ -240,7 +240,7 @@ void CNoSpread::VectorAngles(const Vector &forward, const Vector &pseudoup, Vect
 
 	left.NormalizeInPlace();
 
-	float xyDist = sseSqrt(forward[0] * forward[0] + forward[1] * forward[1]);
+	float xyDist = sqrt(forward[0] * forward[0] + forward[1] * forward[1]);
 
 	if (xyDist > 0.001f)
 	{
@@ -340,7 +340,7 @@ void CNoSpread::RollSpread(CBaseCombatWeapon*localWeap, int seed, CUserCmd*cmd, 
 	flCross = (flIdentity[1][1] * flIdentity[2][0]) - (flIdentity[1][0] * flIdentity[2][1]);
 
 	if (qViewAngles[0] > 84.0f || qViewAngles[0] < -84.0f)
-		flRoll = RAD2DEG(atan2f(flIdentity[1][2], sseSqrt(flCross)));
+		flRoll = RAD2DEG(atan2f(flIdentity[1][2], sqrt(flCross)));
 	else
 		flRoll = RAD2DEG(atan2f(flIdentity[1][2], flCross));
 

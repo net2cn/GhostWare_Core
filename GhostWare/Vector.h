@@ -550,19 +550,4 @@ inline void VectorMax(const Vector& a, const Vector& b, Vector& result)
 //
 //	float w;
 //};
-
-static float sseSqrt(float x)
-{
-	float root = 0.0f;
-
-	__asm
-	{
-		sqrtss xmm0, x
-		movss root, xmm0
-	}
-
-	return root;
-}
-
-
 #endif // VECTOR_H
