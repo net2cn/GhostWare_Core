@@ -8,6 +8,7 @@ Syn's AyyWare Framework
 #include "Utilities.h"
 #include <fstream>
 #include <Psapi.h>
+#include <TlHelp32.h>
 
 bool FileLog = false;
 std::ofstream logFile;
@@ -157,7 +158,7 @@ DWORD Utilities::Memory::FindTextPattern(std::string moduleName, char* string)
 	return 0;
 }
 
-bool Utilities::CheckAnySpecialDate()
+std::string Utilities::GetTitle()
 {
 	//Time related variables
 	time_t current_time;
@@ -169,10 +170,51 @@ bool Utilities::CheckAnySpecialDate()
 	time_info = localtime(&current_time);
 
 	//Get current time as string
-	strftime(timeString, sizeof(timeString), "%m-%d", time_info);
+	strftime(timeString, sizeof(timeString), "%m%d", time_info);
 
-	if (timeString == "3-21")
-		return true;
-	else
-		return false;
+	int date = std::stoi(timeString);
+	
+	switch (date)
+	{
+	case 321:
+		return "GhostWare client programmer's birthday";
+	case 325:
+		return "GhostWare First Release Date Celebration";
+	case 501:
+		return "GhostWare Labor Day Celebration";
+	case 617:
+		return "GhostWare server programmer's birthday";
+	case 826:
+		return "GhostWare QA's birthday";
+	case 1225:
+		return "GhostWare Xmas Celebration";
+	default:
+		return "GhostWare by NErD Hacks";
+	}
+}
+
+bool Utilities::GetProcessByName(const char* processName)
+{
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (Process32First(snapshot, &entry) == TRUE)
+	{
+		while (Process32Next(snapshot, &entry) == TRUE)
+		{
+			if (stricmp(entry.szExeFile, processName) == 0)
+			{
+				HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
+				CloseHandle(hProcess);
+
+				return true;
+			}
+		}
+	}
+
+	CloseHandle(snapshot);
+
+	return false;
 }

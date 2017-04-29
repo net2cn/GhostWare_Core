@@ -83,11 +83,16 @@ int InitialThread(LPVOID lpArguments)
 		Sleep(100);
 	}
 
-	//loop until settings are loaded properly
-	if (!Utilities::CheckAnySpecialDate())
-		Utilities::OpenConsole("GhostWare released by NErd Hacks Build " __DATE__);
-	else
-		Utilities::OpenConsole("GhostWare programmer birthday Build " __DATE__);
+	Utilities::OpenConsole(Utilities::GetTitle() + " Build " __DATE__);
+
+	if (!Utilities::GetProcessByName("GhostWare_Injector.exe"))
+	{
+		Utilities::Log("Connect to backend failed!");
+		Utilities::Log("Inject failed!");
+		Sleep(5000);
+		Utilities::CloseConsole();
+		return -1;
+	}
 
 	Offsets::Initialise(); // Set our VMT offsets and do any pattern scans
 	Interfaces::Initialise(); // Get pointers to the valve classes
