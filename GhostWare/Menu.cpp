@@ -36,7 +36,7 @@ void AyyWareWindow::Setup()
 {
 	SetPosition(12, 49);
 	SetSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	SetTitle("GhostWare CSGO by NErD Hacks Build " __DATE__);
+	SetTitle(Utilities::GetTitle() + " Build " __DATE__);
 
 	RegisterTab(&LegitBotTab);
 	RegisterTab(&RageBotTab);
@@ -455,9 +455,8 @@ void CVisualTab::Setup()
 	FiltersChickens.SetFileId("ftr_chickens");
 	FiltersGroup.PlaceLabledControl("Chickens", this, &FiltersChickens);
 
-	//Committed, need to fix, probably wrong offset.
-	//FiltersC4.SetFileId("ftr_c4");
-	//FiltersGroup.PlaceLabledControl("C4", this, &FiltersC4);
+	FiltersC4.SetFileId("ftr_c4");
+	FiltersGroup.PlaceLabledControl("C4", this, &FiltersC4);
 #pragma endregion Setting up the Filters controls
 
 #pragma region Other
@@ -600,7 +599,7 @@ void Menu::DoUIFrame()
 	if (Window.VisualsTab.FiltersAll.GetState())
 	{
 		Window.VisualsTab.FiltersEnemiesOnly.SetState(true);
-		//Window.VisualsTab.FiltersC4.SetState(true);
+		Window.VisualsTab.FiltersC4.SetState(true);
 		Window.VisualsTab.FiltersChickens.SetState(true);
 		Window.VisualsTab.FiltersPlayers.SetState(true);
 		Window.VisualsTab.FiltersWeapons.SetState(true);

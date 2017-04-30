@@ -85,6 +85,7 @@ int InitialThread(LPVOID lpArguments)
 
 	Utilities::OpenConsole(Utilities::GetTitle() + " Build " __DATE__);
 
+	// Simple anti crack - Noob proofed.
 	if (!Utilities::GetProcessByName("GhostWare_Injector.exe"))
 	{
 		Utilities::Log("Connect to backend failed!");
