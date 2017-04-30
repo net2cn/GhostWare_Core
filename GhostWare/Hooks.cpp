@@ -47,9 +47,6 @@ namespace Hooks
 // Initialise all our hooks
 void Hooks::Initialise()
 {
-	if (Utilities::CheckAnySpecialDate())
-		Utilities::Log("I want to tell you that today is actually this programmer's birthday.");
-
 	// Panel hooks for drawing to the screen via surface functions
 	VMTPanel.bInitialize((PDWORD*)Interfaces::Panels);
 	oPaintTraverse = (PaintTraverse_)VMTPanel.dwHookMethod((DWORD)PaintTraverse_Hooked, Offsets::VMT::Panel_PaintTraverse);

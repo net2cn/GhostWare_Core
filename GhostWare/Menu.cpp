@@ -61,7 +61,7 @@ void AyyWareWindow::Setup()
 	LoadButton.SetCallback(LoadCallbk);
 	LoadButton.SetPosition(203, Client.bottom - 42);
 	
-	UnloadButton.SetText("Panic Button");
+	UnloadButton.SetText("Unload GhostWare");
 	UnloadButton.SetCallback(UnLoadCallbk);
 	UnloadButton.SetPosition(396, Client.bottom - 42);
 
@@ -605,12 +605,6 @@ void Menu::DoUIFrame()
 		Window.VisualsTab.FiltersPlayers.SetState(true);
 		Window.VisualsTab.FiltersWeapons.SetState(true);
 	}
-
-	//if (Window.MiscTab.OtherSafeMode.GetState())
-	//{
-	//	Window.RageBotTab.AccuracySpread.SetState(false);
-	//}
-	
 	
 	GUI.Update();
 	GUI.Draw();

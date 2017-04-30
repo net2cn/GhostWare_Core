@@ -12,6 +12,8 @@
 #define  FORCEINLINE			__forceinline
 
 typedef float vec_t;
+typedef float vec2_t[2];
+typedef float vec3_t[3];
 
 inline vec_t BitsToFloat(unsigned long i)
 {
@@ -57,6 +59,9 @@ public:
 	FORCEINLINE Vector& operator+=(float fl);
 	FORCEINLINE Vector& operator-=(float fl);
 
+	operator float *() { return &x; } // Vectors will now automatically convert to float * when needed
+	operator const float *() const { return &x; } // Vectors will now automatically convert to float * when needed
+
 	void Negate();
 
 	inline vec_t Length() const;
@@ -74,6 +79,7 @@ public:
 	}
 
 	vec_t NormalizeInPlace();
+	float NormalizeInPlaceFloat();
 	Vector Normalized() const;
 
 	bool IsLengthGreaterThan(float val) const;
@@ -129,7 +135,6 @@ inline Vector::Vector(void)
 }
 
 
-
 inline Vector::Vector(vec_t X, vec_t Y, vec_t Z)
 {
 	x = X; y = Y; z = Z;
@@ -170,8 +175,6 @@ inline vec_t Vector::operator[](int i) const
 {
 	return ((vec_t*)this)[i];
 }
-
-
 
 inline vec_t* Vector::Base()
 {
@@ -395,9 +398,23 @@ FORCEINLINE float VectorNormalizer(float * v)
 {
 	return VectorNormalize(*(reinterpret_cast<Vector *>(v)));
 }
+
 inline vec_t Vector::NormalizeInPlace()
 {
 	return VectorNormalize(*this);
+}
+
+inline float Vector::NormalizeInPlaceFloat()
+{
+	Vector& v = *this;
+
+	float iradius = 1.f / (this->Length() + 1.192092896e-07F); //FLT_EPSILON
+
+	v.x *= iradius;
+	v.y *= iradius;
+	v.z *= iradius;
+
+	return iradius;
 }
 
 bool Vector::WithinAABox(Vector const &boxmin, Vector const &boxmax)
@@ -518,23 +535,19 @@ inline void VectorMax(const Vector& a, const Vector& b, Vector& result)
 	result.z = max(a.z, b.z);
 }
 
-
-class VectorAligned : public Vector
-{
-public:
-	VectorAligned()
-	{
-		x = y = z = 0.0f;
-	}
-
-	VectorAligned(const Vector& v)
-	{
-		x = v.x; y = v.y; z = v.z;
-	}
-
-	float w;
-};
-
-
-
+//class VectorAligned : public Vector
+//{
+//public:
+//	VectorAligned()
+//	{
+//		x = y = z = 0.0f;
+//	}
+//
+//	VectorAligned(const Vector& v)
+//	{
+//		x = v.x; y = v.y; z = v.z;
+//	}
+//
+//	float w;
+//};
 #endif // VECTOR_H

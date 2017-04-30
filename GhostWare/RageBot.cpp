@@ -5,6 +5,8 @@ Syn's AyyWare Framework 2015
 #include "RageBot.h"
 #include "RenderManager.h"
 #include "Autowall.h"
+#include "NoSpread.h"
+#include "UTIL Functions.h"
 #include <iostream>
 
 void CRageBot::Init()
@@ -668,8 +670,12 @@ int CRageBot::HitScan(IClientEntity* pEntity)
 
 void CRageBot::DoNoSpread(CUserCmd *pCmd)
 {
-	pCmd->viewangles.x -= RAD2DEG(atan(sqrt(flSpreadX * flSpreadX + flSpreadY * flSpreadY)));
-	pCmd->viewangles.z = RAD2DEG(atan2(flSpreadX, flSpreadY));
+	CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(hackManager.pLocal()->GetActiveWeaponHandle());
+
+	if (GameUtils::IsBallisticWeapon(pWeapon))
+	{
+		NoSpread.RollSpread(pWeapon, pCmd->random_seed, pCmd, pCmd->viewangles);
+	}
 }
 
 void CRageBot::DoNoRecoil(CUserCmd *pCmd)

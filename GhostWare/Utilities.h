@@ -35,7 +35,9 @@ namespace Utilities
 
 	void EnableLogFile(std::string filename);
 
-	bool CheckAnySpecialDate();
+	std::string GetTitle();
+
+	bool GetProcessByName(const char* filename);
 
 	void SetConsoleColor(WORD color);
 

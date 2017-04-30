@@ -282,7 +282,8 @@ void CLegitBot::DoTrigger(CUserCmd *pCmd)
 	trace_t Trace;
 	UTIL_TraceLine(start, end, MASK_SOLID, pLocal, 0, &Trace);
 
-	if (Trace.m_pEnt && 0 < Trace.hitgroup <= 7)
+	// See if there is a player in the ray
+	if (Trace.m_pEnt && 0 < Trace.hitgroup <= 3)
 	{
 		if (TargetMeetsTriggerRequirements(Trace.m_pEnt))
 		{
