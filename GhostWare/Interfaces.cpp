@@ -64,7 +64,7 @@ void Interfaces::Initialise()
 	// Get ClientMode Pointer
 	DWORD* ppClientMode;
 	ppClientMode = nullptr; // before "scripts/vgui_screens.txt"
-	DWORD p = Utilities::Memory::FindPattern("client.dll", (BYTE*)"\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\xA8\x01\x75\x1A\x83\xC8\x01\xA3\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x68\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x83\xC4\x04\xA1\x00\x00\x00\x00\xB9\x00\x00\x00\x00\x56", "xx????????xxxxxxxx????x????x????x????xxxx????x????x");
+	DWORD p = Utilities::Memory::FindPattern("client.dll", (BYTE*)"\x56\xB9\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x80\x3D\x00\x00\x00\x00\x00\xC7\x05", "xx????x????xx?????xx");
 	if (p)
 	{
 		ppClientMode = **(DWORD***)(p + 2);
@@ -99,7 +99,7 @@ namespace Interfaces
 	IClientEntityList* EntList;
 	ISurface* Surface;
 	IVDebugOverlay* DebugOverlay;
-	DWORD *ClientMode;
+	DWORD* ClientMode;
 	CGlobalVarsBase *Globals;
 	DWORD *Prediction;
 	CMaterialSystem* MaterialSystem;

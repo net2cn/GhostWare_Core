@@ -13,8 +13,6 @@ Syn's AyyWare Framework 2015
 
 Vector LastAngleAA;
 
-#define USE_WINHTTP
-
 // Funtion Typedefs
 typedef void(__thiscall* DrawModelEx_)(void*, void*, void*, const ModelRenderInfo_t&, matrix3x4*);
 typedef void(__thiscall* PaintTraverse_)(PVOID, unsigned int, bool, bool);
@@ -65,10 +63,17 @@ void Hooks::Initialise()
 	VMTModelRender.ReHook();
 	Utilities::Log("Chams hooking...");
 
+	Utilities::Log("Fuck U Valve");
+
 	// Setup ClientMode Hooks
-	VMTClientMode.bInitialize((PDWORD*)Interfaces::ClientMode);
+
+	//VMTClientMode.bInitialize((PDWORD*)Interfaces::ClientMode);
+
+	Utilities::Log("Fuck U Gabe!");
 	VMTClientMode.dwHookMethod((DWORD)CreateMoveClient_Hooked, 24);
+	Utilities::Log("Fuck U Steam!");
 	VMTClient.ReHook();
+	Utilities::Log("Fuck U Source!");
 	Utilities::Log("Setup ClientMode Hooks");
 	Utilities::Log(" ----> Successfully Hooked <----");
 
