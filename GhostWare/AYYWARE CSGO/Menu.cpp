@@ -99,8 +99,8 @@ void GhostWareWindow::Setup()
 	SetSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	SetTitle(Utilities::GetTitle() + " Build " __DATE__);
 
-	RegisterTab(&RageBotTab);
 	RegisterTab(&LegitBotTab);
+	RegisterTab(&RageBotTab);
 	RegisterTab(&VisualsTab);
 	RegisterTab(&MiscTab);
 	RegisterTab(&ColorTab);
