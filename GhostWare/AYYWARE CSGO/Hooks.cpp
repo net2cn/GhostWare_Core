@@ -348,7 +348,7 @@ void __fastcall PaintTraverse_Hooked(PVOID pPanels, int edx, unsigned int vguiPa
 	else if (FocusOverlayPanel == vguiPanel)
 	{
 		//Render::GradientV(8, 8, 160, 18, Color(0, 0, 0, 0), Color(7, 39, 17, 255));
-		Render::Text(10, 10, Color(255, 255, 255, 220), Render::Fonts::Menu, "INTERWEBZ : CSS");
+		Render::Text(10, 10, Color(255, 255, 255, 220), Render::Fonts::Menu, "GW");
 		if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame())
 			Hacks::DrawHacks();
 

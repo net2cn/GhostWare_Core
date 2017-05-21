@@ -30,6 +30,9 @@ void CLegitBot::Move(CUserCmd *pCmd, bool &bSendPacket)
 	// Triggerbot
 	if (Menu::Window.LegitBotTab.TriggerEnable.GetState() && (!Menu::Window.LegitBotTab.TriggerKeyPress.GetState() || GUI.GetKeyState(Menu::Window.LegitBotTab.TriggerKeyBind.GetKey())))
 		DoTrigger(pCmd);
+
+	// Reduce CPU ustage.
+	Sleep(8);
 }
 
 void CLegitBot::SyncWeaponSettings()
@@ -298,7 +301,8 @@ void CLegitBot::DoTrigger(CUserCmd *pCmd)
 			time++;
 			float delay = Menu::Window.LegitBotTab.TriggerDelay.GetValue() / 1000.f;
 
-			if ((time * 64) < delay)
+			// Delay Button.
+			if ((time * 128) < delay)
 			{
 				return;
 			}

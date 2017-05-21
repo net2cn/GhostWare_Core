@@ -749,9 +749,10 @@ void CMiscTab::Setup()
 
 	OtherChatSpam.SetFileId("otr_spam");
 	OtherChatSpam.AddItem("Off");
+	OtherChatSpam.AddItem("GhostWare");
 	OtherChatSpam.AddItem("Namestealer");
-	OtherChatSpam.AddItem("GhostWare - CS");
-	OtherChatSpam.AddItem("GhostWare - NS");
+	OtherChatSpam.AddItem("INTERWEBZ - CS");
+	OtherChatSpam.AddItem("INTERWEBZ - NS");
 	OtherChatSpam.AddItem("Rekt");
 	OtherChatSpam.AddItem("Aimware - CS");
 	OtherChatSpam.AddItem("Aimware - NS");

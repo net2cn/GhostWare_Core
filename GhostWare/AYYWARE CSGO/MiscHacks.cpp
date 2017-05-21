@@ -63,25 +63,28 @@ void CMiscHacks::Draw()
 		// No Chat Spam
 		break;
 	case 1:
+		ChatSpamRegular();
+		break;
+	case 2:
 		// Namestealer
 		ChatSpamName();
 		break;
-	case 2:
-		// GhostWare - chat spam
-		ChatSpamRegular();
-		break;
 	case 3:
-		// GhostWare - name spam
+		// INTERWEBZ - chat spam
 		ChatSpamInterwebz();
 		break;
 	case 4:
+		// INTERWEBZ - name spam
+		ChatSpamInterwebzName();
+		break;
+	case 5:
 		// Rekt
 		ChatSpamDisperseName();
 		break;
-	case 5:
+	case 6:
 		//Aimware ChatSpam
 		ChatSpamAimwareChat();
-	case 6:
+	case 7:
 		//AimwareNameSpam
 		ChatSpamAimwareName();
 	}
@@ -250,8 +253,31 @@ Vector GetAutostrafeView()
 	return AutoStrafeView;
 }
 
-// …e Õ½Ê¿
 void CMiscHacks::ChatSpamInterwebz()
+{
+	// Don't spam it too fast so you can still do stuff
+	static clock_t start_t = clock();
+	int spamtime = Menu::Window.MiscTab.OtherChatDelay.GetValue();
+	double timeSoFar = (double)(clock() - start_t) / CLOCKS_PER_SEC;
+	if (timeSoFar < spamtime)
+		return;
+
+	static bool holzed = true;
+
+	if (Menu::Window.MiscTab.OtherTeamChat.GetState())
+	{
+		SayInTeamChat("Rank service by INTERWEBZ : Your Friendly Hack Provider.");
+	}
+	else
+	{
+		SayInChat("INTERWEBZ.CC : This Is Your End!");
+	}
+
+	start_t = clock();
+}
+
+// …e Õ½Ê¿
+void CMiscHacks::ChatSpamInterwebzName()
 {
 	static clock_t start_t = clock();
 	double timeSoFar = (double)(clock() - start_t) / CLOCKS_PER_SEC;
@@ -266,12 +292,12 @@ void CMiscHacks::ChatSpamInterwebz()
 		static bool useSpace = true;
 		if (useSpace)
 		{
-			change_name ("\xe1\xab\xa8 GhostWareCheats.xyz");
+			change_name ("\xe1\xab\xa8 INTERWEBZ : CSGO");
 			useSpace = !useSpace;
 		}
 		else
 		{
-			change_name("\xe1\xab\xa5 GhostWareCheats.xyz");
+			change_name("\xe1\xab\xa5 INTERWEBZ.CC");
 			useSpace = !useSpace;
 		}
 	}
@@ -367,15 +393,16 @@ void CMiscHacks::ChatSpamRegular()
 
 	if (Menu::Window.MiscTab.OtherTeamChat.GetState())
 	{
-		SayInTeamChat("Boost service by GhostWareCheats.xyz");
+		SayInTeamChat("Boost Service by GhostWare");
 	}
 	else
 	{
-		SayInChat("Derank service by GhostWareCheats.xyz");
+		SayInChat("Derank service by Your Friendly GhostWare");
 	}
 
 	start_t = clock();
 }
+
 void CMiscHacks::ChatSpamAimwareChat()
 {
 	// Don't spam it too fast so you can still do stuff

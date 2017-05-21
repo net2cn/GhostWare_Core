@@ -1,3 +1,14 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (AYYWARE CSGO.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  AYYWARE CSGO.vcxproj -> C:\Users\Gina\Downloads\ApocalyseCheatsSC-master\Release\Apocalypse.dll
-  AYYWARE CSGO.vcxproj -> C:\Users\Gina\Downloads\ApocalyseCheatsSC-master\Release\Apocalypse.pdb (Full PDB)
+  AntiAntiAim.cpp
+  Autowall.cpp
+  Chams.cpp
+  Controls.cpp
+  CRC32.cpp
+  DLLMain.cpp
+  Dumping.cpp
+  ESP.cpp
+  GUI.cpp
+  Hacks.cpp
+  Hooks.cpp
+  ReflectiveLoader.cpp
+  Interfaces.cpp

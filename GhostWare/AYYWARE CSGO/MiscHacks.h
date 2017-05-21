@@ -23,6 +23,7 @@ private:
 	void LegitStrafe(CUserCmd *pCmd);
 	void RageStrafe(CUserCmd *pCmd);
 	void ChatSpamInterwebz();
+	void ChatSpamInterwebzName();
 	void ChatSpamName();
 	void ChatSpamDisperseName();
 	void ChatSpamRegular();

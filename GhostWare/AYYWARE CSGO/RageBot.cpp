@@ -132,6 +132,9 @@ void CRageBot::Move(CUserCmd *pCmd, bool &bSendPacket)
 	}
 
 	LastAngle = pCmd->viewangles;
+
+	// Reduce CPU ustage
+	Sleep(8);
 }
 
 Vector BestPoint(IClientEntity *targetPlayer, Vector &final)
