@@ -9,6 +9,8 @@ Syn's GhostWare Framework
 #include <fstream>
 #include <Psapi.h>
 #include <TlHelp32.h>
+#include <cstdio>
+#include <cstdio>
 
 bool FileLog = false;
 std::ofstream logFile;

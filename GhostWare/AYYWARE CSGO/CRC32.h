@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWareCheats
+Rest In Peace GhostWare
 */
 
 // Credits Valve / Shad0w

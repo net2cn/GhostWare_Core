@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWareCheats
+Rest In Peace GhostWare
 */
 
 #include "Hooks.h"
@@ -108,7 +108,7 @@ void __fastcall PaintTraverse_Hooked(PVOID pPanels, int edx, unsigned int vguiPa
 	else if (FocusOverlayPanel == vguiPanel)
 	{
 		//Render::GradientV(8, 8, 160, 18, Color(0, 0, 0, 0), Color(7, 39, 17, 255));
-		//Render::Text(10, 10, Color(255, 255, 255, 220), Render::Fonts::Menu, "GhostWare New Meme of 2015");
+		//Render::Text(10, 10, Color(255, 255, 255, 220), Render::Fonts::Menu, "Apocalypse New Meme of 2015");
 		if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame())
 			Hacks::DrawHacks();
 

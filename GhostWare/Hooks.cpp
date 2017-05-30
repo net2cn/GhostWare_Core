@@ -101,22 +101,21 @@ void Hooks::Initialise()
 	// Panel hooks for drawing to the screen via surface functions
 	VMTPanel.Initialise((DWORD*)Interfaces::Panels);
 	oPaintTraverse = (PaintTraverse_)VMTPanel.HookMethod((DWORD)&PaintTraverse_Hooked, Offsets::VMT::Panel_PaintTraverse);
-	Utilities::Log("Paint Traverse Hooked");
+	//Utilities::Log("Paint Traverse Hooked");
 
 	// No Visual Recoi	l
 	VMTPrediction.Initialise((DWORD*)Interfaces::Prediction);
 	VMTPrediction.HookMethod((DWORD)&Hooked_InPrediction, 14);
-	Utilities::Log("InPrediction Hooked");
+	//Utilities::Log("InPrediction Hooked");
 
 	// Chams
 	VMTModelRender.Initialise((DWORD*)Interfaces::ModelRender);
 	oDrawModelExecute = (DrawModelEx_)VMTModelRender.HookMethod((DWORD)&Hooked_DrawModelExecute, Offsets::VMT::ModelRender_DrawModelExecute);
-	Utilities::Log("DrawModelExecute Hooked");
+	//Utilities::Log("DrawModelExecute Hooked");
 
 	// Setup ClientMode Hooks
 	VMTClientMode.Initialise((DWORD*)Interfaces::ClientMode);
 	VMTClientMode.HookMethod((DWORD)CreateMoveClient_Hooked, 24);
-	Utilities::Log("ClientMode Hooked");
 
 	oOverrideView = (OverrideViewFn)VMTClientMode.HookMethod((DWORD)&Hooked_OverrideView, 18);
 	VMTClientMode.HookMethod((DWORD)&GGetViewModelFOV, 35);
@@ -125,8 +124,6 @@ void Hooks::Initialise()
 	VMTClient.Initialise((DWORD*)Interfaces::Client);
 	oFrameStageNotify = (FrameStageNotifyFn)VMTClient.HookMethod((DWORD)&Hooked_FrameStageNotify, 36);
 
-	Utilities::Log(" ----> Successfully Hooked <----");
-	
 }
 
 void MovementCorrection(CUserCmd* pCmd)
@@ -165,26 +162,26 @@ void ClanTag()
 			motion++;
 		int value = ServerTime % 19;
 		switch (value) {
-		case 0:SetClanTag("          ", "GhostWare"); break;
-		case 1:SetClanTag("         G", "GhostWare"); break;
-		case 2:SetClanTag("        Gh", "GhostWare"); break;
-		case 3:SetClanTag("       Gho", "GhostWare"); break;
-		case 4:SetClanTag("      Ghos", "GhostWare"); break;
-		case 5:SetClanTag("     Ghost", "GhostWare"); break;
-		case 6:SetClanTag("    GhostW", "GhostWare"); break;
-		case 7:SetClanTag("   GhostWa", "GhostWare"); break;
-		case 8:SetClanTag("  GhostWar", "GhostWare"); break;
-		case 9:SetClanTag(" GhostWare", "GhostWare"); break;
-		case 10:SetClanTag("GhostWare ", "GhostWare"); break;
-		case 11:SetClanTag("hostWare  ", "GhostWare"); break;
-		case 12:SetClanTag("ostWare   ", "GhostWare"); break;
-		case 13:SetClanTag("stWare    ", "GhostWare"); break;
-		case 14:SetClanTag("tWare     ", "GhostWare"); break;
-		case 15:SetClanTag("Ware      ", "GhostWare"); break;
-		case 16:SetClanTag("are       ", "GhostWare"); break;
-		case 17:SetClanTag("re        ", "GhostWare"); break;
-		case 18:SetClanTag("e         ", "GhostWare"); break;
-		case 19:SetClanTag("          ", "GhostWare"); break;
+		case 0:SetClanTag("          ", "pasteware"); break;
+		case 1:SetClanTag("         p", "pasteware"); break;
+		case 2:SetClanTag("        pa", "pasteware"); break;
+		case 3:SetClanTag("       pas", "pasteware"); break;
+		case 4:SetClanTag("      past", "pasteware"); break;
+		case 5:SetClanTag("     paste", "pasteware"); break;
+		case 6:SetClanTag("    pastew", "pasteware"); break;
+		case 7:SetClanTag("   pastewa", "pasteware"); break;
+		case 8:SetClanTag("  pastewar", "pasteware"); break;
+		case 9:SetClanTag(" pasteware", "pasteware"); break;
+		case 10:SetClanTag("pasteware ", "pasteware"); break;
+		case 11:SetClanTag("asteware  ", "pasteware"); break;
+		case 12:SetClanTag("steware   ", "pasteware"); break;
+		case 13:SetClanTag("teware    ", "pasteware"); break;
+		case 14:SetClanTag("eware     ", "pasteware"); break;
+		case 15:SetClanTag("ware      ", "pasteware"); break;
+		case 16:SetClanTag("are       ", "pasteware"); break;
+		case 17:SetClanTag("re        ", "pasteware"); break;
+		case 18:SetClanTag("e         ", "pasteware"); break;
+		case 19:SetClanTag("          ", "pasteware"); break;
 		}
 		counter++;
 	}
@@ -351,8 +348,8 @@ void __fastcall PaintTraverse_Hooked(PVOID pPanels, int edx, unsigned int vguiPa
 		{
 			RECT scrn = Render::GetViewport();
 			//Render::GradientV(8, 8, 160, 18, Color(0, 0, 0, 0), Color(7, 39, 17, 255));
-			RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, "GhostWare");
-			Render::Text(scrn.right - TextSize.right - 20, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "GhostWare");
+			RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, "ApocalypseCheats");
+			Render::Text(scrn.right - TextSize.right - 20, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "ApocalypseCheats");
 			Render::Text(10, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "Private");
 		}
 		if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame())
@@ -417,7 +414,8 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		// Player Chams
 		int ChamsStyle = Menu::Window.VisualsTab.OptionsChams.GetIndex();
 		int HandsStyle = Menu::Window.VisualsTab.OtherNoHands.GetIndex();
-
+		//cancer
+		
 		//terrorist red
 		float TR = Menu::Window.ColorTab.TVisColorR.GetValue();
 		float TNVR = Menu::Window.ColorTab.TNVisColorR.GetValue();
@@ -427,7 +425,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		//terrorist green
 		float TB = Menu::Window.ColorTab.TVisColorB.GetValue();
 		float TNVB = Menu::Window.ColorTab.TNVisColorB.GetValue();
-
+		
 		//ct red
 		float CTR = Menu::Window.ColorTab.CTVisColorR.GetValue();
 		float CTNVR = Menu::Window.ColorTab.CTNVisColorR.GetValue();
@@ -437,8 +435,9 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		//ct blue
 		float CTB = Menu::Window.ColorTab.CTVisColorB.GetValue();
 		float CTNVB = Menu::Window.ColorTab.CTNVisColorB.GetValue();
-
+		
 		if (ChamsStyle != 0 && Menu::Window.VisualsTab.FiltersPlayers.GetState() && strstr(ModelName, "models/player"))
+		
 		{
 			if (pLocal/* && (!Menu::Window.VisualsTab.FiltersEnemiesOnly.GetState() || pModelEntity->GetTeamNum() != pLocal->GetTeamNum())*/)
 			{
@@ -475,7 +474,9 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 							Interfaces::RenderView->SetBlend(alpha);
 							Interfaces::ModelRender->ForcedMaterialOverride(covered);
 							oDrawModelExecute(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-
+							// cancer way to do this but idc
+							
+							
 							if (pModelEntity->GetTeamNum() == 2)
 							{
 								flColor[0] = TR / 255.f;
@@ -706,25 +707,13 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 				Interfaces::Engine->ClientCmd_Unrestricted("fog_enable 0");
 				nosmoke = true;
 			}
-
+			
 		}
 		else if (!Menu::Window.VisualsTab.OtherNoSmoke.GetState())
 		{
 			Interfaces::Engine->ClientCmd_Unrestricted("r_drawparticles 1");
 			Interfaces::Engine->ClientCmd_Unrestricted("fog_enable 1");
 			nosmoke = false;
-		}
-		static bool xd;
-		if (Menu::Window.VisualsTab.OtherNoScope.GetState())
-		{
-			if (pLocal->IsScoped())
-			{
-				Interfaces::Engine->ClientCmd_Unrestricted("cl_drawhud 0");
-			}
-			else
-			{
-				Interfaces::Engine->ClientCmd_Unrestricted("cl_drawhud 1");
-			}
 		}
 	}
 

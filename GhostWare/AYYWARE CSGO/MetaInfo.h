@@ -1,11 +1,11 @@
 /*
-Syn's GhostWare Framework
+Syn's Apocalypse Framework
 */
 
 #pragma once
 
-#define GhostWare_META_GAME "Counter-Strike: Global Offensive"
-#define GhostWare_META_CHEATVER "0.7"
-#define GhostWare_META_CHEATNAME "GhostWare for Counter-Strike: Global Offensive"
+#define Apocalypse_META_GAME "Counter-Strike: Global Offensive"
+#define Apocalypse_META_CHEATVER "0.7"
+#define Apocalypse_META_CHEATNAME "Apocalypse for Counter-Strike: Global Offensive"
 
 void PrintMetaHeader();

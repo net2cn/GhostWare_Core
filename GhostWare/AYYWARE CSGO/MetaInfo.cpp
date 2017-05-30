@@ -1,5 +1,5 @@
 /*
-Syn's GhostWare Framework
+Syn's Apocalypse Framework
 */
 
 #include "MetaInfo.h"
@@ -7,10 +7,8 @@ Syn's GhostWare Framework
 
 void PrintMetaHeader()
 {
-	printf("                                  LO");
 	Utilities::SetConsoleColor(FOREGROUND_INTENSE_GREEN);
-	printf("GIC\n");
 	Utilities::SetConsoleColor(FOREGROUND_WHITE);
 	Utilities::Log("Build %s", __DATE__);
-	Utilities::Log("Setting Up GhostWare for %s", GhostWare_META_GAME);
+	Utilities::Log("Setting Up GhostWare for %s", Apocalypse_META_GAME);
 }

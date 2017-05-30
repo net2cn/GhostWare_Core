@@ -34,10 +34,6 @@ bool DoUnload;
 
 int InitialThread()
 {
-#ifdef AC_DEBUG
-	Utilities::OpenConsole("Logic");
-#endif
-
 	Utilities::OpenConsole(Utilities::GetTitle() + " Build " __DATE__);
 
 	// Simple anti crack - Noob proofed.

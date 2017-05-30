@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWareCheats
+Rest In Peace GhostWare
 */
 
 #pragma once
@@ -138,6 +138,8 @@ public:
 	// Options Settings
 	CGroupBox OptionsGroup;
 	CCheckBox OptionsBox;
+	CCheckBox OptionsBoxFill;
+	CCheckBox OptionsBoxFillColor;
 	CCheckBox OptionsName;
 	CCheckBox OptionsHealth;
 	CCheckBox OptionsWeapon;
@@ -145,13 +147,14 @@ public:
 	CCheckBox OptionsHelmet;
 	CCheckBox OptionsKit;
 	CCheckBox OptionsDefuse;
+	CCheckBox OtherWireframe;
 	//CCheckBox OptionsGlow;
 	CComboBox OptionsChams;
 	CCheckBox OptionsSkeleton;
 	CCheckBox OptionsVisibleOnly;
 	CCheckBox OptionsAimSpot;
 	CCheckBox OptionsCompRank;
-	
+	CCheckBox OtherAsus;
 
 	// Filters Settings
 	CGroupBox FiltersGroup;
@@ -177,6 +180,7 @@ public:
 	CComboBox OtherNoHands;
 	CSlider OtherViewmodelFOV;
 	CSlider OtherFOV;
+	CCheckBox OtherNoScope;
 
 
 };
@@ -187,11 +191,11 @@ public:
 	void Setup();
 
 	// Knife Changer
-	CGroupBox KnifeGroup;
+	/*CGroupBox KnifeGroup;
 	CCheckBox KnifeEnable;
 	CComboBox KnifeModel;
 	CComboBox KnifeSkin;
-	CButton   KnifeApply;
+	CButton   KnifeApply;*/
 
 	// Other Settings
 	CGroupBox OtherGroup;
@@ -214,7 +218,16 @@ public:
 	CCheckBox OtherWalkbot;
 	CComboBox OtherClantag;
 	CCheckBox DisableAll;
-
+	CGroupBox MPGroup;
+	CComboBox MAC10Skin;
+	CComboBox P90Skin;
+	CComboBox UMP45Skin;
+	CComboBox BIZONSkin;
+	CComboBox MP7Skin;
+	CComboBox MP9Skin;
+	CTextField OtherPName;
+	CTextField OtherCName;
+	CButton NApply;
 	// Fake Lag Settings
 	CGroupBox FakeLagGroup;
 	CCheckBox FakeLagEnable;
@@ -244,6 +257,7 @@ public:
 	CGroupBox MenuGroup;
 	CGroupBox MenuBar2;
 	CGroupBox MenuInside;
+	CGroupBox MenuBackround;
 	//CT Not Visible
 	CSlider  CTNVisColorR;
 	CSlider  CTNVisColorG;
@@ -274,7 +288,80 @@ public:
 	CSlider  MenuInnerR;
 	CSlider  MenuInnerG;
 	CSlider  MenuInnerB;
+
+	CSlider  MenuBGR;
+	CSlider  MenuBGG;
+	CSlider  MenuBGB;
 	CSlider  MenuOpacity;
+};
+class CSkinchangerTab : public CTab
+{
+public:
+	void Setup();
+
+	// Knife Changer/Skin Changer
+	CLabel SkinActive;
+	CCheckBox SkinEnable;
+	CButton   SkinApply;
+
+	// Knife
+	CGroupBox KnifeGroup;
+	CComboBox KnifeModel;
+	CComboBox KnifeSkin;
+
+	// Pistols
+	CGroupBox PistolGroup;
+	CComboBox GLOCKSkin;
+	CComboBox USPSSkin;
+	CComboBox DEAGLESkin;
+	CComboBox MAGNUMSkin;
+	CComboBox DUALSSkin;
+	CComboBox FIVESEVENSkin;
+	CComboBox TECNINESkin;
+	CComboBox P2000Skin;
+	CComboBox P250Skin;
+
+	// MPs
+	
+
+	// Rifles
+	CGroupBox Riflegroup;
+	CComboBox M41SSkin;
+	CComboBox M4A4Skin;
+	CComboBox AK47Skin;
+	CComboBox AUGSkin;
+	CComboBox FAMASSkin;
+	CComboBox GALILSkin;
+	CComboBox SG553Skin;
+
+
+	// Machineguns
+	CGroupBox MachinegunsGroup;
+	CComboBox NEGEVSkin;
+	CComboBox M249Skin;
+
+	// Snipers
+	CGroupBox Snipergroup;
+	CComboBox SCAR20Skin;
+	CComboBox G3SG1Skin;
+	CComboBox SSG08Skin;
+	CComboBox AWPSkin;
+
+	// Shotguns
+	CGroupBox Shotgungroup;
+	CComboBox MAG7Skin;
+	CComboBox XM1014Skin;
+	CComboBox SAWEDOFFSkin;
+	CComboBox NOVASkin;
+
+	// Skinsettings
+	CGroupBox SkinsettingsGroup;
+	CCheckBox StatTrakEnable;
+	/*
+*/
+	CTextField StatTrackAmount;
+	CTextField2 SkinName;
+	CTextField2 KnifeName;
 };
 
 class CSettingsTab : public CTab
@@ -291,7 +378,7 @@ public:
 
 	
 };
-class GhostWareWindow : public CWindow
+class ApocalypseWindow : public CWindow
 {
 public:
 	void Setup();
@@ -302,6 +389,7 @@ public:
 	CMiscTab MiscTab;
 	CColorTab ColorTab;
 	CSettingsTab SettingsTab;
+	CSkinchangerTab SkinchangerTab;
 
 	CButton SaveButton;
 	CButton LoadButton;
@@ -313,5 +401,5 @@ namespace Menu
 	void SetupMenu();
 	void DoUIFrame();
 
-	extern GhostWareWindow Window;
+	extern ApocalypseWindow Window;
 };
