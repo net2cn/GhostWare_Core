@@ -3,7 +3,6 @@
 #include "Utilities/Platform.hpp"
 #include "Renderer.hpp"
 #include "PaintKitParser.hpp"
-#include "imgui.h"
 
 IBaseClientDLL*		g_pClient;
 IClientEntityList*	g_pEntityList;

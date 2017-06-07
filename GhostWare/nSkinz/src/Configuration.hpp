@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <algorithm>
+#include <cfloat>
 
 struct EconomyItem_t
 {
@@ -38,7 +39,7 @@ struct EconomyItem_t
 		}) - k_KniveNames.begin();
 	}
 
-	char szName[32] = "Default";
+	char szName[32] = "\xe9\xbb\x98\xe8\xae\xa4";
 	bool bEnabled = false;
 	int iDefinitionId = 0;
 	int iDefinitionIndex = 1;

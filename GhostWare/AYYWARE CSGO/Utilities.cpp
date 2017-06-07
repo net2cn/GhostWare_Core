@@ -10,7 +10,6 @@ Syn's GhostWare Framework
 #include <Psapi.h>
 #include <TlHelp32.h>
 #include <cstdio>
-#include <cstdio>
 
 bool FileLog = false;
 std::ofstream logFile;
@@ -259,19 +258,19 @@ std::string Utilities::GetTitle()
 	switch (date)
 	{
 	case 321:
-		return "GhostWare client programmer's birthday";
+		return "GhostWare CSGO client programmer's birthday";
 	case 325:
-		return "GhostWare First Release Date Celebration";
+		return "GhostWare CSGO First Release Date Celebration";
 	case 501:
-		return "GhostWare Labor Day Celebration";
+		return "GhostWare CSGO Labor Day Celebration";
 	case 617:
-		return "GhostWare server programmer's birthday";
+		return "GhostWare CSGO server programmer's birthday";
 	case 826:
-		return "GhostWare QA's birthday";
+		return "GhostWare CSGO QA's birthday";
 	case 1225:
-		return "GhostWare Xmas Celebration";
+		return "GhostWare CSGO Xmas Celebration";
 	default:
-		return "GhostWare by NErD Hacks";
+		return "GhostWare CSGO by NErD Hacks";
 	}
 }
 

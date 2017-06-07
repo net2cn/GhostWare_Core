@@ -119,6 +119,8 @@ Renderer::Renderer()
 		m_bReady = true;
 
 	{
+		ImGui::GetIO().Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msyh.ttc", 14.0f, nullptr, ImGui::GetIO().Fonts->GetGlyphRangesChinese());
+
 		auto& style = ImGui::GetStyle();
 
 		style.ChildWindowRounding = 3.f;
