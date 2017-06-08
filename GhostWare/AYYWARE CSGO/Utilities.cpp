@@ -10,6 +10,7 @@ Syn's GhostWare Framework
 #include <Psapi.h>
 #include <TlHelp32.h>
 #include <cstdio>
+#include "locale.h"
 
 bool FileLog = false;
 std::ofstream logFile;
@@ -18,6 +19,8 @@ std::ofstream logFile;
 // Opens a debug console
 void Utilities::OpenConsole(std::string Title)
 {
+	setlocale(LC_ALL, "CHS");
+
 	AllocConsole();
 	freopen("CONIN$", "r", stdin);
 	freopen("CONOUT$", "w", stdout);
@@ -35,6 +38,8 @@ void Utilities::CloseConsole()
 // Outputs text to the console
 void Utilities::Log(const char *fmt, ...)
 {
+	setlocale(LC_ALL, "CHS");
+
 	if (!fmt) return; //if the passed string is null return
 	if (strlen(fmt) < 2) return;
 

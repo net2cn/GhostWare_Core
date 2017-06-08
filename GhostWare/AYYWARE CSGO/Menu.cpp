@@ -19,6 +19,7 @@ Rest In Peace GhostWareCheats
 #include "CRC32.h"
 #include "Resolver.h"
 #include "MiscHacks.h"
+#include "locale.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 585
@@ -112,9 +113,12 @@ void KnifeApplyCallbk()
  }*/
 void ApocalypseWindow::Setup()
 {
+	// Fuck you Visual C++! You suck a prick!
+	setlocale(LC_ALL, "CHS");
+
 	SetPosition(50, 50);
 	SetSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	SetTitle(Utilities::GetTitle() + " Build " __DATE__);
+	SetTitle(Utilities::GetTitle() + " 构建日期 " __DATE__);
 
 	RegisterTab(&LegitBotTab);
 	RegisterTab(&RageBotTab);
