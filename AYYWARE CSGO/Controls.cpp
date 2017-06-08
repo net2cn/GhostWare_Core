@@ -77,8 +77,7 @@ bool CCheckBox::GetState()
 void CCheckBox::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
-	Render::Outline(a.x, a.y, 13, 13, Color(255, 255, 255, 255));
-
+	Render::Outline(a.x, a.y, 13, 13, Color(60, 60, 60, 255));
 	if (hover)
 	{
 		if (Checked)
@@ -87,7 +86,7 @@ void CCheckBox::Draw(bool hover)
 		}
 		else
 		{
-			Render::Clear(a.x + 2, a.y + 2, 9, 9, Color(129, 129, 129, 255));
+			Render::Clear(a.x + 2, a.y + 2, 9, 9, Color(60, 60, 60, 255));
 		}
 		Render::Outline(a.x + 2, a.y + 2, 9, 9, Color(20, 20, 20, 80));
 	}
@@ -142,14 +141,14 @@ void CGroupBox::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
 	RECT txtSize = Render::GetTextSize(Render::Fonts::MenuBold, Text.c_str());
-	Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(8, 8, 8, 10)); // menu mini box color
+	Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(32, 32, 32, 255));
 	Render::Text(a.x + 15, a.y - (txtSize.bottom / 2), Color(255, 255, 255, 255), Render::Fonts::MenuBold, Text.c_str());
+	Render::Line(a.x, a.y, a.x + 12, a.y, Color(102, 255, 102, 255));
+	Render::Line(a.x + 15 + txtSize.right + 5, a.y, a.x + m_iWidth, a.y, Color(102, 255, 102, 255));
 
-	Render::Line(a.x, a.y, a.x + 12, a.y, Color(129, 129, 129, 255));
-	Render::Line(a.x + 15 + txtSize.right + 5, a.y, a.x + m_iWidth, a.y, Color(129, 129, 129, 255));
-	Render::Line(a.x, a.y, a.x, a.y + m_iHeight, Color(129, 129, 129, 255));
-	Render::Line(a.x, a.y + m_iHeight, a.x + m_iWidth, a.y + m_iHeight, Color(129, 129, 129, 255));
-	Render::Line(a.x + m_iWidth, a.y, a.x + m_iWidth, a.y + m_iHeight, Color(129, 129, 129, 255));
+	Render::Line(a.x, a.y, a.x, a.y + m_iHeight, Color(102, 255, 102, 255));
+	Render::Line(a.x, a.y + m_iHeight, a.x + m_iWidth, a.y + m_iHeight, Color(102, 255, 102, 255));
+	Render::Line(a.x + m_iWidth, a.y, a.x + m_iWidth, a.y + m_iHeight, Color(102, 255, 102, 255));
 }
 
 void CGroupBox::SetText(std::string text)
@@ -192,19 +191,17 @@ CSlider::CSlider()
 void CSlider::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
-
-	Render::Clear(a.x, a.y + 5, m_iWidth, 2, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255));
-
+	Render::GradientV(a.x, a.y + 1, m_iWidth, 5, Color(50, 50, 50, 255), Color(60, 60, 60, 255));
 	float Ratio = Value / (Max - Min);
-	float Location = Ratio*m_iWidth;
-
-	Render::Clear(a.x + Location, a.y + 1, 4, 9, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255));
-	Render::Outline(a.x + Location, a.y + 1, 4, 9, Color(20, 20, 20, 80));
-
+	float Location = Ratio * m_iWidth;
+	Render::Outline(a.x, a.y, m_iWidth, 7, Color(10, 10, 10, 255));
+	Render::Clear(a.x + 1/*- 2 + 3*/, a.y + 1/*5 - 2*/, (Ratio / m_iWidth + Location), 4, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255));
+	//	Render::GradientV(a.x + Location, a.y + 1, 4, 9, Color(30, 150, 30, 200), Color(40, 150, 40, 200));
+	//	Render::GradientV(a.x + Location, a.y + 1, 4, 9, Color(30, 30, 30, 80), Color(40, 40, 40, 80));
 	char buffer[24];
 	sprintf_s(buffer, "%.2f", Value);
 	RECT txtSize = Render::GetTextSize(Render::Fonts::MenuBold, buffer);
-	Render::Text(a.x + (m_iWidth / 2) - txtSize.right / 2, a.y + 10, Color(255, 255, 255, 255), Render::Fonts::MenuBold, buffer);
+	Render::Text(a.x + (m_iWidth / 2) - txtSize.right / 2, a.y + 10, Color(100, 100, 100, 255), Render::Fonts::MenuBold, buffer);
 }
 
 void CSlider::OnUpdate() {
@@ -291,11 +288,11 @@ void CKeyBind::Draw(bool hover)
 		Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(255, 255, 255, 80));
 	bool GoodKeyName = false;
 	char NameBuffer[128];
-	char* KeyName = "Not Bound";
+	char* KeyName = "未绑定";
 
 	if (IsGettingKey)
 	{
-		KeyName = "<Press A Key>";
+		KeyName = "<按下绑定键>";
 	}
 	else
 	{
@@ -318,7 +315,7 @@ void CKeyBind::Draw(bool hover)
 
 		if (!GoodKeyName)
 		{
-			KeyName = "No Key Bound";
+			KeyName = "不是绑定按键";
 		}
 	}
 
@@ -383,17 +380,15 @@ CButton::CButton()
 void CButton::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
-	Render::Outline(a.x, a.y, m_iWidth, m_iHeight, Color(129, 129, 129, 255));
+	Render::Outline(a.x, a.y, m_iWidth, m_iHeight, Color(60, 60, 60, 200));
 	if (hover)
-		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(60, 60, 60, 255), Color(80, 80, 80, 255));
+		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(192, 192, 192, 255), Color(234, 234, 234, 255));
 	else
-		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(8, 8, 8, 255), Color(8, 8, 8, 255));
-
+		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(234, 234, 234, 255), Color(192, 192, 192, 255));
 	RECT TextSize = Render::GetTextSize(Render::Fonts::MenuBold, Text.c_str());
 	int TextX = a.x + (m_iWidth / 2) - (TextSize.left / 2);
 	int TextY = a.y + (m_iHeight / 2) - (TextSize.bottom / 2);
-
-	Render::Text(TextX, TextY, Color(255, 255, 255, 255), Render::Fonts::MenuBold, Text.c_str());
+	Render::Text(TextX, TextY, Color(100, 100, 150, 255), Render::Fonts::MenuBold, Text.c_str());
 }
 
 void CButton::SetText(std::string text)
@@ -430,35 +425,29 @@ void CComboBox::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
 	RECT Region = { a.x, a.y, m_iWidth, 16 };
-	Render::Outline(a.x, a.y, m_iWidth, 16, Color(129, 129, 129, 255));
-
+	//Render::Outline(a.x, a.y, m_iWidth, 16, Color(129, 129, 129, 255));
 	// Hover for the Top Box
 	if (GUI.IsMouseInRegion(Region))
-		Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, 12, Color(80, 80, 80, 255));
-
+		Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, 12, Color(50, 50, 50, 255));
 	// If we have some items
 	if (Items.size() > 0)
 	{
 		// The current item
-		Render::Text(a.x + 2, a.y + 2, Color(255, 255, 255, 255), Render::Fonts::MenuBold, GetItem().c_str());
-
+		Render::Text(a.x + 2, a.y + 2, Color(100, 100, 100, 255), Render::Fonts::MenuBold, GetItem().c_str());
 		// If the drop down part is open
 		if (IsOpen)
 		{
-			Render::Clear(a.x, a.y + 17, m_iWidth, Items.size() * 16, Color(80, 80, 80, 255));
-
+			Render::Clear(a.x, a.y + 17, m_iWidth, Items.size() * 16, Color(50, 50, 50, 255));
 			// Draw the items
 			for (int i = 0; i < Items.size(); i++)
 			{
 				RECT ItemRegion = { a.x, a.y + 17 + i * 16, m_iWidth, 16 };
-
 				// Hover
 				if (GUI.IsMouseInRegion(ItemRegion))
 				{
-					Render::Clear(a.x, a.y + 17 + i * 16, m_iWidth, 16, Color(207, 207, 207, 255));
+					Render::Clear(a.x, a.y + 17 + i * 16, m_iWidth, 16, Color(50, 50, 50, 255));
 				}
-
-				Render::Text(a.x + 2, a.y + 19 + i * 16, Color(255, 255, 255, 255), Render::Fonts::MenuBold, Items[i].c_str());
+				Render::Text(a.x + 2, a.y + 19 + i * 16, Color(100, 100, 100, 255), Render::Fonts::MenuBold, Items[i].c_str());
 			}
 		}
 	}
