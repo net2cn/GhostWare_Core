@@ -109,8 +109,8 @@ void CCheckBox::OnClick()
 CLabel::CLabel()
 {
 	m_Flags = UIFlags::UI_Drawable;
-	Text = "Default";
-	FileIdentifier = "Default";
+	Text = "默认";
+	FileIdentifier = "默认";
 }
 
 void CLabel::Draw(bool hover)
@@ -133,8 +133,8 @@ CGroupBox::CGroupBox()
 {
 	Items = 1;
 	m_Flags = UIFlags::UI_Drawable | UIFlags::UI_RenderFirst;
-	Text = "Default";
-	FileIdentifier = "Default";
+	Text = "默认";
+	FileIdentifier = "默认";
 }
 
 void CGroupBox::Draw(bool hover)
@@ -372,9 +372,9 @@ CButton::CButton()
 {
 	m_iWidth = 177;
 	m_Flags = UIFlags::UI_Drawable | UIFlags::UI_Clickable;
-	Text = "Default";
+	Text = "默认";
 	CallBack = nullptr;
-	FileIdentifier = "Default";
+	FileIdentifier = "默认";
 }
 
 void CButton::Draw(bool hover)
