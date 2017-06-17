@@ -9,6 +9,7 @@
 #include <imgui.h>
 #include <imgui_impl_dx9.h>
 #include "Interface.hpp"
+#include <fstream>
 
 using EndScene_t = HRESULT(__stdcall *)(IDirect3DDevice9*);
 using Reset_t = HRESULT(__stdcall *)(IDirect3DDevice9*, D3DPRESENT_PARAMETERS*);
@@ -119,7 +120,11 @@ Renderer::Renderer()
 		m_bReady = true;
 
 	{
-		ImGui::GetIO().Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msyh.ttc", 14.0f, nullptr, ImGui::GetIO().Fonts->GetGlyphRangesChinese());
+		std::ifstream ifile("c:\\Windows\\Fonts\\msyh.ttc");
+		if (ifile) 
+			ImGui::GetIO().Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msyh.ttc", 14.0f, nullptr, ImGui::GetIO().Fonts->GetGlyphRangesChinese());
+		else
+			ImGui::GetIO().Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\simsun.ttc", 14.0f, nullptr, ImGui::GetIO().Fonts->GetGlyphRangesChinese());
 
 		auto& style = ImGui::GetStyle();
 

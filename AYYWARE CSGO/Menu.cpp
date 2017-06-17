@@ -1198,7 +1198,7 @@ PlayerList[meme].Callout = Menu::Window.Playerlist.OptionsCalloutSpam.GetState()
 
 void CColorTab::Setup()
 {
-	SetTitle("Colors");
+	SetTitle("ÑÕÉ«");
 #pragma region Colors
 	CTNVisGroup.SetPosition(16, 16);
 	CTNVisGroup.SetSize(360, 100);
