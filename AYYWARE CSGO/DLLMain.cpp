@@ -34,13 +34,13 @@ bool DoUnload;
 
 int InitialThread()
 {
-	Utilities::OpenConsole(Utilities::GetTitle() + " Build " __DATE__);
+	Utilities::OpenConsole(Utilities::GetTitle() + " 构建日期 " __DATE__);
 
 	// Simple anti crack - Noob proofed.
 	if (!Utilities::GetProcessByName("GhostWare_Injector.exe"))
 	{
-		Utilities::Log("Connect to backend failed!");
-		Utilities::Log("Inject failed!");
+		Utilities::Log("无法连接后端！");
+		Utilities::Log("注入失败！");
 		Sleep(5000);
 		Utilities::CloseConsole();
 		return -1;
@@ -67,10 +67,10 @@ int InitialThread()
 	//Dump::DumpClassIds();
 
 	//---------------------------------------------------------
-	Utilities::Log("Hook successfully! Enjoy!");
-	Utilities::Log("Press Insert Key ingame to open the menu.");
-	Utilities::Log("Thank you for using GhostWare.");
-	Utilities::Log("Enjoy your fancy game experiences!");
+	Utilities::Log("注入成功！");
+	Utilities::Log("游戏内按下Insert键打开菜单");
+	Utilities::Log("感谢您使用GhostWare。");
+	Utilities::Log("请尽情享受您的游戏体验。");
 
 	// While our cheat is running
 	while (DoUnload == false)

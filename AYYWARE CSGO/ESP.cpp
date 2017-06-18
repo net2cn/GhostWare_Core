@@ -162,7 +162,7 @@ void CEsp::SpecList()
 							char buf[255]; sprintf_s(buf, "%s => %s", pinfo.name, pinfo2.name);
 							RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, buf);
 							//Render::Clear(scrn.left, (scrn.bottom / 3) + (16 * AC), 260, 16, Color(0, 0, 0, 140));
-							Render::Text(scrn.left , (scrn.bottom / 2) + (16 * AC), pTarget->GetIndex() == pLocal->GetIndex() ? Color(240, 70, 80, 255) : Color(255, 255, 255, 255), Render::Fonts::ESP, buf);
+							Render::Text(scrn.left , (scrn.bottom / 2) + (16 * AC), pTarget->GetIndex() == pLocal->GetIndex() ? Color(240, 70, 80, 255) : Color(199, 199, 199, 255), Render::Fonts::ESP, buf);
 							AC++;
 						}
 					}
@@ -433,7 +433,7 @@ void CEsp::DrawName(player_info_t pinfo, CEsp::ESPBox size)
 
 	RECT nameSize = Render::GetTextSize(Render::Fonts::ESP, pinfo.name);
 	Render::Text(size.x + (size.w / 2) - (nameSize.right / 2), size.y - 16,
-		Color(255, 255, 255, 255), Render::Fonts::ESP, pinfo.name);
+		Color(199, 199, 199, 255), Render::Fonts::ESP, pinfo.name);
 }
 
 // Draw a health bar. For Tf2 when a bar is bigger than max health a second bar is displayed
@@ -540,7 +540,7 @@ void CEsp::DrawInfo(IClientEntity* pEntity, CEsp::ESPBox size)
 	int i = 0;
 	for (auto Text : Info)
 	{
-		Render::Text(size.x + size.w + 3, size.y + (i*(Size.bottom + 2)), Color(255, 255, 255, 255), Render::Fonts::ESP, Text.c_str());
+		Render::Text(size.x + size.w + 3, size.y + (i*(Size.bottom + 2)), Color(199, 199, 199, 255), Render::Fonts::ESP, Text.c_str());
 		i++;
 	}
 }
@@ -569,7 +569,7 @@ void CEsp::DrawDrop(IClientEntity* pEntity, ClientClass* cClass)
 	{
 		if (Menu::Window.VisualsTab.OptionsBox.GetState())
 		{
-			Render::Outline(Box.x - 2, Box.y - 2, 4, 4, Color(255, 255, 255, 255));
+			Render::Outline(Box.x - 2, Box.y - 2, 4, 4, Color(199, 199, 199, 255));
 			Render::Outline(Box.x - 3, Box.y - 3, 6, 6, Color(10, 10, 10, 150));
 		}
 
@@ -577,7 +577,7 @@ void CEsp::DrawDrop(IClientEntity* pEntity, ClientClass* cClass)
 		{
 			std::string ItemName = CleanItemName(cClass->m_pNetworkName);
 			RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, ItemName.c_str());
-			Render::Text(Box.x - (TextSize.right / 2), Box.y - 16, Color(255, 255, 255, 255), Render::Fonts::ESP, ItemName.c_str());
+			Render::Text(Box.x - (TextSize.right / 2), Box.y - 16, Color(199, 199, 199, 255), Render::Fonts::ESP, ItemName.c_str());
 		}
 	}
 }

@@ -1,15 +1,28 @@
-/*
-Rest In Peace GhostWare
-*/
+
 
 #include "GUI.h"
-#include "Menu.h"
+
 #include "RenderManager.h"
 #include "MetaInfo.h"
-
+#include "Menu.h"
 #include <algorithm>
 #include "tinyxml2.h"
 #include "Controls.h"
+
+#define UI_CURSORSIZE		12
+#define UI_CURSORFILL		Color(255,255,255)
+#define UI_CURSOROUTLINE	Color(20,20,20,140)
+
+#define UI_WIN_TOPHEIGHT	26
+#define UI_WIN_TITLEHEIGHT	0
+
+#define UI_TAB_WIDTH		150
+#define UI_TAB_HEIGHT		32
+
+#define UI_WIN_CLOSE_X		20
+#define UI_WIN_CLOSE_Y      6
+
+#define UI_CHK_SIZE			16
 
 CGUI GUI;
 
@@ -18,7 +31,7 @@ CGUI::CGUI()
 
 }
 
-// Draws all windows 
+// Draws all windows
 void CGUI::Draw()
 {
 	bool ShouldDrawCursor = false;
@@ -41,8 +54,7 @@ void CGUI::Draw()
 		MouseVt[1].Init(Vector2D(Mouse.x + 16, Mouse.y));
 		MouseVt[2].Init(Vector2D(Mouse.x, Mouse.y + 16));
 
-		Render::PolygonOutline(3, MouseVt, Color(0, 0, 0, 230), Color(0, 0, 0, 240));
-		
+		Render::PolygonOutline(3, MouseVt, Color(255, 255, 255, 230), Color(0, 0, 0, 240));
 	}
 }
 
@@ -51,22 +63,22 @@ void CGUI::Update()
 {
 	//Key Array
 	std::copy(keys, keys + 255, oldKeys);
-	for (int x = 0; x < 255; x++)
-	{
-		//oldKeys[x] = oldKeys[x] & keys[x];
-		keys[x] = (GetAsyncKeyState(x));
+	for (int x = 0; x < 255; x++) {
+		keys[x] = static_cast<bool>(GetAsyncKeyState(x));
 	}
 
 	// Mouse Location
 	POINT mp; GetCursorPos(&mp);
+	ScreenToClient(GetForegroundWindow(), &mp);
 	Mouse.x = mp.x; Mouse.y = mp.y;
+	//Interfaces::Surface->SurfaceGetCursorPos(Mouse.x, Mouse.y);
 
 	RECT Screen = Render::GetViewport();
 
 	// Window Binds
-	for (auto& bind : WindowBinds)
+	for (auto bind : WindowBinds)
 	{
-		if (GetKeyPress(bind.first))
+		if (GetKeyPress(bind.first) && bind.second != nullptr)
 		{
 			bind.second->Toggle();
 		}
@@ -102,50 +114,66 @@ void CGUI::Update()
 			{
 				if (IsMouseInRegion(window->m_x, window->m_y, window->m_x + window->m_iWidth, window->m_y + window->m_iHeight))
 				{
-					// Is it inside the client area?
-					if (IsMouseInRegion(window->GetClientArea()))
+					// Close Button
+					if (IsMouseInRegion(window->m_x + window->m_iWidth - 20, window->m_y, window->m_x + window->m_iWidth, window->m_y + 20))
 					{
+
+					}
+					else
 						// User is selecting a new tab
 						if (IsMouseInRegion(window->GetTabArea()))
 						{
-							// Loose focus on the control
-							window->IsFocusingControl = false;
-							window->FocusedControl = nullptr;
+
+							bCheckWidgetClicks = true;
 
 							int iTab = 0;
 							int TabCount = window->Tabs.size();
 							if (TabCount) // If there are some tabs
 							{
-								int TabSize = (window->m_iWidth - 4 - 12) / TabCount;
-								int Dist = Mouse.x - (window->m_x + 8);
-								while (Dist > TabSize)
+								int TabSize = 32;
+								int Dist = Mouse.y - (window->m_y + 26);
+								if (Dist < (32 * TabCount))
 								{
-									if (Dist > TabSize)
+									while (Dist > TabSize)
 									{
-										iTab++;
-										Dist -= TabSize;
+										if (Dist > TabSize)
+										{
+											iTab++;
+											Dist -= TabSize;
+										}
+										if (iTab == (TabCount - 1))
+										{
+											break;
+										}
 									}
+									window->SelectedTab = window->Tabs[iTab];
+
+									// Loose focus on the control
+									bCheckWidgetClicks = false;
+									window->IsFocusingControl = false;
+									window->FocusedControl = nullptr;
 								}
-								window->SelectedTab = window->Tabs[iTab];
 							}
 
 						}
-						else
+					// Is it inside the client area?
+						else if (IsMouseInRegion(window->GetClientArea()))
+						{
 							bCheckWidgetClicks = true;
-					}
-					else
-					{
-						// Must be in the around the title or side of the window
-						// So we assume the user is trying to drag the window
-						IsDraggingWindow = true;
-						DraggingWindow = window;
-						DragOffsetX = Mouse.x - window->m_x;
-						DragOffsetY = Mouse.y - window->m_y;
+						}
+						else
+						{
+							// Must be in the around the title or side of the window
+							// So we assume the user is trying to drag the window
+							IsDraggingWindow = true;
+							DraggingWindow = window;
+							DragOffsetX = Mouse.x - window->m_x;
+							DragOffsetY = Mouse.y - window->m_y;
 
-						// Loose focus on the control
-						window->IsFocusingControl = false;
-						window->FocusedControl = nullptr;
-					}
+							// Loose focus on the control
+							window->IsFocusingControl = false;
+							window->FocusedControl = nullptr;
+						}
 				}
 				else
 				{
@@ -154,7 +182,6 @@ void CGUI::Update()
 					window->FocusedControl = nullptr;
 				}
 			}
-
 
 			// Controls 
 			if (window->SelectedTab != nullptr)
@@ -195,6 +222,8 @@ void CGUI::Update()
 					{
 						if (SkipWidget && SkipMe == control)
 							continue;
+
+						control->parent = window;
 
 						POINT cAbs = control->GetAbsolutePos();
 						RECT controlRect = { cAbs.x, cAbs.y, control->m_iWidth, control->m_iHeight };
@@ -265,37 +294,47 @@ POINT CGUI::GetMouse()
 	return Mouse;
 }
 
+
+
 bool CGUI::DrawWindow(CWindow* window)
 {
 	Render::Outline(window->m_x, window->m_y, window->m_iWidth, window->m_iHeight, Color(21, 21, 21, 80));
-	Render::GradientV(window->m_x + 2, window->m_y + 2, window->m_iWidth - 4, 26, Color(Menu::Window.ColorTab.MenuBar1R.GetValue(), Menu::Window.ColorTab.MenuBar1G.GetValue(), Menu::Window.ColorTab.MenuBar1B.GetValue(), 255), Color(Menu::Window.ColorTab.MenuBar2R.GetValue(), Menu::Window.ColorTab.MenuBar2G.GetValue(), Menu::Window.ColorTab.MenuBar2B.GetValue(), 255));
-	Render::Clear(window->m_x + 2, window->m_y + 2 + 26, window->m_iWidth - 4, window->m_iHeight - 4 - 26, Color(Menu::Window.ColorTab.MenuBar2R.GetValue(), Menu::Window.ColorTab.MenuBar2G.GetValue(), Menu::Window.ColorTab.MenuBar2B.GetValue(), 255));
+	//Title Color
+	Render::GradientV(window->m_x + 2, window->m_y + 2, window->m_iWidth - 4, window->m_iHeight - 2 - 8, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255));
+	//Background Color
+	Render::Clear(window->m_x + 2, window->m_y + 2 + 26, window->m_iWidth - 4, window->m_iHeight - 4 - 26, Color(Menu::Window.ColorTab.MenuBGR.GetValue(), Menu::Window.ColorTab.MenuBGG.GetValue(), Menu::Window.ColorTab.MenuBGB.GetValue(), 255));
 	Render::Outline(window->m_x + 1, window->m_y + 1, window->m_iWidth - 2, window->m_iHeight - 2, Color(0, 0, 0, 255));
-	Render::Text(window->m_x + 8, window->m_y + 8, Color(0, 0, 0, 255), Render::Fonts::MenuBold, window->Title.c_str());
+	Render::Text(window->m_x + 8, window->m_y + 8, Color(199, 199, 199, 255), Render::Fonts::MenuBold, window->Title.c_str());
 	Render::Clear(window->m_x + 8, window->m_y + 1 + 27, window->m_iWidth - 4 - 12, window->m_iHeight - 2 - 8 - 26, Color(Menu::Window.ColorTab.MenuBGR.GetValue(), Menu::Window.ColorTab.MenuBGG.GetValue(), Menu::Window.ColorTab.MenuBGB.GetValue(), Menu::Window.ColorTab.MenuOpacity.GetValue()));
-	Render::GradientV(window->m_x + 8, window->m_y + 1 + 27, window->m_iWidth - 4 - 12, 29, Color(49, 42, 42, Menu::Window.ColorTab.MenuOpacity.GetValue()), Color(49, 42, 42, Menu::Window.ColorTab.MenuOpacity.GetValue()));
+
+	//Tab
+	//Tab Color
+	Render::GradientV(window->m_x + 2, window->m_y + 1 + 27, UI_TAB_WIDTH - 4 - 12, window->m_iHeight - 4 - 26, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255));
 	int TabCount = window->Tabs.size();
 	if (TabCount) // If there are some tabs
 	{
-		int TabSize = (window->m_iWidth - 4 - 12) / TabCount;
 		for (int i = 0; i < TabCount; i++)
 		{
-			RECT TabArea = { window->m_x + 8 + (i*TabSize), window->m_y + 1 + 27, TabSize, 29 };
+			RECT TabArea = { window->m_x, window->m_y + UI_WIN_TITLEHEIGHT + UI_WIN_TOPHEIGHT + (i*UI_TAB_HEIGHT) , UI_TAB_WIDTH, UI_TAB_HEIGHT };
 			CTab *tab = window->Tabs[i];
+
+			//Render::Clear(TabArea.left + 2, window->m_y + 1 + 27, UI_TAB_WIDTH, 1, Color(0, 83, 0, 255));
+			Color txtColor = Color(229, 229, 229, 255);
+
 			if (window->SelectedTab == tab)
 			{
-				Render::GradientV(window->m_x + 8 + (i*TabSize), window->m_y + 1 + 27, TabSize, 29, Color(106, 106, 106, 255), Color(49, 42, 42, 255));
+				// Selected
+				txtColor = Color(38, 72, 117, 255);
 			}
 			else if (IsMouseInRegion(TabArea))
 			{
-				Render::GradientV(window->m_x + 8 + (i*TabSize), window->m_y + 1 + 27, TabSize, 29, Color(106, 106, 106, 255), Color(80, 80, 80, 255));
+				// Hover
+				txtColor = Color(51, 98, 160, 255);
 			}
-			RECT TextSize = Render::GetTextSize(Render::Fonts::MenuBold, tab->Title.c_str());
-			Render::Text(TabArea.left + (TabSize / 2) - (TextSize.right / 2), TabArea.top + 8, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, tab->Title.c_str());
-			Render::Clear(window->m_x + 8, window->m_y + 1 + 27, window->m_iWidth - 4 - 12, 2, Color(62, 55, 55, Menu::Window.ColorTab.MenuOpacity.GetValue()));
+
+			Render::Text(TabArea.left + 32, TabArea.top + 8, txtColor, Render::Fonts::MenuBold, tab->Title.c_str());
 		}
 	}
-
 
 	// Controls 
 	if (window->SelectedTab != nullptr)
@@ -324,6 +363,7 @@ bool CGUI::DrawWindow(CWindow* window)
 
 			if (control != nullptr && control->Flag(UIFlags::UI_Drawable))
 			{
+				control->parent = window;
 				POINT cAbs = control->GetAbsolutePos();
 				RECT controlRect = { cAbs.x, cAbs.y, control->m_iWidth, control->m_iHeight };
 				bool hover = false;

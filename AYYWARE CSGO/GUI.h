@@ -1,6 +1,4 @@
-/*
-Rest In Peace GhostWare
-*/
+
 
 #pragma once
 

@@ -1,6 +1,4 @@
-/*
-Rest In Peace GhostWare
-*/
+
 
 #pragma once
 
@@ -37,20 +35,22 @@ void CWindow::RegisterTab(CTab* Tab)
 RECT CWindow::GetClientArea()
 {
 	RECT client;
-	client.left = m_x + 8;
-	client.top = m_y + 1 + 27;
-	client.right = m_iWidth - 4 - 12;
-	client.bottom = m_iHeight - 2 - 8 - 26;
+	client.left = m_x + 150;
+	client.top = m_y + 26;
+	client.right = m_iWidth - 150;
+	client.bottom = m_iHeight - 26;
 	return client;
 }
+
+
 
 RECT CWindow::GetTabArea()
 {
 	RECT client;
-	client.left = m_x + 8;
-	client.top = m_y + 1 + 27;
-	client.right = m_iWidth - 4 - 12;
-	client.bottom = 29;
+	client.left = m_x;
+	client.top = m_y + 26;
+	client.right = 150;
+	client.bottom = m_iHeight - 26;
 	return client;
 }
 
@@ -68,9 +68,14 @@ void CWindow::Toggle()
 {
 	m_bIsOpen = !m_bIsOpen;
 	if (m_bIsOpen)
+	{
 		Interfaces::Engine->ClientCmd_Unrestricted("cl_mouseenable 0");
+	}
+
 	else
+	{
 		Interfaces::Engine->ClientCmd_Unrestricted("cl_mouseenable 1");
+	}
 }
 
 CControl* CWindow::GetFocus()

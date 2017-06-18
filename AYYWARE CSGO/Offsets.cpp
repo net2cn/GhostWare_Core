@@ -94,7 +94,7 @@ void Offsets::Initialise()
 
 	Functions::dwIsReady = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 51 56 8B 35 ? ? ? ? 80 7E 58 00"));
 
-	Utilities::Log("Offsets/Indexes Up to Date");
+	Utilities::Log("偏移量/索引已更新");
 }
 
 namespace Offsets

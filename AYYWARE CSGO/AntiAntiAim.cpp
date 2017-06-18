@@ -224,7 +224,7 @@ void ApplyAAAHooks()
 				// Yaw Fix
 				if (!strcmp(name, "m_angEyeAngles[1]"))
 				{
-					Utilities::Log("Yaw Fix Applied");
+					Utilities::Log("已应用Yaw修正");
 					pProp->m_ProxyFn = FixY;
 				}
 			}

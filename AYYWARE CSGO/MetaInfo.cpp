@@ -9,6 +9,6 @@ void PrintMetaHeader()
 {
 	Utilities::SetConsoleColor(FOREGROUND_INTENSE_GREEN);
 	Utilities::SetConsoleColor(FOREGROUND_WHITE);
-	Utilities::Log("Build %s", __DATE__);
-	Utilities::Log("Setting Up GhostWare for %s", Apocalypse_META_GAME);
+	Utilities::Log("构建日期 %s", __DATE__);
+	Utilities::Log("正在为%s设置GhostWare", Apocalypse_META_GAME);
 }

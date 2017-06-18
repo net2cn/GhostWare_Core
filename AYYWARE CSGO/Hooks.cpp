@@ -101,22 +101,22 @@ void Hooks::Initialise()
 	// Panel hooks for drawing to the screen via surface functions
 	VMTPanel.Initialise((DWORD*)Interfaces::Panels);
 	oPaintTraverse = (PaintTraverse_)VMTPanel.HookMethod((DWORD)&PaintTraverse_Hooked, Offsets::VMT::Panel_PaintTraverse);
-	Utilities::Log("Paint Traverse Hooked");
+	Utilities::Log("对Paint Traverse进行挂钩...");
 
 	// No Visual Recoi	l
 	VMTPrediction.Initialise((DWORD*)Interfaces::Prediction);
 	VMTPrediction.HookMethod((DWORD)&Hooked_InPrediction, 14);
-	Utilities::Log("InPrediction Hooked");
+	Utilities::Log("对InPrediction进行挂钩...");
 
 	// Chams
 	VMTModelRender.Initialise((DWORD*)Interfaces::ModelRender);
 	oDrawModelExecute = (DrawModelEx_)VMTModelRender.HookMethod((DWORD)&Hooked_DrawModelExecute, Offsets::VMT::ModelRender_DrawModelExecute);
-	Utilities::Log("DrawModelExecute Hooked");
+	Utilities::Log("对DrawModelExecute进行挂钩...");
 
 	// Setup ClientMode Hooks
 	VMTClientMode.Initialise((DWORD*)Interfaces::ClientMode);
 	VMTClientMode.HookMethod((DWORD)CreateMoveClient_Hooked, 24);
-	Utilities::Log("ClientMode Hooked");
+	Utilities::Log("对ClientMode进行挂钩...");
 
 	oOverrideView = (OverrideViewFn)VMTClientMode.HookMethod((DWORD)&Hooked_OverrideView, 18);
 	VMTClientMode.HookMethod((DWORD)&GGetViewModelFOV, 35);
@@ -125,7 +125,7 @@ void Hooks::Initialise()
 	VMTClient.Initialise((DWORD*)Interfaces::Client);
 	oFrameStageNotify = (FrameStageNotifyFn)VMTClient.HookMethod((DWORD)&Hooked_FrameStageNotify, 36);
 
-	Utilities::Log(" ----> Successfully Hooked <----");
+	Utilities::Log("挂钩完成！");
 	
 }
 
@@ -495,7 +495,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 						}
 						else
 						{
-							color.SetColor(255, 255, 255, 255);
+							color.SetColor(199, 199, 199, 255);
 							ForceMaterial(color, open);
 						}
 					}
@@ -537,7 +537,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					}
 					else
 					{
-						color.SetColor(255, 255, 255, 255);
+						color.SetColor(199, 199, 199, 255);
 					}
 
 					ForceMaterial(color, open);
@@ -571,7 +571,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		else if (ChamsStyle != 0 && Menu::Window.VisualsTab.FiltersWeapons.GetState() && strstr(ModelName, "_dropped.mdl"))
 		{
 			IMaterial *covered = ChamsStyle == 1 ? CoveredLit : CoveredFlat;
-			color.SetColor(255, 255, 255, 255);
+			color.SetColor(199, 199, 199, 255);
 			ForceMaterial(color, covered);
 		}
 	}

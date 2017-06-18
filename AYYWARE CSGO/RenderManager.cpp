@@ -57,7 +57,7 @@ void Render::Initialise()
 	Interfaces::Surface->SetFontGlyphSet(Fonts::ESP, "Calibri", 14, 500, 0, 0, FONTFLAG_ANTIALIAS | FONTFLAG_DROPSHADOW);
 	Interfaces::Surface->SetFontGlyphSet(Fonts::MenuText, "Calibri", 16, 500, 0, 0, FONTFLAG_ANTIALIAS);
 
-	Utilities::Log("Render System Ready");
+	Utilities::Log("äÖÈ¾ÏµÍ³¾ÍÐ÷");
 }
 
 RECT Render::GetViewport()

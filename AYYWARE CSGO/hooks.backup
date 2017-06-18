@@ -229,7 +229,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 						}
 						else
 						{
-							color.SetColor(255, 255, 255, 255);
+							color.SetColor(199, 199, 199, 255);
 							ForceMaterial(color, open);
 						}
 					}
@@ -271,7 +271,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					}
 					else
 					{
-						color.SetColor(255, 255, 255, 255);
+						color.SetColor(199, 199, 199, 255);
 					}
 
 					ForceMaterial(color, open);
@@ -305,7 +305,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		else if (ChamsStyle != 0 && Menu::Window.VisualsTab.FiltersWeapons.GetState() && strstr(ModelName, "_dropped.mdl"))
 		{
 			IMaterial *covered = ChamsStyle == 1 ? CoveredLit : CoveredFlat;
-			color.SetColor(255, 255, 255, 255);
+			color.SetColor(199, 199, 199, 255);
 			ForceMaterial(color, covered);
 		}
 	}

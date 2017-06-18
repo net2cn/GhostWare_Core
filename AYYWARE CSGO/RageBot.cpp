@@ -627,7 +627,7 @@ int CRageBot::HitScan(IClientEntity* pEntity)
 		{
 			Vector Point = GetHitboxPosition(pEntity, HitBoxID);
 			float Damage = 0.f;
-			Color c = Color(255, 255, 255, 255);
+			Color c = Color(199, 199, 199, 255);
 			if (CanHit(Point, &Damage))
 			{
 				c = Color(0, 255, 0, 255);

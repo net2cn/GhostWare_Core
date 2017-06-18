@@ -1,11 +1,7 @@
-/*
-Rest In Peace GhostWare
-*/
 
 #include "Controls.h"
-#include "Menu.h"
 #include "RenderManager.h"
-
+#include "Menu.h"
 #pragma region Base Control
 void CControl::SetPosition(int x, int y)
 {
@@ -109,14 +105,14 @@ void CCheckBox::OnClick()
 CLabel::CLabel()
 {
 	m_Flags = UIFlags::UI_Drawable;
-	Text = "默认";
-	FileIdentifier = "默认";
+	Text = "Default";
+	FileIdentifier = "Default";
 }
 
 void CLabel::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
-	Render::Text(a.x, a.y, Color(245, 245, 245, 255), Render::Fonts::MenuBold, Text.c_str());
+	Render::Text(a.x, a.y, Color(199, 199, 199, 255), Render::Fonts::MenuBold, Text.c_str());
 }
 
 void CLabel::SetText(std::string text)
@@ -133,16 +129,17 @@ CGroupBox::CGroupBox()
 {
 	Items = 1;
 	m_Flags = UIFlags::UI_Drawable | UIFlags::UI_RenderFirst;
-	Text = "默认";
-	FileIdentifier = "默认";
+	Text = "Default";
+	FileIdentifier = "Default";
 }
 
 void CGroupBox::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
 	RECT txtSize = Render::GetTextSize(Render::Fonts::MenuBold, Text.c_str());
-	Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(32, 32, 32, 255));
-	Render::Text(a.x + 15, a.y - (txtSize.bottom / 2), Color(255, 255, 255, 255), Render::Fonts::MenuBold, Text.c_str());
+	Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(Menu::Window.ColorTab.MenuBGR.GetValue(), Menu::Window.ColorTab.MenuBGG.GetValue(), Menu::Window.ColorTab.MenuBGB.GetValue(), 255));
+	Render::Text(a.x + 15, a.y - (txtSize.bottom / 2), Color(199, 199, 199, 255), Render::Fonts::MenuBold, Text.c_str());
+
 	Render::Line(a.x, a.y, a.x + 12, a.y, Color(102, 255, 102, 255));
 	Render::Line(a.x + 15 + txtSize.right + 5, a.y, a.x + m_iWidth, a.y, Color(102, 255, 102, 255));
 
@@ -191,17 +188,19 @@ CSlider::CSlider()
 void CSlider::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
+
 	Render::GradientV(a.x, a.y + 1, m_iWidth, 5, Color(50, 50, 50, 255), Color(60, 60, 60, 255));
+
 	float Ratio = Value / (Max - Min);
 	float Location = Ratio * m_iWidth;
 	Render::Outline(a.x, a.y, m_iWidth, 7, Color(10, 10, 10, 255));
-	Render::Clear(a.x + 1/*- 2 + 3*/, a.y + 1/*5 - 2*/, (Ratio / m_iWidth + Location), 4, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255));
+	Render::Clear(a.x + 1/*- 2 + 3*/, a.y + 1/*5 - 2*/, (Ratio / m_iWidth + Location), 4, Color(50, 200, 50, 255));
 	//	Render::GradientV(a.x + Location, a.y + 1, 4, 9, Color(30, 150, 30, 200), Color(40, 150, 40, 200));
 	//	Render::GradientV(a.x + Location, a.y + 1, 4, 9, Color(30, 30, 30, 80), Color(40, 40, 40, 80));
 	char buffer[24];
 	sprintf_s(buffer, "%.2f", Value);
 	RECT txtSize = Render::GetTextSize(Render::Fonts::MenuBold, buffer);
-	Render::Text(a.x + (m_iWidth / 2) - txtSize.right / 2, a.y + 10, Color(100, 100, 100, 255), Render::Fonts::MenuBold, buffer);
+	Render::Text(a.x + (m_iWidth / 2) - txtSize.right / 2, a.y + 10, Color(199, 199, 199, 255), Render::Fonts::MenuBold, buffer);
 }
 
 void CSlider::OnUpdate() {
@@ -283,16 +282,16 @@ void CKeyBind::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
 
-	Render::Outline(a.x, a.y, m_iWidth, m_iHeight, Color(129, 129, 129, 255));
+	Render::Outline(a.x, a.y, m_iWidth, m_iHeight, Color(60, 60, 60, 255));
 	if (hover)
-		Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(255, 255, 255, 80));
+		Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(50, 50, 50, 200));
 	bool GoodKeyName = false;
 	char NameBuffer[128];
-	char* KeyName = "未绑定";
+	char* KeyName = "Not Bound";
 
 	if (IsGettingKey)
 	{
-		KeyName = "<按下绑定键>";
+		KeyName = "<Press A Key>";
 	}
 	else
 	{
@@ -315,12 +314,12 @@ void CKeyBind::Draw(bool hover)
 
 		if (!GoodKeyName)
 		{
-			KeyName = "不是绑定按键";
+			KeyName = "No Key Bound";
 		}
 	}
 
 
-	Render::Text(a.x + 2, a.y + 2, Color(255, 255, 255, 255), Render::Fonts::MenuBold, KeyName);
+	Render::Text(a.x + 2, a.y + 2, Color(100, 100, 100, 255), Render::Fonts::MenuBold, KeyName);
 }
 
 void CKeyBind::OnUpdate() {
@@ -372,9 +371,9 @@ CButton::CButton()
 {
 	m_iWidth = 177;
 	m_Flags = UIFlags::UI_Drawable | UIFlags::UI_Clickable;
-	Text = "默认";
+	Text = "Default";
 	CallBack = nullptr;
-	FileIdentifier = "默认";
+	FileIdentifier = "Default";
 }
 
 void CButton::Draw(bool hover)
@@ -385,9 +384,11 @@ void CButton::Draw(bool hover)
 		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(192, 192, 192, 255), Color(234, 234, 234, 255));
 	else
 		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(234, 234, 234, 255), Color(192, 192, 192, 255));
+
 	RECT TextSize = Render::GetTextSize(Render::Fonts::MenuBold, Text.c_str());
 	int TextX = a.x + (m_iWidth / 2) - (TextSize.left / 2);
 	int TextY = a.y + (m_iHeight / 2) - (TextSize.bottom / 2);
+
 	Render::Text(TextX, TextY, Color(100, 100, 150, 255), Render::Fonts::MenuBold, Text.c_str());
 }
 
@@ -417,7 +418,6 @@ void CButton::OnClick()
 CComboBox::CComboBox()
 {
 	m_Flags = UIFlags::UI_Drawable | UIFlags::UI_Clickable | UIFlags::UI_Focusable | UIFlags::UI_SaveFile;
-	//m_Flags = UIFlags::UI_Drawable | UIFlags::UI_Clickable | UIFlags::UI_Focusable | UIFlags::UI_SaveFile;
 	FileControlType = UIControlTypes::UIC_ComboBox;
 }
 
@@ -426,27 +426,33 @@ void CComboBox::Draw(bool hover)
 	POINT a = GetAbsolutePos();
 	RECT Region = { a.x, a.y, m_iWidth, 16 };
 	//Render::Outline(a.x, a.y, m_iWidth, 16, Color(129, 129, 129, 255));
+
 	// Hover for the Top Box
 	if (GUI.IsMouseInRegion(Region))
 		Render::Clear(a.x + 2, a.y + 2, m_iWidth - 4, 12, Color(50, 50, 50, 255));
+
 	// If we have some items
 	if (Items.size() > 0)
 	{
 		// The current item
-		Render::Text(a.x + 2, a.y + 2, Color(100, 100, 100, 255), Render::Fonts::MenuBold, GetItem().c_str());
+		Render::Text(a.x + 2, a.y + 2, Color(199, 199, 199, 255), Render::Fonts::MenuBold, GetItem().c_str());
+
 		// If the drop down part is open
 		if (IsOpen)
 		{
 			Render::Clear(a.x, a.y + 17, m_iWidth, Items.size() * 16, Color(50, 50, 50, 255));
+
 			// Draw the items
 			for (int i = 0; i < Items.size(); i++)
 			{
 				RECT ItemRegion = { a.x, a.y + 17 + i * 16, m_iWidth, 16 };
+
 				// Hover
 				if (GUI.IsMouseInRegion(ItemRegion))
 				{
 					Render::Clear(a.x, a.y + 17 + i * 16, m_iWidth, 16, Color(50, 50, 50, 255));
 				}
+
 				Render::Text(a.x + 2, a.y + 19 + i * 16, Color(100, 100, 100, 255), Render::Fonts::MenuBold, Items[i].c_str());
 			}
 		}
@@ -483,21 +489,7 @@ void CComboBox::OnClick()
 	if (IsOpen)
 	{
 		// If we clicked one of the items(Not in the top bar)
-		
-			// Draw the items
-			for (int i = 0; i < Items.size(); i++)
-			{
-				RECT ItemRegion = { a.x, a.y + 16 + i * 16, m_iWidth, 16 };
-
-				// Hover
-				if (GUI.IsMouseInRegion(ItemRegion))
-				{
-					SelectedIndex = i;
-				}
-			}
-		
-
-		/*if (!GUI.IsMouseInRegion(Region))
+		if (!GUI.IsMouseInRegion(Region))
 		{
 			// Draw the items
 			for (int i = 0; i < Items.size(); i++)
@@ -510,7 +502,8 @@ void CComboBox::OnClick()
 					SelectedIndex = i;
 				}
 			}
-		}*/
+		}
+
 		// Close the drop down
 		IsOpen = false;
 	}
@@ -542,32 +535,29 @@ void CComboBox::SelectIndex(int idx)
 		SelectedIndex = idx;
 	}
 }
+
+#pragma endregion Implementations of the ComboBox functions
+
 CTextField::CTextField()
 {
 	m_Flags = UIFlags::UI_Drawable | UIFlags::UI_Clickable | UIFlags::UI_SaveFile;
 	FileControlType = UIControlTypes::UIC_KeyBind;
 }
-
 std::string CTextField::getText()
 {
 	return text;
 }
-
 void CTextField::SetText(std::string stext)
 {
 	text = stext;
 }
-
 void CTextField::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
-
 	Render::GradientV(a.x, a.y, m_iWidth, m_iHeight, Color(30, 30, 30, 255), Color(40, 40, 40, 255));
 	if (hover || IsGettingKey)
 		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(30, 30, 30, 200), Color(40, 40, 40, 255));
-
 	const char *cstr = text.c_str();
-
 	Render::Text(a.x + 2, a.y + 2, Color(100, 100, 100, 255), Render::Fonts::MenuBold, cstr);
 }
 char* KeyDigitss[254] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
@@ -593,7 +583,6 @@ void CTextField::OnUpdate()
 	POINT a = GetAbsolutePos();
 	POINT b;
 	const char *strg = text.c_str();
-
 	if (IsGettingKey)
 	{
 		b = GetAbsolutePos();
@@ -606,12 +595,10 @@ void CTextField::OnUpdate()
 					IsGettingKey = false;
 					return;
 				}
-
 				if (i == VK_BACK && strlen(strg) != 0)
 				{
 					text = text.substr(0, strlen(strg) - 1);
 				}
-
 				if (strlen(strg) < 6 && (i == 0x30 || i == 0x31 || i == 0x32 || i == 0x33 || i == 0x34 || i == 0x35 || i == 0x36 || i == 0x37 || i == 0x38 || i == 0x39 || i == VK_NUMPAD0 || i == VK_NUMPAD1 || i == VK_NUMPAD2 || i == VK_NUMPAD3 || i == VK_NUMPAD4 || i == VK_NUMPAD5 || i == VK_NUMPAD6 || i == VK_NUMPAD7 || i == VK_NUMPAD8 || i == VK_NUMPAD9))
 				{
 					text = text + KeyDigitss[i];
@@ -621,7 +608,6 @@ void CTextField::OnUpdate()
 		}
 	}
 }
-
 void CTextField::OnClick()
 {
 	POINT a = GetAbsolutePos();
@@ -630,49 +616,36 @@ void CTextField::OnClick()
 		IsGettingKey = true;
 	}
 }
-
 #pragma endregion Implementation of the Textfield
-
 #pragma region TextField2
-
-
-
 CTextField2::CTextField2()
 {
 	m_Flags = UIFlags::UI_Drawable | UIFlags::UI_Clickable | UIFlags::UI_SaveFile;
 	FileControlType = UIControlTypes::UIC_KeyBind;
 }
-
 std::string CTextField2::getText()
 {
 	return text;
 }
-
 void CTextField2::SetText(std::string stext)
 {
 	text = stext;
 }
-
 void CTextField2::Draw(bool hover)
 {
 	POINT a = GetAbsolutePos();
-
 	Render::GradientV(a.x, a.y, m_iWidth, m_iHeight, Color(30, 30, 30, 255), Color(40, 40, 40, 255));
 	if (hover || IsGettingKey)
 		Render::GradientV(a.x + 2, a.y + 2, m_iWidth - 4, m_iHeight - 4, Color(30, 30, 30, 200), Color(40, 40, 40, 255));
-
 	const char *cstr = text.c_str();
-
 	Render::Text(a.x + 2, a.y + 2, Color(100, 100, 100, 255), Render::Fonts::MenuBold, cstr);
 }
-
 void CTextField2::OnUpdate()
 {
 	m_iHeight = 16;
 	POINT a = GetAbsolutePos();
 	POINT b;
 	const char *strg = text.c_str();
-
 	if (IsGettingKey)
 	{
 		b = GetAbsolutePos();
@@ -685,18 +658,15 @@ void CTextField2::OnUpdate()
 					IsGettingKey = false;
 					return;
 				}
-
 				if (i == VK_BACK && strlen(strg) != 0)
 				{
 					text = text.substr(0, strlen(strg) - 1);
 				}
-
 				if (strlen(strg) < 20 && i != NULL && KeyDigitss[i] != nullptr)
 				{
 					text = text + KeyDigitss[i];
 					return;
 				}
-
 				if (strlen(strg) < 20 && i == 32)
 				{
 					text = text + " ";
@@ -706,7 +676,6 @@ void CTextField2::OnUpdate()
 		}
 	}
 }
-
 void CTextField2::OnClick()
 {
 	POINT a = GetAbsolutePos();
@@ -715,5 +684,4 @@ void CTextField2::OnClick()
 		IsGettingKey = true;
 	}
 }
-
 #pragma endregion Implementations of the ComboBox functions

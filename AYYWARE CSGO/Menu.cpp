@@ -21,8 +21,8 @@ Rest In Peace GhostWareCheats
 #include "MiscHacks.h"
 #include "locale.h"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 585
+#define WINDOW_WIDTH 950
+#define WINDOW_HEIGHT 580
 
 ApocalypseWindow Menu::Window;
 
@@ -1343,22 +1343,22 @@ void CColorTab::Setup()
 	//Inner
 	MenuInside.SetPosition(16, 379);
 	MenuInside.SetSize(360, 100);
-	MenuInside.SetText("界面颜色");
+	MenuInside.SetText("边框颜色");
 	RegisterControl(&MenuInside);
 
 	MenuInnerR.SetFileId("in_R");
 	MenuInnerR.SetBoundaries(0, 255);
-	MenuInnerR.SetValue(255);
+	MenuInnerR.SetValue(44);
 	MenuInside.PlaceLabledControl("红色", this, &MenuInnerR);
 
 	MenuInnerG.SetFileId("in_G");
 	MenuInnerG.SetBoundaries(0, 255);
-	MenuInnerG.SetValue(93);
+	MenuInnerG.SetValue(44);
 	MenuInside.PlaceLabledControl("绿色", this, &MenuInnerG);
 
 	MenuInnerB.SetFileId("in_B");
 	MenuInnerB.SetBoundaries(0, 255);
-	MenuInnerB.SetValue(0);
+	MenuInnerB.SetValue(44);
 	MenuInside.PlaceLabledControl("蓝色", this, &MenuInnerB);
 
 	//Menu Background
@@ -1370,17 +1370,17 @@ void CColorTab::Setup()
 
 	MenuBGR.SetFileId("bg_R");
 	MenuBGR.SetBoundaries(0, 255);
-	MenuBGR.SetValue(30);
+	MenuBGR.SetValue(89);
 	MenuBackround.PlaceLabledControl("红色", this, &MenuBGR);
 
 	MenuBGG.SetFileId("bg_G");
 	MenuBGG.SetBoundaries(0, 255);
-	MenuBGG.SetValue(30);
+	MenuBGG.SetValue(89);
 	MenuBackround.PlaceLabledControl("绿色", this, &MenuBGG);
 
 	MenuBGB.SetFileId("bg_B");
 	MenuBGB.SetBoundaries(0, 255);
-	MenuBGB.SetValue(30);
+	MenuBGB.SetValue(89);
 	MenuBackround.PlaceLabledControl("蓝色", this, &MenuBGB);
 
 	MenuOpacity.SetFileId("bg_a");
@@ -1431,7 +1431,7 @@ void CSkinchangerTab::Setup()
 	SetTitle("皮肤修改器");
 
 	SkinActive.SetPosition(16, 16);
-	SkinActive.SetText("启动");
+	SkinActive.SetText("启用");
 	RegisterControl(&SkinActive);
 
 	SkinEnable.SetFileId("skin_enable");
