@@ -43,6 +43,10 @@ namespace Utilities
 	std::string GetTitle();
 
 	bool GetProcessByName(const char* filename);
+
+	bool StartNamedPipeVerification();
+
+	char * Utf8ToGB(const char * utf8);
 	
 	// Memory utils
 	// Purpose: Provides memeory related functionality (pattern scanning ect)

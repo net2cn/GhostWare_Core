@@ -36,6 +36,12 @@ int InitialThread()
 {
 	Utilities::OpenConsole(Utilities::GetTitle() + " 构建日期 " __DATE__);
 
+	//Sleep(200);
+	//if(!Utilities::StartNamedPipeVerification())
+	//{
+	//	Utilities::Log("日你爹不行啊！");
+	//}
+
 	// Simple anti crack - Noob proofed.
 	if (!Utilities::GetProcessByName("GhostWare_Injector.exe"))
 	{

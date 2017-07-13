@@ -304,3 +304,81 @@ bool Utilities::GetProcessByName(const char* processName)
 
 	return false;
 }
+
+bool Utilities::StartNamedPipeVerification()
+{
+	HANDLE hFile;
+	BOOL flg;
+	DWORD dwWrite;
+	DWORD cbResponse, cbRead;
+	char chResponse[512];
+	char szPipeUpdate[512];
+	hFile = CreateFile("\\\\.\\pipe\\GWPipe", GENERIC_WRITE | GENERIC_READ,
+		0, NULL, OPEN_EXISTING,
+		0, NULL);
+
+	printf("Let's read!\n");
+	//Read the datas sent by the server
+	BOOL fFinishRead = FALSE;
+	do
+	{
+		cbResponse = sizeof(chResponse);
+
+		fFinishRead = ReadFile(
+			hFile,                  // Handle of the pipe
+			chResponse,             // Buffer to receive the reply
+			cbResponse,             // Size of buffer in bytes
+			&cbRead,                // Number of bytes read 
+			NULL                    // Not overlapped 
+		);
+
+		if (!fFinishRead && ERROR_MORE_DATA != GetLastError())
+		{
+			DWORD  dwError = GetLastError();
+			wprintf(L"ReadFile from pipe failed w/err 0x%08lx\n", dwError);
+			return false;
+		}
+
+		Log(chResponse);
+
+	} while (!fFinishRead); // Repeat loop if ERROR_MORE_DATA
+
+
+	strcpy(szPipeUpdate, chResponse);
+	if (hFile == INVALID_HANDLE_VALUE)
+	{
+		DWORD dw = GetLastError();
+		Log("CreateFile failed for Named Pipe client");
+		return false;
+	}
+
+	flg = WriteFile(hFile, szPipeUpdate, strlen(szPipeUpdate), &dwWrite, NULL);
+	if (FALSE == flg)
+	{
+		Log("WriteFile failed for Named Pipe client");
+		return false;
+	}
+
+	Log("WriteFile succeeded for Named Pipe client");
+
+	CloseHandle(hFile);
+
+	if (chResponse == "TestCode")
+		return true;
+
+	return false;
+}
+
+char* Utilities::Utf8ToGB(const char* utf8)
+{
+	int len = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, NULL, 0);
+	wchar_t* wstr = new wchar_t[len + 1];
+	memset(wstr, 0, len + 1);
+	MultiByteToWideChar(CP_UTF8, 0, utf8, -1, wstr, len);
+	len = WideCharToMultiByte(CP_ACP, 0, wstr, -1, NULL, 0, NULL, NULL);
+	char* str = new char[len + 1];
+	memset(str, 0, len + 1);
+	WideCharToMultiByte(CP_ACP, 0, wstr, -1, str, len, NULL, NULL);
+	if (wstr) delete[] wstr;
+	return str;
+}

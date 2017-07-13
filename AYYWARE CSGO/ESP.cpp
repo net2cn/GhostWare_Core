@@ -9,6 +9,7 @@ Rest In Peace GhostWare
 
 void CEsp::Init()
 {
+	setlocale(LC_ALL, "CHS");
 	BombCarrier = nullptr;
 }
 
@@ -162,7 +163,7 @@ void CEsp::SpecList()
 							char buf[255]; sprintf_s(buf, "%s => %s", pinfo.name, pinfo2.name);
 							RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, buf);
 							//Render::Clear(scrn.left, (scrn.bottom / 3) + (16 * AC), 260, 16, Color(0, 0, 0, 140));
-							Render::Text(scrn.left , (scrn.bottom / 2) + (16 * AC), pTarget->GetIndex() == pLocal->GetIndex() ? Color(240, 70, 80, 255) : Color(199, 199, 199, 255), Render::Fonts::ESP, buf);
+							Render::Text(scrn.left , (scrn.bottom / 2) + (16 * AC), pTarget->GetIndex() == pLocal->GetIndex() ? Color(240, 70, 80, 255) : Color(199, 199, 199, 255), Render::Fonts::ESP, Utilities::Utf8ToGB(buf));
 							AC++;
 						}
 					}

@@ -44,6 +44,7 @@ enum EFontFlags
 // Initialises the rendering system, setting up fonts etc
 void Render::Initialise()
 {
+	setlocale(LC_ALL, "CHS");
 	Fonts::Default  = 0x1D; // MainMenu Font from vgui_spew_fonts 
 	Fonts::Menu     = Interfaces::Surface->FontCreate();
 	Fonts::MenuBold = Interfaces::Surface->FontCreate();
