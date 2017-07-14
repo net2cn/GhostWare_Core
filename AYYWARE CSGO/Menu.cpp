@@ -37,28 +37,30 @@ void NApplyCallbk()
 }
 void SaveCallbk()
 {
+	// Save location:
+	// %CSGO_GAME%		<- This is where CS:GO located.
 	switch (Menu::Window.SettingsTab.SetNr.GetIndex())
 	{
 	case 0:
-		GUI.SaveWindowState(&Menu::Window, "legit.xml");
+		GUI.SaveWindowState(&Menu::Window, "GWSettings1.xml");
 		break;
 	case 1:
-		GUI.SaveWindowState(&Menu::Window, "semirage.xml");
+		GUI.SaveWindowState(&Menu::Window, "GWSettings2.xml");
 		break;
 	case 2:
-		GUI.SaveWindowState(&Menu::Window, "rage.xml");
+		GUI.SaveWindowState(&Menu::Window, "GWSettings3.xml");
 		break;
 	case 3:
-		GUI.SaveWindowState(&Menu::Window, "faceit.xml");
+		GUI.SaveWindowState(&Menu::Window, "GWSettings4.xml");
 		break;
 	case 4:
-		GUI.SaveWindowState(&Menu::Window, "faceit1.xml");
+		GUI.SaveWindowState(&Menu::Window, "GWSettings5.xml");
 		break;
 	case 5:
-		GUI.SaveWindowState(&Menu::Window, "nospread.xml");
+		GUI.SaveWindowState(&Menu::Window, "GWSettings6.xml");
 		break;
 	case 6:
-		GUI.SaveWindowState(&Menu::Window, "nospread1.xml");
+		GUI.SaveWindowState(&Menu::Window, "GWSettings7.xml");
 		break;
 	}
 
@@ -69,25 +71,25 @@ void LoadCallbk()
 	switch (Menu::Window.SettingsTab.SetNr.GetIndex())
 	{
 	case 0:
-		GUI.LoadWindowState(&Menu::Window, "legit.xml");
+		GUI.LoadWindowState(&Menu::Window, "GWSettings1.xml");
 		break;
 	case 1:
-		GUI.LoadWindowState(&Menu::Window, "semirage.xml");
+		GUI.LoadWindowState(&Menu::Window, "GWSettings2.xml");
 		break;
 	case 2:
-		GUI.LoadWindowState(&Menu::Window, "rage.xml");
+		GUI.LoadWindowState(&Menu::Window, "GWSettings3.xml");
 		break;
 	case 3:
-		GUI.LoadWindowState(&Menu::Window, "faceit.xml");
+		GUI.LoadWindowState(&Menu::Window, "GWSettings4.xml");
 		break;
 	case 4:
-		GUI.LoadWindowState(&Menu::Window, "faceit1.xml");
+		GUI.LoadWindowState(&Menu::Window, "GWSettings5.xml");
 		break;
 	case 5:
-		GUI.SaveWindowState(&Menu::Window, "nospread.xml");
+		GUI.LoadWindowState(&Menu::Window, "GWSettings6.xml");
 		break;
 	case 6:
-		GUI.SaveWindowState(&Menu::Window, "nospread1.xml");
+		GUI.LoadWindowState(&Menu::Window, "GWSettings7.xml");
 		break;
 	}
 }
