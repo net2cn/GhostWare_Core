@@ -381,6 +381,9 @@ void CLegitBotTab::Setup()
 	TriggerEnable.SetFileId("trig_enable");
 	TriggerGroup.PlaceLabledControl("启用", this, &TriggerEnable);
 
+	TriggerRecoil.SetFileId("trig_recoil");
+	TriggerGroup.PlaceLabledControl("扳机后座", this, &TriggerRecoil);
+
 	TriggerKeyPress.SetFileId("trig_onkey");
 	TriggerGroup.PlaceLabledControl("按键扳机", this, &TriggerKeyPress);
 

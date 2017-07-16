@@ -86,6 +86,7 @@ public:
 
 	// Main
 	CGroupBox TriggerGroup;
+	CCheckBox TriggerRecoil;
 	CCheckBox TriggerEnable;
 	CCheckBox TriggerKeyPress;
 	CKeyBind  TriggerKeyBind;

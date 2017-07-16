@@ -1,6 +1,18 @@
 /*
-Syn's AyyWare Framework 2015
+Syn's FrameWork 2015
 */
+
+
+#define    HITGROUP_GENERIC    0
+#define    HITGROUP_HEAD        1
+#define    HITGROUP_CHEST        2
+#define    HITGROUP_STOMACH    3
+#define HITGROUP_LEFTARM    4    
+#define HITGROUP_RIGHTARM    5
+#define HITGROUP_LEFTLEG    6
+#define HITGROUP_RIGHTLEG    7
+#define HITGROUP_GEAR        10
+
 
 #include "LegitBot.h"
 #include "RenderManager.h"
@@ -214,20 +226,28 @@ void CLegitBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket)
 	}
 
 	// Auto Pistol
-	static bool WasFiring = false;
-	if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
-	{
-		if (pCmd->buttons & IN_ATTACK)
-		{
-			static bool WasFiring = false;
-			WasFiring = !WasFiring;
+	// Modified Version from AimTux
+	//static bool WasFiring = false;
+	//if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
+	//{
+	//	if (pCmd->buttons & IN_ATTACK)
+	//	{
+	//		static bool WasFiring = false;
+	//		WasFiring = !WasFiring;
 
-			if (WasFiring)
-			{
-				pCmd->buttons &= ~IN_ATTACK;
-			}
-		}
-	}
+	//		if (WasFiring)
+	//		{
+	//			pCmd->buttons &= ~IN_ATTACK;
+	//		}
+	//	}
+	//}
+	if (Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
+		if (GameUtils::IsPistol(pWeapon))
+			if (pWeapon->GetNextPrimaryAttack() > Interfaces::Globals->curtime)
+				if (pWeapon->GetCSWpnData()->m_iWeaponId == WEAPON_REVOLVER)
+					pCmd->buttons &= ~IN_ATTACK2;
+				else
+					pCmd->buttons &= ~IN_ATTACK;
 }
 
 bool TargetMeetsTriggerRequirements(IClientEntity* pEntity)
@@ -273,10 +293,10 @@ void CLegitBot::DoTrigger(CUserCmd *pCmd)
 		return;
 
 	// Triggerbot
-	// Get the view with the recoil
-	Vector ViewAngles;
-	Interfaces::Engine->GetViewAngles(ViewAngles);
-	ViewAngles += pLocal->localPlayerExclusive()->GetAimPunchAngle() * 2.f;
+	//Get the view with the recoil
+	Vector ViewAngles = pCmd->viewangles;
+	if (Menu::Window.LegitBotTab.TriggerRecoil.GetState())
+		ViewAngles += pLocal->localPlayerExclusive()->GetAimPunchAngle() * 2.f;
 
 	// Build a ray going fowards at that angle
 	Vector fowardVec;
@@ -288,10 +308,17 @@ void CLegitBot::DoTrigger(CUserCmd *pCmd)
 	Vector end = start + fowardVec, endScreen;
 
 	trace_t Trace;
-	UTIL_TraceLine(start, end, MASK_SOLID, pLocal, 0, &Trace);
+	UTIL_TraceLine(start, end, MASK_SHOT, pLocal, 0, &Trace);
 
-	if (Trace.m_pEnt && 0 < Trace.hitgroup <= 7) // hitbox not hitgroup
-	{
+	if (!Trace.m_pEnt)
+		return;
+	if (!Trace.m_pEnt->IsAlive())
+		return;
+	if (Trace.m_pEnt->GetHealth() <= 0 || Trace.m_pEnt->GetHealth() > 100)
+		return;
+	if (Trace.m_pEnt->IsImmune())
+		return;
+
 		if (TargetMeetsTriggerRequirements(Trace.m_pEnt) && !time < Menu::Window.LegitBotTab.TriggerDelay.GetValue())
 		{
 			float time = 0;
@@ -308,22 +335,29 @@ void CLegitBot::DoTrigger(CUserCmd *pCmd)
 				time = 0;
 			}
 		}
-	}
 
 	// Auto Pistol
-	if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
-	{
-		if (pCmd->buttons & IN_ATTACK)
-		{
-			static bool WasFiring = false;
-			WasFiring = !WasFiring;
+	// Modified Version from AimTux
+	//if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
+	//{
+	//	if (pCmd->buttons & IN_ATTACK)
+	//	{
+	//		static bool WasFiring = false;
+	//		WasFiring = !WasFiring;
 
-			if (WasFiring)
-			{
-				pCmd->buttons &= ~IN_ATTACK;
-			}
-		}
-	}
+	//		if (WasFiring)
+	//		{
+	//			pCmd->buttons &= ~IN_ATTACK;
+	//		}
+	//	}
+	//}
+	if (Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
+		if (GameUtils::IsPistol(pWeapon))
+			if (pWeapon->GetNextPrimaryAttack() > Interfaces::Globals->curtime)
+				if (pWeapon->GetCSWpnData()->m_iWeaponId == WEAPON_REVOLVER)
+					pCmd->buttons &= ~IN_ATTACK2;
+				else
+					pCmd->buttons &= ~IN_ATTACK;
 }
 
 bool CLegitBot::TargetMeetsRequirements(IClientEntity* pEntity)
