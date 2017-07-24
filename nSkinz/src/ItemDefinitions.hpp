@@ -2,70 +2,110 @@
 #include <map>
 #include <vector>
 
-inline bool IsKnife(int i) { return i >= 500 || i == 59 || i == 42; }
-
-typedef struct Item_s
+enum ItemDefinitionIndex : int
 {
-	constexpr Item_s(const char* szDisplayName, const char* szEntityName, const char* szModel, const char* szIcon = nullptr) :
-		szDisplayName(szDisplayName),
-		szEntityName(szEntityName),
-		szModel(szModel),
-		szIcon(szIcon)
+	WEAPON_DEAGLE = 1,
+	WEAPON_ELITE = 2,
+	WEAPON_FIVESEVEN = 3,
+	WEAPON_GLOCK = 4,
+	WEAPON_AK47 = 7,
+	WEAPON_AUG = 8,
+	WEAPON_AWP = 9,
+	WEAPON_FAMAS = 10,
+	WEAPON_G3SG1 = 11,
+	WEAPON_GALILAR = 13,
+	WEAPON_M249 = 14,
+	WEAPON_M4A1 = 16,
+	WEAPON_MAC10 = 17,
+	WEAPON_P90 = 19,
+	WEAPON_UMP45 = 24,
+	WEAPON_XM1014 = 25,
+	WEAPON_BIZON = 26,
+	WEAPON_MAG7 = 27,
+	WEAPON_NEGEV = 28,
+	WEAPON_SAWEDOFF = 29,
+	WEAPON_TEC9 = 30,
+	WEAPON_TASER = 31,
+	WEAPON_HKP2000 = 32,
+	WEAPON_MP7 = 33,
+	WEAPON_MP9 = 34,
+	WEAPON_NOVA = 35,
+	WEAPON_P250 = 36,
+	WEAPON_SCAR20 = 38,
+	WEAPON_SG556 = 39,
+	WEAPON_SSG08 = 40,
+	WEAPON_KNIFE = 42,
+	WEAPON_FLASHBANG = 43,
+	WEAPON_HEGRENADE = 44,
+	WEAPON_SMOKEGRENADE = 45,
+	WEAPON_MOLOTOV = 46,
+	WEAPON_DECOY = 47,
+	WEAPON_INCGRENADE = 48,
+	WEAPON_C4 = 49,
+	WEAPON_KNIFE_T = 59,
+	WEAPON_M4A1_SILENCER = 60,
+	WEAPON_USP_SILENCER = 61,
+	WEAPON_CZ75A = 63,
+	WEAPON_REVOLVER = 64,
+	WEAPON_KNIFE_BAYONET = 500,
+	WEAPON_KNIFE_FLIP = 505,
+	WEAPON_KNIFE_GUT = 506,
+	WEAPON_KNIFE_KARAMBIT = 507,
+	WEAPON_KNIFE_M9_BAYONET = 508,
+	WEAPON_KNIFE_TACTICAL = 509,
+	WEAPON_KNIFE_FALCHION = 512,
+	WEAPON_KNIFE_SURVIVAL_BOWIE = 514,
+	WEAPON_KNIFE_BUTTERFLY = 515,
+	WEAPON_KNIFE_PUSH = 516,
+	GLOVE_STUDDED_BLOODHOUND = 5027,
+	GLOVE_T_SIDE = 5028,
+	GLOVE_CT_SIDE = 5029,
+	GLOVE_SPORTY = 5030,
+	GLOVE_SLICK = 5031,
+	GLOVE_LEATHER_WRAP = 5032,
+	GLOVE_MOTORCYCLE = 5033,
+	GLOVE_SPECIALIST = 5034
+};
+
+inline bool IsKnife(int i) { return (i >= WEAPON_KNIFE_BAYONET && i < GLOVE_STUDDED_BLOODHOUND) || i == WEAPON_KNIFE_T || i == WEAPON_KNIFE; }
+
+// Stupid MSVC requires separate constexpr constructors for any initialization
+
+struct Item_t
+{
+	constexpr Item_t(const char* model, const char* icon = nullptr) :
+		model(model),
+		icon(icon)
 	{}
 
-	const char* szDisplayName = nullptr;
-	const char* szEntityName = nullptr;
-	const char* szModel = nullptr;
-	const char* szIcon = nullptr;
-} Item_t;
+	const char* model;
+	const char* icon;
+};
 
-typedef struct WeaponName_s
+struct WeaponName_t
 {
-	constexpr WeaponName_s(int iDefinitionIndex, const char* szName) :
-		iDefinitionIndex(iDefinitionIndex),
-		szName(szName)
+	constexpr WeaponName_t(int definition_index, const char* name) :
+		definition_index(definition_index),
+		name(name)
 	{}
 
-	int iDefinitionIndex = 0;
-	const char* szName = nullptr;
-} WeaponName_t;
+	int definition_index = 0;
+	const char* name = nullptr;
+};
 
-typedef struct QualityName_s
+struct QualityName_t
 {
-	constexpr QualityName_s(int iIndex, const char* szName) :
-		iIndex(iIndex),
-		szName(szName)
+	constexpr QualityName_t(int index, const char* name) :
+		index(index),
+		name(name)
 	{}
 
-	int iIndex = 0;
-	const char* szName = nullptr;
-} QualityName_t;
+	int index = 0;
+	const char* name = nullptr;
+};
 
-/*typedef struct Weapon_s
-{
-	constexpr Weapon_s(int iOrderId, int iDefIndex, int iOverrideFor, bool bDisplayInMenu, const char* szDisplayName, const char* szEntityName, const char* szModel, const char* szIcon = nullptr) :
-		iOrderId(iOrderId),
-		iDefIndex(iDefIndex),
-		iOverrideFor(iOverrideFor),
-		bDisplayInMenu(bDisplayInMenu),
-		szDisplayName(szDisplayName),
-		szEntityName(szEntityName),
-		szModel(szModel),
-		szIcon(szIcon)
-	{}
-
-	int iOrderId = 0;
-	int iDefIndex = 0;
-	int iOverrideFor = 0;
-	bool bDisplayInMenu = false;
-	const char* szDisplayName = nullptr;
-	const char* szEntityName = nullptr;
-	const char* szModel = nullptr;
-	const char* szIcon = nullptr;
-}
-Weapon_t;*/
-
-extern const std::map<size_t, Item_t> k_WeaponInfo;
-extern const std::vector<WeaponName_s> k_KniveNames;
-extern const std::vector<WeaponName_t> k_WeaponNames;
-extern const std::vector<QualityName_t> k_QualityNames;
+extern const std::map<size_t, Item_t> k_weapon_info;
+extern const std::vector<WeaponName_t> k_knife_names;
+extern const std::vector<WeaponName_t> k_glove_names;
+extern const std::vector<WeaponName_t> k_weapon_names;
+extern const std::vector<QualityName_t> k_quality_names;
