@@ -810,9 +810,6 @@ void CMiscTab::Setup()
 	OtherEdgeJump.SetFileId("otr_edgejump");
 	OtherGroup.PlaceLabledControl("Á¬Ìø", this, &OtherEdgeJump);
 
-	OtherEdgeJump.SetFileId("otr_edgejump");
-	OtherGroup.PlaceLabledControl("Edge Jump", this, &OtherEdgeJump);
-
 	OtherAutoStrafe.SetFileId("otr_strafe");
 	OtherAutoStrafe.AddItem("¹Ø±Õ");
 	OtherAutoStrafe.AddItem("ÎÂÈá");
