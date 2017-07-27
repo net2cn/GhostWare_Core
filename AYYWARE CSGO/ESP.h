@@ -1,5 +1,15 @@
 /*
-Rest In Peace GhostWare
+ApocalypseCheats
+------------------------------
+Contributors:
+XBoom
+Ma$$A$
+Fldy.
+madlifer
+control1337
+CyclesPrograming
+FZCat1337
+UC Community <3
 */
 
 #pragma once
@@ -32,12 +42,18 @@ private:
 	// Get player info
 	Color GetPlayerColor(IClientEntity* pEntity);
 	bool GetBox(IClientEntity* pEntity, ESPBox &result);
+	
 
 	// Draw shit about player
 	void SpecList();
+	void DrawGlow(Color color);
 	void DrawBox(ESPBox size, Color color);
-	void DrawName(player_info_t pinfo, ESPBox size);
+	void DrawName(player_info_t pinfo, ESPBox size, IClientEntity* pEntity);
 	void DrawHealth(IClientEntity* pEntity, ESPBox size);
+	void DrawArmor(IClientEntity* pEntity, CEsp::ESPBox size);
+	void DrawDistanse(IClientEntity* pEntity, CEsp::ESPBox size);
+	float DistanceTo(Vector vecDst, Vector vecSrc);
+	void DrawHealth2(IClientEntity* pEntity, ESPBox size);
 	void DrawInfo(IClientEntity* pEntity, ESPBox size);
 	void DrawCross(IClientEntity* pEntity);
 	void DrawSkeleton(IClientEntity* pEntity);

@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWare
+Rest In Peace ApocalypseCheats
 */
 
 #pragma once

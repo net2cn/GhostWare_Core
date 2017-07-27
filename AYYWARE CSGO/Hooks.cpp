@@ -14,6 +14,8 @@ Syn's AyyWare Framework 2015
 #include "CRC32.h"
 #include "Resolver.h"
 #include "Utilities.h"
+#include <string>
+
 Vector LastAngleAA;
 #define MakePtr(cast, ptr, addValue) (cast)( (DWORD)(ptr) + (DWORD)(addValue))
 // Funtion Typedefs
@@ -154,7 +156,7 @@ void ClanTag()
 	switch (Menu::Window.MiscTab.OtherClantag.GetIndex())
 	{
 	case 0:
-		// No 
+		SetClanTag("", "");
 		break;
 	case 1:
 	{
@@ -196,7 +198,7 @@ void ClanTag()
 
 		if (counter % 48 == 0)
 			motion++;
-		int value = ServerTime % 17;
+		int value = ServerTime % 6;
 		switch (value) {
 		case 0:SetClanTag("          ", "skeet.cc"); break;
 		case 1:SetClanTag("         s", "skeet.cc"); break;
@@ -227,11 +229,32 @@ void ClanTag()
 	case 4:
 		SetClanTag("[VALV\xE1\xB4\xB1]", "Valve");
 		break;
+	case 5:
+		SetClanTag("splashgang", "splashgang");
+		break;
+	case 6:
+		SetClanTag("STAINLESS", "STAINLESS");
+		break;
 	}
 }
 
+HooksXD lmao;
+int HooksXD::night;
+int HooksXD::night2;
+#include "Entities.h"
+void HooksXD::XD3()
+{
+	CSGOClassID::CMaterialModifyControl;
+	//int HooksXD::night;
+	//int HooksXD::night2;
+
+	HooksXD::night = 1;
+	HooksXD::night2 = 1;
+};
+
 bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime, CUserCmd* pCmd)
 {
+
 	if (!pCmd->command_number)
 		return true;
 
@@ -291,6 +314,7 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 		{
 			GameUtils::NormaliseViewAngle(pCmd->viewangles);
 
+
 			if (pCmd->viewangles.z != 0.0f)
 			{
 				pCmd->viewangles.z = 0.00;
@@ -298,7 +322,7 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 
 			if (pCmd->viewangles.x < -89 || pCmd->viewangles.x > 89 || pCmd->viewangles.y < -180 || pCmd->viewangles.y > 180)
 			{
-				Utilities::Log("Having to re-normalise!");
+				Utilities::Log("需要重新规格化！");
 				GameUtils::NormaliseViewAngle(pCmd->viewangles);
 				Beep(750, 800); // Why does it do this
 				if (pCmd->viewangles.x < -89 || pCmd->viewangles.x > 89 || pCmd->viewangles.y < -180 || pCmd->viewangles.y > 180)
@@ -324,6 +348,80 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 			LastAngleAA = pCmd->viewangles;
 	}
 
+	if (Menu::Window.VisualsTab.NightMode.GetState()) {
+		{
+			static bool memes = false;
+			if (memes = false)
+			{
+				for (MaterialHandle_t i = Interfaces::MaterialSystem->FirstMaterial(); i != Interfaces::MaterialSystem->InvalidMaterial(); i = Interfaces::MaterialSystem->NextMaterial(i))
+				{
+					IMaterial *pMaterial = Interfaces::MaterialSystem->GetMaterial(i);
+
+					if (!pMaterial)
+						continue;
+
+					if (strstr(pMaterial->GetTextureGroupName(), "World")) {
+						//	pMaterial->AlphaModulate(0 / 255);
+						pMaterial->ColorModulate(0.1, 0.1, 0.4);
+						memes = true;
+					}
+
+				}
+			}
+
+		}
+	}
+	else
+	{
+
+		static bool memes;
+		if (memes = false)
+		{
+
+			for (MaterialHandle_t i = Interfaces::MaterialSystem->FirstMaterial(); i != Interfaces::MaterialSystem->InvalidMaterial(); i = Interfaces::MaterialSystem->NextMaterial(i))
+			{
+				IMaterial *pMaterial = Interfaces::MaterialSystem->GetMaterial(i);
+
+				if (!pMaterial)
+					continue;
+
+				if (strstr(pMaterial->GetTextureGroupName(), "World")) {
+					//	pMaterial->AlphaModulate(0 / 255);
+					pMaterial->ColorModulate(1, 1, 1);
+					memes = true;
+				}
+
+			}
+		}
+
+	}
+	static bool nlag1 = false;
+	static bool nlag2 = false;
+	if (Menu::Window.VisualsTab.OtherNoSky.GetState())
+	{
+		if (!nlag1)
+		{
+			ConVar* NoSkybox = Interfaces::CVar->FindVar("sv_skyname"); /*No-Skybox*/
+			*(float*)((DWORD)&NoSkybox->fnChangeCallback + 0xC) = NULL;
+			NoSkybox->SetValue("sky_l4d_rural02_ldr");
+			nlag1 = true;
+		}
+
+	}
+	if (nlag1)
+	{
+		if (!Menu::Window.VisualsTab.OtherNoSky.GetState())
+		{
+			if (!nlag2)
+			{
+				ConVar* NoSkybox = Interfaces::CVar->FindVar("sv_skyname"); /*No-Skybox*/
+				*(float*)((DWORD)&NoSkybox->fnChangeCallback + 0xC) = NULL;
+				NoSkybox->SetValue("jungle");
+				nlag2 = true;
+			}
+
+		}
+	}
 	return false;
 }
 
@@ -331,6 +429,13 @@ bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime,
 // Paint Traverse Hooked function
 void __fastcall PaintTraverse_Hooked(PVOID pPanels, int edx, unsigned int vguiPanel, bool forceRepaint, bool allowForce)
 {
+	IClientEntity *pLocal = Interfaces::EntList->GetClientEntity(Interfaces::Engine->GetLocalPlayer());
+
+	if (!strcmp(("HudZoom"), Interfaces::Panels->GetName(vguiPanel)) && Menu::Window.VisualsTab.OtherNoScope.GetState() > 0 && pLocal->IsScoped() && Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame() && pLocal->IsAlive())
+	{
+		return;
+	}
+
 	oPaintTraverse(pPanels, vguiPanel, forceRepaint, allowForce);
 
 	static unsigned int FocusOverlayPanel = 0;
@@ -351,8 +456,8 @@ void __fastcall PaintTraverse_Hooked(PVOID pPanels, int edx, unsigned int vguiPa
 		{
 			RECT scrn = Render::GetViewport();
 			//Render::GradientV(8, 8, 160, 18, Color(0, 0, 0, 0), Color(7, 39, 17, 255));
-			RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, "GhostWare");
-			Render::Text(scrn.right - TextSize.right - 20, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "GhostWare");
+			RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, "ApocalypseCheats");
+			Render::Text(scrn.right - TextSize.right - 20, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "ApocalypseCheats");
 			Render::Text(10, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "Private");
 		}
 		if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame())
@@ -418,6 +523,10 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		int ChamsStyle = Menu::Window.VisualsTab.OptionsChams.GetIndex();
 		int HandsStyle = Menu::Window.VisualsTab.OtherNoHands.GetIndex();
 
+
+		//MADE BY CyclesProgramming
+		//
+
 		//terrorist red
 		float TR = Menu::Window.ColorTab.TVisColorR.GetValue();
 		float TNVR = Menu::Window.ColorTab.TNVisColorR.GetValue();
@@ -438,6 +547,8 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		float CTB = Menu::Window.ColorTab.CTVisColorB.GetValue();
 		float CTNVB = Menu::Window.ColorTab.CTNVisColorB.GetValue();
 
+
+
 		if (ChamsStyle != 0 && Menu::Window.VisualsTab.FiltersPlayers.GetState() && strstr(ModelName, "models/player"))
 		{
 			if (pLocal/* && (!Menu::Window.VisualsTab.FiltersEnemiesOnly.GetState() || pModelEntity->GetTeamNum() != pLocal->GetTeamNum())*/)
@@ -453,22 +564,43 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					{
 						if (pModelEntity->IsAlive() && pModelEntity->GetHealth() > 0 /*&& pModelEntity->GetTeamNum() != local->GetTeamNum()*/)
 						{
-							float alpha = 1.f;
+							int alpharaw = Menu::Window.ColorTab.CharmsA.GetValue();
+
+							float alpha2 = alpharaw / 255;
+							float alpha;
 
 							if (pModelEntity->HasGunGameImmunity())
-								alpha = 0.5f;
+								alpha2 = 0.5f;
+
 
 							if (pModelEntity->GetTeamNum() == 2)
 							{
 								flColor[0] = TNVR / 255.f;
 								flColor[1] = TNVG / 255.f;
 								flColor[2] = TNVB / 255.f;
+								if (ChamsStyle == 3 || ChamsStyle == 4)
+								{
+									alpha = 0;
+								}
+								else
+								{
+									alpha = alpha2;
+								}
+
 							}
 							else
 							{
 								flColor[0] = CTNVR / 255.f;
 								flColor[1] = CTNVG / 255.f;
 								flColor[2] = CTNVB / 255.f;
+								if (ChamsStyle == 3 || ChamsStyle == 4)
+								{
+									alpha = 0;
+								}
+								else
+								{
+									alpha = alpha2;
+								}
 							}
 
 							Interfaces::RenderView->SetColorModulation(flColor);
@@ -495,7 +627,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 						}
 						else
 						{
-							color.SetColor(199, 199, 199, 255);
+							color.SetColor(255, 255, 255, 255);
 							ForceMaterial(color, open);
 						}
 					}
@@ -537,7 +669,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					}
 					else
 					{
-						color.SetColor(199, 199, 199, 255);
+						color.SetColor(255, 255, 255, 255);
 					}
 
 					ForceMaterial(color, open);
@@ -571,7 +703,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		else if (ChamsStyle != 0 && Menu::Window.VisualsTab.FiltersWeapons.GetState() && strstr(ModelName, "_dropped.mdl"))
 		{
 			IMaterial *covered = ChamsStyle == 1 ? CoveredLit : CoveredFlat;
-			color.SetColor(199, 199, 199, 255);
+			color.SetColor(255, 255, 255, 255);
 			ForceMaterial(color, covered);
 		}
 	}
@@ -581,6 +713,12 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 	Interfaces::ModelRender->ForcedMaterialOverride(NULL);
 }
 
+std::vector<const char*> smoke_materials = {
+	"particle/vistasmokev1/vistasmokev1_smokegrenade",
+	"particle/vistasmokev1/vistasmokev1_emods",
+	"particle/vistasmokev1/vistasmokev1_emods_impactdust",
+	"particle/vistasmokev1/vistasmokev1_fire",
+};
 
 // Hooked FrameStageNotify for removing visual recoil
 void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
@@ -597,7 +735,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 				*(Vector*)((DWORD)pLocal + 0x31C8) = LastAngleAA;
 		}
 
-		if ((Menu::Window.MiscTab.OtherThirdperson.GetState()) || Menu::Window.VisualsTab.OtherAsus.GetState() || Menu::Window.VisualsTab.OtherWireframe.GetState())
+		if ((Menu::Window.MiscTab.OtherThirdperson.GetState()) || Menu::Window.VisualsTab.OtherAsus.GetState() || Menu::Window.VisualsTab.OtherWireframe.GetState() || Menu::Window.VisualsTab.OtherNoSmoke.GetState())
 		{
 			static bool rekt = false;
 			if (!rekt)
@@ -624,7 +762,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 		}
 
 		static bool rekt = false;
-		if (!Menu::Window.MiscTab.OtherThirdperson.GetState() || pLocal->IsAlive() == 0 || pLocal->IsScoped())
+		if (!Menu::Window.MiscTab.OtherThirdperson.GetState() || pLocal->IsAlive() == 0)
 		{
 			if (!rekt)
 			{
@@ -634,13 +772,13 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 		}
 
 
-		else if (Menu::Window.MiscTab.OtherThirdperson.GetState() || pLocal->IsAlive() || pLocal->IsScoped() == 0)
+		else if (Menu::Window.MiscTab.OtherThirdperson.GetState() || pLocal->IsAlive())
 		{
 			rekt = false;
 		}
 
 		static bool meme = false;
-		if (Menu::Window.MiscTab.OtherThirdperson.GetState() && pLocal->IsScoped() == 0)
+		if (Menu::Window.MiscTab.OtherThirdperson.GetState())
 		{
 			if (!meme)
 			{
@@ -648,10 +786,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 				meme = true;
 			}
 		}
-		else if (pLocal->IsScoped())
-		{
-			meme = false;
-		}
+
 
 		static bool kek = false;
 		if (Menu::Window.MiscTab.OtherThirdperson.GetState() && pLocal->IsAlive())
@@ -667,23 +802,26 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 			kek = false;
 		}
 
-		static bool asuswallz;
-		if ((Menu::Window.VisualsTab.OtherAsus.GetState()))
+		if (curStage == FRAME_RENDER_START)
 		{
-
-			if (!asuswallz)
+			for (int i = 1; i <= Interfaces::Globals->maxClients; i++)
 			{
-				Interfaces::Engine->ClientCmd_Unrestricted("mat_fullbright 2");
-				asuswallz = true;
+				if (i == Interfaces::Engine->GetLocalPlayer()) continue;
+
+				IClientEntity* pCurEntity = Interfaces::EntList->GetClientEntity(i);
+				if (!pCurEntity) continue;
+
+				*(int*)((uintptr_t)pCurEntity + 0xA30) = Interfaces::Globals->framecount; //we'll skip occlusion checks now
+				*(int*)((uintptr_t)pCurEntity + 0xA28) = 0;//clear occlusion flags
 			}
+			for (auto matName : smoke_materials)
+			{
+				IMaterial* mat = Interfaces::MaterialSystem->FindMaterial(matName, "Other textures");
+				mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Menu::Window.VisualsTab.OtherNoSmoke.GetState());
+			}
+		}
 
 
-		}
-		else if (!Menu::Window.VisualsTab.OtherAsus.GetState())
-		{
-			Interfaces::Engine->ClientCmd_Unrestricted("mat_fullbright 0");
-			asuswallz = false;
-		}
 		static bool wireframe;
 		if (Menu::Window.VisualsTab.OtherWireframe.GetState())
 		{
@@ -695,36 +833,12 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 		}
 		else if (!Menu::Window.VisualsTab.OtherWireframe.GetState())
 		{
-			Interfaces::Engine->ClientCmd_Unrestricted("r_drawothermodels 1");
-			wireframe = false;
-		}
-		static bool nosmoke;
-		if (Menu::Window.VisualsTab.OtherNoSmoke.GetState())
-		{
-			if (!nosmoke) {
-				Interfaces::Engine->ClientCmd_Unrestricted("r_drawparticles 0");
-				Interfaces::Engine->ClientCmd_Unrestricted("fog_enable 0");
-				nosmoke = true;
+			if (wireframe)
+			{
+				Interfaces::Engine->ClientCmd_Unrestricted("r_drawothermodels 1");
+				wireframe = false;
 			}
 
-		}
-		else if (!Menu::Window.VisualsTab.OtherNoSmoke.GetState())
-		{
-			Interfaces::Engine->ClientCmd_Unrestricted("r_drawparticles 1");
-			Interfaces::Engine->ClientCmd_Unrestricted("fog_enable 1");
-			nosmoke = false;
-		}
-		static bool xd;
-		if (Menu::Window.VisualsTab.OtherNoScope.GetState())
-		{
-			if (pLocal->IsScoped())
-			{
-				Interfaces::Engine->ClientCmd_Unrestricted("cl_drawhud 0");
-			}
-			else
-			{
-				Interfaces::Engine->ClientCmd_Unrestricted("cl_drawhud 1");
-			}
 		}
 	}
 
@@ -832,28 +946,76 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 							int SG553 = Menu::Window.SkinchangerTab.SG553Skin.GetIndex();
 							int SSG08 = Menu::Window.SkinchangerTab.SSG08Skin.GetIndex();
 							int Magnum = Menu::Window.SkinchangerTab.DEAGLESkin.GetIndex();
+							int CZ = Menu::Window.SkinchangerTab.CZSkin.GetIndex();
+							int dualies = CZ = Menu::Window.SkinchangerTab.DUALSSkin.GetIndex();
 
-							if (pEntity->GetClientClass()->m_ClassID != (int)CSGOClassID::CKnife)
-							{
-								if (Menu::Window.SkinchangerTab.SkinName.getText().length() > 1)
-								{
-									auto pCustomName = MakePtr(char*, pWeapon, 0x301C);
-									strcpy_s(pCustomName, 32, Menu::Window.SkinchangerTab.SkinName.getText().c_str());
-								}
-							}
-
-							if (Menu::Window.SkinchangerTab.StatTrackAmount.getText().c_str() != NULL && Menu::Window.SkinchangerTab.StatTrackAmount.getText().c_str() != "")
-							{
-								int st = atoi(Menu::Window.SkinchangerTab.StatTrackAmount.getText().c_str());
-
-								if (Menu::Window.SkinchangerTab.StatTrakEnable.GetState())
-									*pWeapon->FallbackStatTrak() = st;
-							}
 
 							int weapon = *pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex();
 
 							switch (weapon)
 							{
+							case 2:
+								switch (dualies)
+								{
+								case 0:
+									*pWeapon->FallbackPaintKit() = 28;
+									break;
+								case 1:
+									*pWeapon->FallbackPaintKit() = 43;
+									break;
+								case 2:
+									*pWeapon->FallbackPaintKit() = 46;
+									break;
+								case 3:
+									*pWeapon->FallbackPaintKit() = 47;
+									break;
+								case 4:
+									*pWeapon->FallbackPaintKit() = 153;
+									break;
+								case 5:
+									*pWeapon->FallbackPaintKit() = 190;
+									break;
+								case 6:
+									*pWeapon->FallbackPaintKit() = 249;
+									break;
+								case 7:
+									*pWeapon->FallbackPaintKit() = 220;
+									break;
+								case 8:
+									*pWeapon->FallbackPaintKit() = 336;
+									break;
+								case 9:
+									*pWeapon->FallbackPaintKit() = 261;
+									break;
+								case 10:
+									*pWeapon->FallbackPaintKit() = 276;
+									break;
+								case 11:
+									*pWeapon->FallbackPaintKit() = 307;
+									break;
+								case 12:
+									*pWeapon->FallbackPaintKit() = 330;
+									break;
+								case 13:
+									*pWeapon->FallbackPaintKit() = 447;
+									break;
+								case 14:
+									*pWeapon->FallbackPaintKit() = 450;
+									break;
+								case 15:
+									*pWeapon->FallbackPaintKit() = 491;
+									break;
+								case 16:
+									*pWeapon->FallbackPaintKit() = 528;
+									break;
+								case 17:
+									*pWeapon->FallbackPaintKit() = 544;
+									break;
+								case 18:
+									*pWeapon->FallbackPaintKit() = 658;
+									break;
+								}
+								break;
 							case 7: // AK47 
 							{
 								switch (AK47)
@@ -918,6 +1080,13 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 19:
 									*pWeapon->FallbackPaintKit() = 600;
 									break;
+								case 20:
+									*pWeapon->FallbackPaintKit() = 597;
+									break;
+								case 21:
+									*pWeapon->FallbackPaintKit() = 656;
+									break;
+
 								default:
 									break;
 								}
@@ -971,6 +1140,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 14:
 									*pWeapon->FallbackPaintKit() = 632;
+									break;
+								case 16:
+									*pWeapon->FallbackPaintKit() = 664;
 									break;
 								default:
 									break;
@@ -1038,6 +1210,12 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 18:
 									*pWeapon->FallbackPaintKit() = 631;
 									break;
+								case 19:
+									*pWeapon->FallbackPaintKit() = 644;
+									break;
+								case 20:
+									*pWeapon->FallbackPaintKit() = 663;
+									break;
 								default:
 									break;
 								}
@@ -1101,6 +1279,13 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 17:
 									*pWeapon->FallbackPaintKit() = 525;
 									break;
+								case 18:
+									*pWeapon->FallbackPaintKit() = 640;
+									break;
+								case 19:
+									*pWeapon->FallbackPaintKit() = 662;
+									break;
+
 								default:
 									break;
 								}
@@ -1166,6 +1351,12 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 18:
 									*pWeapon->FallbackPaintKit() = 637;
+									break;
+								case 20:
+									*pWeapon->FallbackPaintKit() = 653;
+									break;
+								case 21:
+									*pWeapon->FallbackPaintKit() = 657;
 									break;
 								default:
 									break;
@@ -1317,6 +1508,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 22:
 									*pWeapon->FallbackPaintKit() = 527;
 									break;
+								case 23:
+									*pWeapon->FallbackPaintKit() = 645;
+									break;
 								default:
 									break;
 								}
@@ -1388,6 +1582,12 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 20:
 									*pWeapon->FallbackPaintKit() = 530;
+									break;
+								case 21:
+									*pWeapon->FallbackPaintKit() = 643;
+									break;
+								case 22:
+									*pWeapon->FallbackPaintKit() = 660;
 									break;
 								default:
 									break;
@@ -1490,6 +1690,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 16:
 									*pWeapon->FallbackPaintKit() = 626;
+									break;
+								case 17:
+									*pWeapon->FallbackPaintKit() = 659;
 									break;
 								default:
 									break;
@@ -1629,6 +1832,12 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 20:
 									*pWeapon->FallbackPaintKit() = 546;
 									break;
+								case 21:
+									*pWeapon->FallbackPaintKit() = 647;
+									break;
+								case 22:
+									*pWeapon->FallbackPaintKit() = 661;
+									break;
 								default:
 									break;
 								}
@@ -1667,6 +1876,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 9:
 									*pWeapon->FallbackPaintKit() = 547;
+									break;
+								case 10:
+									*pWeapon->FallbackPaintKit() = 648;
 									break;
 								default:
 									break;
@@ -1736,6 +1948,12 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 19:
 									*pWeapon->FallbackPaintKit() = 534;
+									break;
+								case 20:
+									*pWeapon->FallbackPaintKit() = 651;
+									break;
+								case 21:
+									*pWeapon->FallbackPaintKit() = 665;
 									break;
 								default:
 									break;
@@ -1809,6 +2027,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 20:
 									*pWeapon->FallbackPaintKit() = 636;
 									break;
+								case 21:
+									*pWeapon->FallbackPaintKit() = 669; //ayy lmao
+									break;
 								default:
 									break;
 								}
@@ -1868,6 +2089,12 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 16:
 									*pWeapon->FallbackPaintKit() = 556;
+									break;
+								case 17:
+									*pWeapon->FallbackPaintKit() = 652;
+									break;
+								case 18:
+									*pWeapon->FallbackPaintKit() = 672;
 									break;
 								default:
 									break;
@@ -1947,6 +2174,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 22:
 									*pWeapon->FallbackPaintKit() = 557;
 									break;
+								case 23:
+									*pWeapon->FallbackPaintKit() = 654;
+									break;
 								default:
 									break;
 								}
@@ -2025,6 +2255,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 22:
 									*pWeapon->FallbackPaintKit() = 542;
 									break;
+								case 23:
+									*pWeapon->FallbackPaintKit() = 641;
+									break;
 								default:
 									break;
 								}
@@ -2079,6 +2312,10 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 14:
 									*pWeapon->FallbackPaintKit() = 535;
 									break;
+								case 15:
+									*pWeapon->FallbackPaintKit() = 666;
+									break;
+
 								default:
 									break;
 								}
@@ -2205,6 +2442,10 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 22:
 									*pWeapon->FallbackPaintKit() = 638;
 									break;
+								case 23:
+									*pWeapon->FallbackPaintKit() = 655;
+									break;
+
 								default:
 									break;
 								}
@@ -2282,6 +2523,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 22:
 									*pWeapon->FallbackPaintKit() = 614;
+									break;
+								case 23:
+									*pWeapon->FallbackPaintKit() = 671;
 									break;
 								default:
 									break;
@@ -2361,6 +2605,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 22:
 									*pWeapon->FallbackPaintKit() = 591;
 									break;
+								case 23:
+									*pWeapon->FallbackPaintKit() = 667;
+									break;
 								default:
 									break;
 								}
@@ -2435,6 +2682,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 21:
 									*pWeapon->FallbackPaintKit() = 536;
+									break;
+								case 22:
+									*pWeapon->FallbackPaintKit() = 649;
 									break;
 								default:
 									break;
@@ -2652,6 +2902,13 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 24:
 									*pWeapon->FallbackPaintKit() = 551;
 									break;
+								case 25:
+									*pWeapon->FallbackPaintKit() = 650;
+									break;
+								case 26:
+									*pWeapon->FallbackPaintKit() = 668;
+									break;
+
 								default:
 									break;
 								}
@@ -2708,6 +2965,9 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									break;
 								case 15:
 									*pWeapon->FallbackPaintKit() = 597;
+									break;
+								case 16:
+									*pWeapon->FallbackPaintKit() = 642;
 									break;
 								default:
 									break;
@@ -2808,6 +3068,10 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								case 15:
 									*pWeapon->FallbackPaintKit() = 624;
 									break;
+								case 16:
+									*pWeapon->FallbackPaintKit() = 670;
+									break;
+
 								default:
 									break;
 								}
@@ -2819,16 +3083,106 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								{
 								case 0:
 									*pWeapon->FallbackPaintKit() = 27;
+									*pWeapon->FallbackWear() = .0000000000000001;
 									break;
 								case 1:
 									*pWeapon->FallbackPaintKit() = 12;
+									*pWeapon->FallbackWear() = .0000000000000001;
 									break;
 								case 2:
 									*pWeapon->FallbackPaintKit() = 522;
+									*pWeapon->FallbackWear() = .0000000000000001;
 									break;
 								case 3:
 									*pWeapon->FallbackPaintKit() = 523;
+									*pWeapon->FallbackWear() = .0000000000000001;
 									break;
+								case 4:
+									*pWeapon->FallbackPaintKit() = 595;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								default:
+									break;
+								}
+							}
+							break;
+							case 63: // CZ-75
+							{
+								switch (CZ)
+								{
+								case 0:
+									*pWeapon->FallbackPaintKit() = 270;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 1:
+									*pWeapon->FallbackPaintKit() = 12;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 2:
+									*pWeapon->FallbackPaintKit() = 476;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 3:
+									*pWeapon->FallbackPaintKit() = 269;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 4:
+									*pWeapon->FallbackPaintKit() = 643;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 5:
+									*pWeapon->FallbackPaintKit() = 435;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 6:
+									*pWeapon->FallbackPaintKit() = 350;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 7:
+									*pWeapon->FallbackPaintKit() = 543;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 8:
+									*pWeapon->FallbackPaintKit() = 268;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 9:
+									*pWeapon->FallbackPaintKit() = 325;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 10:
+									*pWeapon->FallbackPaintKit() = 602;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 11:
+									*pWeapon->FallbackPaintKit() = 334;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 12:
+									*pWeapon->FallbackPaintKit() = 622;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 13:
+									*pWeapon->FallbackPaintKit() = 218;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 14:
+									*pWeapon->FallbackPaintKit() = 297;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 15:
+									*pWeapon->FallbackPaintKit() = 322;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 16:
+									*pWeapon->FallbackPaintKit() = 453;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+								case 17:
+									*pWeapon->FallbackPaintKit() = 315;
+									*pWeapon->FallbackWear() = .0000000000000001;
+									break;
+
 								default:
 									break;
 								}
@@ -2840,13 +3194,11 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 
 
 
+
 							if (pEntity->GetClientClass()->m_ClassID == (int)CSGOClassID::CKnife)
 							{
 								auto pCustomName1 = MakePtr(char*, pWeapon, 0x301C);
-								if (Menu::Window.SkinchangerTab.KnifeName.getText().length() > 1)
-								{
-									strcpy_s(pCustomName1, 32, Menu::Window.SkinchangerTab.KnifeName.getText().c_str());
-								}
+
 
 								if (Model == 0) // Bayonet
 								{
@@ -2854,6 +3206,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iBayonet;
 									*pWeapon->WorldModelIndex() = iBayonet + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 500;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -2996,6 +3349,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iBowie;
 									*pWeapon->WorldModelIndex() = iBowie + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 514;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -3139,6 +3493,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iButterfly;
 									*pWeapon->WorldModelIndex() = iButterfly + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 515;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -3282,6 +3637,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iFalchion;
 									*pWeapon->WorldModelIndex() = iFalchion + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 512;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -3424,6 +3780,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iFlip;
 									*pWeapon->WorldModelIndex() = iFlip + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 505;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -3567,6 +3924,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iGut;
 									*pWeapon->WorldModelIndex() = iGut + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 506;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -3711,6 +4069,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iHuntsman;
 									*pWeapon->WorldModelIndex() = iHuntsman + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 509;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -3855,6 +4214,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iKarambit;
 									*pWeapon->WorldModelIndex() = iKarambit + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 507;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -4006,6 +4366,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 									*pWeapon->ViewModelIndex() = iM9Bayonet;
 									*pWeapon->WorldModelIndex() = iM9Bayonet + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 508;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 
@@ -4153,12 +4514,13 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 								}
 
 
-								else if (Model == 10) // Shadow Daggers
+								else if (Model == 9) // Shadow Daggers
 								{
 									*pWeapon->ModelIndex() = iDagger; // m_nModelIndex
 									*pWeapon->ViewModelIndex() = iDagger;
 									*pWeapon->WorldModelIndex() = iDagger + 1;
 									*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() = 516;
+									*pWeapon->m_AttributeManager()->m_Item()->EntityQuality() = 3;
 
 									int Skin = Menu::Window.SkinchangerTab.KnifeSkin.GetIndex();
 

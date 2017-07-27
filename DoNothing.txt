@@ -1,5 +1,11 @@
+Controls.cpp
+Controls.h
+
 DLLMain.cpp
 DLLMain.h
+
+GUI.cpp
+GUI.h
 
 Hooks.cpp
 Hooks.h
@@ -12,3 +18,5 @@ MiscHacks.h
 
 Utilities.cpp
 Utilities.h
+
+Window.cpp

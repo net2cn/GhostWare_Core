@@ -7,6 +7,7 @@ Syn's GhostWare Framework
 // Includes
 #include "CommonIncludes.h"
 #include <time.h>
+#include "Xor.h"
 
 // Colors for the console
 //Define extra colours
@@ -23,11 +24,13 @@ Syn's GhostWare Framework
 #define FOREGROUND_INTENSE_YELLOW	(FOREGROUND_YELLOW | FOREGROUND_INTENSITY)
 #define FOREGROUND_INTENSE_CYAN		(FOREGROUND_CYAN | FOREGROUND_INTENSITY)
 #define FOREGROUND_INTENSE_MAGENTA	(FOREGROUND_MAGENTA | FOREGROUND_INTENSITY)
+#define MakePtr (cast, ptr, addValue) ( cast )( (DWORD)( ptr ) + ( DWORD )( addValue ) )
 
 // Utilities Namespace
 // Purpose: Contains misc functionality for memory related functionality
 namespace Utilities
 {
+	typedef void* (*CreateInterface_t)(const char*, int*);
 	// Debug console controls
 	void OpenConsole(std::string Title);
 	void CloseConsole();
@@ -40,18 +43,36 @@ namespace Utilities
 	// Misc Shizz
 	std::string GetTimeString();
 
+	// Private modification
 	std::string GetTitle();
-
 	bool GetProcessByName(const char* filename);
-
 	bool StartNamedPipeVerification();
-
 	char * Utf8ToGB(const char * utf8);
 	
 	// Memory utils
 	// Purpose: Provides memeory related functionality (pattern scanning ect)
 	namespace Memory
 	{
+		inline void* CaptureInterface(const char* chHandle, const char* chInterfaceName)
+		{
+			volatile auto handlegotten = (GetModuleHandleA(chHandle) != nullptr);
+			while (!GetModuleHandleA(chHandle)) Sleep(100);
+			void* fnFinal = nullptr;
+			auto PossibleInterfaceName = new char[strlen(chInterfaceName) + 4];
+			auto TestInterface = reinterpret_cast<CreateInterface_t>(GetProcAddress(GetModuleHandleA(chHandle), XorStr("CreateInterface")));
+			for (auto i = 100; i > 0; i--)
+			{
+				XorCompileTime::w_sprintf(PossibleInterfaceName, XorStr("%s%03i"), chInterfaceName, i);
+				fnFinal = static_cast<void*>(TestInterface(PossibleInterfaceName, nullptr));
+
+				if (fnFinal != nullptr)
+					break;
+
+			}
+			delete PossibleInterfaceName;
+			return fnFinal;
+		}
+
 		// Waits for a module to be available, before returning it's base address
 		DWORD WaitOnModuleHandle(std::string moduleName);
 
@@ -63,6 +84,8 @@ namespace Utilities
 		// Returns the address at which it has been found
 		DWORD FindTextPattern(std::string moduleName, char* string);
 
+		DWORD FindPatternV2(std::string moduleName, std::string pattern);
+
 		class VMTManager
 		{
 		private:
@@ -72,7 +95,7 @@ namespace Utilities
 			DWORD	*Instance;
 
 			int		MethodCount(DWORD* InstancePointer);
-			
+
 		public:
 			bool	Initialise(DWORD* InstancePointer); // Pass a &class
 
@@ -92,7 +115,6 @@ namespace Utilities
 		};
 	};
 };
-
 template<typename T>
 FORCEINLINE T GetMethod(const void* instance, size_t index)
 {

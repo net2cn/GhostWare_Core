@@ -1,5 +1,15 @@
 /*
-Syn's Payhake Framework for Insanity & Razor
+ApocalypseCheats
+------------------------------
+Contributors:
+XBoom
+Ma$$A$
+Fldy.
+madlifer
+control1337
+CyclesPrograming
+FZCat1337
+UC Community <3
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -71,7 +81,7 @@ void Hacks::SetupHacks()
 							char buf[255]; sprintf_s(buf, "%s => %s", pinfo.name, pinfo2.name);
 							RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, buf);
 							Render::Clear(scrn.right - 260, (scrn.bottom / 2) + (16 * AC), 260, 16, Color(0, 0, 0, 140));
-							Render::Text(scrn.right - TextSize.right - 4, (scrn.bottom / 2) + (16 * AC), pTarget->GetIndex() == pLocal->GetIndex() ? Color(240, 70, 80, 255) : Color(199, 199, 199, 255), Render::Fonts::ESP, buf);
+							Render::Text(scrn.right - TextSize.right - 4, (scrn.bottom / 2) + (16 * AC), pTarget->GetIndex() == pLocal->GetIndex() ? Color(240, 70, 80, 255) : Color(255, 255, 255, 255), Render::Fonts::ESP, buf);
 							AC++;
 						}
 					}
@@ -212,6 +222,8 @@ void HackManager::Draw()
 		hack->Draw();
 	}
 }
+
+
 
 // Handle all the move hakes
 void HackManager::Move(CUserCmd *pCmd,bool &bSendPacket)

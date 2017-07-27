@@ -1,5 +1,16 @@
 /*
-Syn's AyyWare Framework 2015
+ApocalypseCheats
+------------------------------
+Contributors:
+XBoom
+Ma$$A$
+Fldy.
+madlifer
+control1337
+CyclesPrograming
+FZCat1337
+eeioruewo0iruwe
+UC Community <3
 */
 
 #pragma once
@@ -699,6 +710,7 @@ public:
 	CPNETVAR_FUNC(int*, ItemDefinitionIndex, 0xE67AB3B8); //m_iItemDefinitionIndex
 	CPNETVAR_FUNC(int*, ItemIDHigh, 0x714778A); //m_iItemIDHigh
 	CPNETVAR_FUNC(int*, ItemIDLow, 0x3A3DFC74); //m_iItemIDLow
+	CPNETVAR_FUNC(int*, EntityQuality, 0x110be6fe); //m_iEntityQuality
 };
 
 class AttributeContainer
@@ -730,16 +742,11 @@ public:
 
 	CNETVAR_FUNC(int, GetZoomLevel, 0x26553F1A);
 
+
 	float GetInaccuracy()
 	{
 		typedef float(__thiscall* oInaccuracy)(PVOID);
-		return call_vfunc< oInaccuracy >(this, 484)(this);
-	}
-
-	float GetInnacc()
-	{
-		typedef float(__thiscall *OrigFn)(void *);
-		return call_vfunc<OrigFn>(this, 484)(this);
+		return call_vfunc< oInaccuracy >(this, 483)(this);
 	}
 
 	void UpdateAccPenalty()
@@ -778,7 +785,7 @@ class CCSBomb
 {
 public:
 	CNETVAR_FUNC(HANDLE, GetOwnerHandle, 0xC32DF98D); //m_hOwner 0x29BC
-	CNETVAR_FUNC(float, GetC4BlowTime, 0x297C); //m_flC4Blow 0x297C
+	CNETVAR_FUNC(float, GetC4BlowTime, 0xB5E0CA1C);
 	CNETVAR_FUNC(float, GetC4DefuseCountDown, 0x2994); //m_flDefuseCountDown 0x2994
 };
 
@@ -817,7 +824,7 @@ public:
 	virtual bool					UsesFullFrameBufferTexture() = 0;
 	virtual void					GetShadowHandle() const = 0;
 	virtual void*					RenderHandle() = 0;
-	virtual const model_t*				GetModel() const = 0;
+	virtual const model_t*			GetModel() const = 0;
 	virtual int						DrawModel(int flags) = 0;
 	virtual int						GetBody() = 0;
 	virtual void					ComputeFxBlend() = 0;
@@ -882,7 +889,7 @@ public:
 
 	int GetGlowIndex()
 	{
-		return *(int*)(this + 0xA310);
+		return *(int*)(this + 0x0000A320);
 	}
 
 	CPNETVAR_FUNC(CLocalPlayerExclusive*, localPlayerExclusive, 0x7177BC3E);// m_Local
@@ -957,7 +964,7 @@ public:
 
 	Vector GetHeadPos()
 	{
-		return this->GetBonePos(6);
+		return this->GetBonePos(8);
 	}
 
 	Vector GetHeadAngle()
@@ -1012,5 +1019,24 @@ public:
 	}
 	HANDLE GetWeaponHandle() {
 		return *(HANDLE*)((DWORD)this + 0x00002EE8);
+	}
+};
+
+class CBaseViewModel : public IClientUnknown, public IClientRenderable, public IClientNetworkable {
+public:
+	inline int GetModelIndex() {
+		// DT_BaseViewModel -> m_nModelIndex
+		return *(int*)((DWORD)this + 0x254);
+	}
+	inline DWORD GetOwner() {
+		// DT_BaseViewModel -> m_hOwner
+		return *(PDWORD)((DWORD)this + 0x29BC);
+	}
+	inline DWORD GetWeapon() {
+		// DT_BaseViewModel -> m_hWeapon
+		return *(PDWORD)((DWORD)this + 0x29B8);
+	}
+	inline void SetWeaponModel(const char* Filename, IClientUnknown* Weapon) {
+		return call_vfunc<void(__thiscall*)(void*, const char*, IClientUnknown*)>(this, 242)(this, Filename, Weapon);
 	}
 };

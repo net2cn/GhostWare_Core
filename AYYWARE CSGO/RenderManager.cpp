@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWare
+Rest In Peace ApocalypseCheats
 */
 
 #pragma once
@@ -18,6 +18,7 @@ namespace Render
 		DWORD Menu;
 		DWORD MenuBold;
 		DWORD ESP;
+		DWORD Untitled1;
 		DWORD MenuText;
 	};
 };
@@ -44,11 +45,11 @@ enum EFontFlags
 // Initialises the rendering system, setting up fonts etc
 void Render::Initialise()
 {
-	setlocale(LC_ALL, "CHS");
 	Fonts::Default  = 0x1D; // MainMenu Font from vgui_spew_fonts 
 	Fonts::Menu     = Interfaces::Surface->FontCreate();
 	Fonts::MenuBold = Interfaces::Surface->FontCreate();
 	Fonts::ESP = Interfaces::Surface->FontCreate();
+	Fonts::Untitled1 = Interfaces::Surface->FontCreate();
 	Fonts::MenuText = Interfaces::Surface->FontCreate();
 
 	Interfaces::Surface->SetFontGlyphSet(Fonts::Menu, "DINPro-Regular", 14, 500, 0, 0, FONTFLAG_ANTIALIAS);
@@ -57,8 +58,9 @@ void Render::Initialise()
 	// Interfaces::Surface->SetFontGlyphSet(Fonts::MenuBold, "Visitor TT2 BRK", 14, 550, 0, 0, FONTFLAG_ANTIALIAS);
 	Interfaces::Surface->SetFontGlyphSet(Fonts::ESP, "Calibri", 14, 500, 0, 0, FONTFLAG_ANTIALIAS | FONTFLAG_DROPSHADOW);
 	Interfaces::Surface->SetFontGlyphSet(Fonts::MenuText, "Calibri", 16, 500, 0, 0, FONTFLAG_ANTIALIAS);
-
+	Interfaces::Surface->SetFontGlyphSet(Fonts::Untitled1, "Untitled1", 35, 800, 0, 0, FONTFLAG_ANTIALIAS);
 	Utilities::Log("äÖÈ¾ÏµÍ³¾ÍÐ÷");
+
 }
 
 RECT Render::GetViewport()

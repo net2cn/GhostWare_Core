@@ -22,7 +22,7 @@ Rest In Peace GhostWareCheats
 #include "locale.h"
 
 #define WINDOW_WIDTH 950
-#define WINDOW_HEIGHT 580
+#define WINDOW_HEIGHT 600
 
 ApocalypseWindow Menu::Window;
 
@@ -151,7 +151,7 @@ void CRageBotTab::Setup()
 	ActiveLabel.SetText("启用");
 	RegisterControl(&ActiveLabel);
 
-	Active.SetFileId("启用");
+	Active.SetFileId("active");
 	Active.SetPosition(66, 16);
 	RegisterControl(&Active);
 
@@ -159,7 +159,7 @@ void CRageBotTab::Setup()
 
 	AimbotGroup.SetPosition(16, 48);
 	AimbotGroup.SetText("暴力自瞄");
-	AimbotGroup.SetSize(376, 270);
+	AimbotGroup.SetSize(376, 298);
 	RegisterControl(&AimbotGroup);
 
 	AimbotEnable.SetFileId("aim_enable");
@@ -182,6 +182,11 @@ void CRageBotTab::Setup()
 	AimbotAutoPistol.SetFileId("aim_autopistol");
 	AimbotGroup.PlaceLabledControl("自动手枪", this, &AimbotAutoPistol);
 
+	AimbotAutoPistolD.SetFileId("aim_autopistold");
+	AimbotAutoPistolD.SetBoundaries(0.f, 500.f);
+	AimbotAutoPistolD.SetValue(0.f);
+	AimbotGroup.PlaceLabledControl("自动手枪延时", this, &AimbotAutoPistolD);
+
 	AimbotAimStep.SetFileId("aim_aimstep");
 	AimbotGroup.PlaceLabledControl("自瞄步骤", this, &AimbotAimStep);
 
@@ -196,7 +201,7 @@ void CRageBotTab::Setup()
 #pragma endregion Aimbot Controls Get Setup in here
 
 #pragma region Target
-	TargetGroup.SetPosition(16, 334);
+	TargetGroup.SetPosition(16, 361);
 	TargetGroup.SetText("目标");
 	TargetGroup.SetSize(376, 168);
 	RegisterControl(&TargetGroup);
@@ -394,6 +399,32 @@ void CLegitBotTab::Setup()
 	TriggerDelay.SetBoundaries(1.f, 1000.f);
 	TriggerDelay.SetValue(1.f);
 	TriggerGroup.PlaceLabledControl("延迟 (ms)", this, &TriggerDelay);
+
+	TriggerRecoil.SetFileId("trig_recoil");
+	TriggerGroup.PlaceLabledControl("后座", this, &TriggerRecoil);
+
+	TriggerFilterGroup.SetPosition(528, 48);
+	TriggerFilterGroup.SetText("扳机筛选器");
+	TriggerFilterGroup.SetSize(240, 210);
+	RegisterControl(&TriggerFilterGroup);
+
+	TriggerHead.SetFileId("trig_head");
+	TriggerFilterGroup.PlaceLabledControl("头", this, &TriggerHead);
+
+	TriggerChest.SetFileId("trig_chest");
+	TriggerFilterGroup.PlaceLabledControl("胸部", this, &TriggerChest);
+
+	TriggerStomach.SetFileId("trig_stomach");
+	TriggerFilterGroup.PlaceLabledControl("腹部", this, &TriggerStomach);
+
+	TriggerArms.SetFileId("trig_arms");
+	TriggerFilterGroup.PlaceLabledControl("手臂", this, &TriggerArms);
+
+	TriggerLegs.SetFileId("trig_legs");
+	TriggerFilterGroup.PlaceLabledControl("腿", this, &TriggerLegs);
+
+	TriggerTeammates.SetFileId("trig_teammates");
+	TriggerFilterGroup.PlaceLabledControl("友军伤害", this, &TriggerTeammates);
 #pragma endregion Triggerbot stuff
 
 #pragma region Main Weapon
@@ -427,7 +458,15 @@ void CLegitBotTab::Setup()
 	WeaponMainHitbox.AddItem("脖子");
 	WeaponMainHitbox.AddItem("胸部");
 	WeaponMainHitbox.AddItem("腹部");
-	WeaponMainGroup.PlaceLabledControl("自瞄部位", this, &WeaponMainHitbox);
+	WeaponMainGroup.PlaceLabledControl("首选部位", this, &WeaponMainHitbox);
+
+	WeaponMainSecHitbox.SetFileId("sec_hitbox");
+	WeaponMainSecHitbox.AddItem("无");
+	WeaponMainSecHitbox.AddItem("头部");
+	WeaponMainSecHitbox.AddItem("脖子");
+	WeaponMainSecHitbox.AddItem("胸部");
+	WeaponMainSecHitbox.AddItem("腹部");
+	WeaponMainGroup.PlaceLabledControl("次选部位", this, &WeaponMainSecHitbox);
 #pragma endregion
 
 #pragma region Pistols
@@ -462,7 +501,15 @@ void CLegitBotTab::Setup()
 	WeaponPistHitbox.AddItem("脖子");
 	WeaponPistHitbox.AddItem("胸部");
 	WeaponPistHitbox.AddItem("腹部");
-	WeaponPistGroup.PlaceLabledControl("自瞄部位", this, &WeaponPistHitbox);
+	WeaponPistGroup.PlaceLabledControl("首选部位", this, &WeaponPistHitbox);
+
+	WeaponPistSecHitbox.SetFileId("pist_sec_hitbox");
+	WeaponPistSecHitbox.AddItem("无");
+	WeaponPistSecHitbox.AddItem("头部");
+	WeaponPistSecHitbox.AddItem("脖子");
+	WeaponPistSecHitbox.AddItem("胸部");
+	WeaponPistSecHitbox.AddItem("腹部");
+	WeaponPistGroup.PlaceLabledControl("次选部位", this, &WeaponPistSecHitbox);
 #pragma endregion
 
 #pragma region Snipers
@@ -497,59 +544,20 @@ void CLegitBotTab::Setup()
 	WeaponSnipHitbox.AddItem("头部");
 	WeaponSnipHitbox.AddItem("脖子");
 	WeaponSnipHitbox.AddItem("胸部");
-	WeaponSnipHitbox.AddItem("胃口");
-	WeaponSnipGroup.PlaceLabledControl("自瞄部位", this, &WeaponSnipHitbox);
+	WeaponSnipHitbox.AddItem("腹部");
+	WeaponSnipGroup.PlaceLabledControl("首选部位", this, &WeaponSnipHitbox);
 
-	WeaponSnipEnable.SetFileId("wconf_enable_ak");
-	WeaponSnipGroup.PlaceLabledControl("自瞄不开镜", this, &WeaponSnipEnable);
+	WeaponSnipSecHitbox.SetFileId("wconf_hitbox_sec_ak");
+	WeaponSnipSecHitbox.AddItem("无");
+	WeaponSnipSecHitbox.AddItem("头部");
+	WeaponSnipSecHitbox.AddItem("脖子");
+	WeaponSnipSecHitbox.AddItem("胸部");
+	WeaponSnipSecHitbox.AddItem("腹部");
+	WeaponSnipGroup.PlaceLabledControl("次选部位", this, &WeaponSnipSecHitbox);
 #pragma endregion
 
 #pragma More
-	AimMoreGroup.SetPosition(528, 48);
-	AimMoreGroup.SetText("更多选项");
-	AimMoreGroup.SetSize(240, 210);
-	RegisterControl(&AimMoreGroup);
 
-	FoVRadius.SetFileId("fov_aim");
-	AimMoreGroup.PlaceLabledControl("范围半径", this, &FoVRadius);
-
-	WeaponConfig.SetFileId("wconf_toggle");
-	AimMoreGroup.PlaceLabledControl("武器配置", this, &WeaponConfig);
-	WeaponConf.SetFileId("wconf_weapon");
-	WeaponConf.AddItem("AK-47");
-	WeaponConf.AddItem("AUG");
-	WeaponConf.AddItem("AWP");
-	WeaponConf.AddItem("CZ75-Auto");
-	WeaponConf.AddItem("Desert Eagle");
-	WeaponConf.AddItem("Dual Beretas");
-	WeaponConf.AddItem("Famas");
-	WeaponConf.AddItem("Five-SeveN");
-	WeaponConf.AddItem("Galil AR");
-	WeaponConf.AddItem("G3SG1");
-	WeaponConf.AddItem("Glock-18");
-	WeaponConf.AddItem("M249");
-	WeaponConf.AddItem("M4A1-S");
-	WeaponConf.AddItem("M4A4");
-	WeaponConf.AddItem("MAC-10");
-	WeaponConf.AddItem("MAG-7");
-	WeaponConf.AddItem("MP7");
-	WeaponConf.AddItem("MP9");
-	WeaponConf.AddItem("Negev");
-	WeaponConf.AddItem("Nova");
-	WeaponConf.AddItem("P2000");
-	WeaponConf.AddItem("P250");
-	WeaponConf.AddItem("P90");
-	WeaponConf.AddItem("PP-Bizon");
-	WeaponConf.AddItem("R8 Revolver");
-	WeaponConf.AddItem("Sawed-Off");
-	WeaponConf.AddItem("SCAR-20");
-	WeaponConf.AddItem("SSG 08");
-	WeaponConf.AddItem("SG 553");
-	WeaponConf.AddItem("TEC-9");
-	WeaponConf.AddItem("UMP-45");
-	WeaponConf.AddItem("USP-S");
-	WeaponConf.AddItem("XM-1014");
-	AimMoreGroup.PlaceLabledControl("武器", this, &WeaponConf);
 
 
 #pragma endregion
@@ -574,6 +582,9 @@ void CVisualTab::Setup()
 	RegisterControl(&OptionsGroup);
 
 	OptionsBox.SetFileId("opt_box");
+	OptionsBox.AddItem("无");
+	OptionsBox.AddItem("边角");
+	OptionsBox.AddItem("全");
 	OptionsGroup.PlaceLabledControl("方块", this, &OptionsBox);
 
 	OptionsBox.SetFileId("opt_boxfill");
@@ -588,6 +599,12 @@ void CVisualTab::Setup()
 	OptionsHealth.SetFileId("opt_hp");
 	OptionsGroup.PlaceLabledControl("血量", this, &OptionsHealth);
 
+	OptionsArmor.SetFileId("opt_arm");
+	OptionsGroup.PlaceLabledControl("护甲", this, &OptionsArmor);
+
+	OptionsDistance.SetFileId("opt_dist");
+	OptionsGroup.PlaceLabledControl("距离", this, &OptionsDistance);
+
 	OptionsWeapon.SetFileId("opt_weapon");
 	OptionsGroup.PlaceLabledControl("武器", this, &OptionsWeapon);
 
@@ -597,14 +614,16 @@ void CVisualTab::Setup()
 	OptionsChams.SetFileId("opt_chams");
 	OptionsChams.AddItem("关闭");
 	OptionsChams.AddItem("普通");
-	OptionsChams.AddItem("高级");
+	OptionsChams.AddItem("扁平");
+	OptionsChams.AddItem("仅可见 - 普通");
+	OptionsChams.AddItem("仅可见 - 扁平");
 	OptionsGroup.PlaceLabledControl("彩人", this, &OptionsChams);
 
 	OptionsSkeleton.SetFileId("opt_bone");
 	OptionsGroup.PlaceLabledControl("骨架", this, &OptionsSkeleton);
 
 	OptionsVisibleOnly.SetFileId("opt_vonly");
-	OptionsGroup.PlaceLabledControl("不穿墙透视", this, &OptionsVisibleOnly);
+	OptionsGroup.PlaceLabledControl("仅可见时", this, &OptionsVisibleOnly);
 
 	OptionsAimSpot.SetFileId("opt_aimspot");
 	OptionsGroup.PlaceLabledControl("头点", this, &OptionsAimSpot);
@@ -614,12 +633,19 @@ void CVisualTab::Setup()
 
 
 	OtherWireframe.SetFileId("opt_wireframe");
-	OptionsGroup.PlaceLabledControl("3D建模模式", this, &OtherWireframe);
+	OptionsGroup.PlaceLabledControl("线框", this, &OtherWireframe);
 
+	OtherGlow.SetFileId("opt_glow");
+	OptionsGroup.PlaceLabledControl("发光", this, &OtherGlow);
+
+	OtherGlowAlpha.SetFileId("otp_glowalpha");
+	OptionsGroup.PlaceLabledControl("发光亮度", this, &OtherGlowAlpha);
+	OtherGlowAlpha.SetBoundaries(0.f, 255.f);
+	OtherGlowAlpha.SetValue(200.f);
 #pragma endregion Setting up the Options controls
 
 #pragma region Filters
-	FiltersGroup.SetText("过滤");
+	FiltersGroup.SetText("筛选器");
 	FiltersGroup.SetPosition(225, 48);
 	FiltersGroup.SetSize(193, 430);
 	RegisterControl(&FiltersGroup);
@@ -641,6 +667,9 @@ void CVisualTab::Setup()
 
 	FiltersC4.SetFileId("ftr_c4");
 	FiltersGroup.PlaceLabledControl("C4", this, &FiltersC4);
+
+	FiltersDead.SetFileId("ftr_spec");
+	FiltersGroup.PlaceLabledControl("仅死亡", this, &FiltersDead);
 #pragma endregion Setting up the Filters controls
 
 #pragma region Other
@@ -695,14 +724,21 @@ void CVisualTab::Setup()
 	OtherNoSky.SetFileId("otr_nosky");
 	OtherGroup.PlaceLabledControl("无视天空", this, &OtherNoSky);
 
+	OtherNoScope.SetFileId("otr_noscope");
+	OtherGroup.PlaceLabledControl("无开镜", this, &OtherNoScope);
+
 	OtherNoSmoke.SetFileId("otr_nosmoke");
 	OtherGroup.PlaceLabledControl("无视烟雾", this, &OtherNoSmoke);
 
 	OtherNoSmoke.SetFileId("otr_asus");
 	OtherGroup.PlaceLabledControl("Asus声波雷达", this, &OtherAsus);
 
-	OtherNoScope.SetFileId("otr_nsc");
-	OtherGroup.PlaceLabledControl("去开镜动画", this, &OtherNoScope);
+	NightMode.SetFileId("otr_night");
+	OtherGroup.PlaceLabledControl("夜间模式", this, &NightMode);
+
+	ResetXD.SetText("重置渲染");
+	ResetXD.SetCallback(HooksXD::XD3);
+	OtherGroup.PlaceLabledControl("", this, &ResetXD);
 
 #pragma endregion Setting up the Other controls
 }
@@ -769,15 +805,18 @@ void CMiscTab::Setup()
 	RegisterControl(&OtherGroup);
 
 	OtherAutoJump.SetFileId("otr_autojump");
-	OtherGroup.PlaceLabledControl("超级跳", this, &OtherAutoJump);
+	OtherGroup.PlaceLabledControl("Bhop", this, &OtherAutoJump);
 
 	OtherEdgeJump.SetFileId("otr_edgejump");
 	OtherGroup.PlaceLabledControl("连跳", this, &OtherEdgeJump);
 
+	OtherEdgeJump.SetFileId("otr_edgejump");
+	OtherGroup.PlaceLabledControl("Edge Jump", this, &OtherEdgeJump);
+
 	OtherAutoStrafe.SetFileId("otr_strafe");
 	OtherAutoStrafe.AddItem("关闭");
-	OtherAutoStrafe.AddItem("微自瞄");
-	OtherAutoStrafe.AddItem("摇头");
+	OtherAutoStrafe.AddItem("温柔");
+	OtherAutoStrafe.AddItem("暴力");
 	OtherGroup.PlaceLabledControl("自动扫射", this, &OtherAutoStrafe);
 
 	OtherAutoCounterStafe.SetFileId("otr_autocs");
@@ -807,6 +846,9 @@ void CMiscTab::Setup()
 	OtherClantag.AddItem("'SlideShow'");
 	OtherClantag.AddItem("None");
 	OtherClantag.AddItem("Valve");
+	OtherClantag.AddItem("splashgang");
+	OtherClantag.AddItem("STAINLESS");
+	OtherGroup.PlaceLabledControl("组名", this, &OtherClantag);
 
 
 
@@ -830,11 +872,8 @@ void CMiscTab::Setup()
 	OtherSpectators.SetFileId("otr_skin");
 	OtherGroup.PlaceLabledControl("皮肤修改器", this, &OtherSkinChanger);
 
-	bool wmon;
-
-
 	OtherWatermark.SetFileId("otr_watermark");
-
+	OtherWatermark.SetState(true);
 	OtherGroup.PlaceLabledControl("水印", this, &OtherWatermark);
 
 	//DisableAll.SetFileId("otr_disableall");
@@ -909,6 +948,8 @@ void CMiscTab::Setup()
 	MAC10Skin.AddItem("Malachite");
 	MAC10Skin.AddItem("Rangeen");
 	MAC10Skin.AddItem("Lapis Gator");
+	MAC10Skin.AddItem("Last Dive");
+	MAC10Skin.AddItem("Aloha");
 	MPGroup.PlaceLabledControl("MAC-10", this, &MAC10Skin);
 
 	P90Skin.SetFileId("p90_skin");
@@ -933,6 +974,7 @@ void CMiscTab::Setup()
 	P90Skin.AddItem("Elite Build");
 	P90Skin.AddItem("Shapewood");
 	P90Skin.AddItem("Shallow Grave");
+	P90Skin.AddItem("Drath Grip");
 	MPGroup.PlaceLabledControl("P90", this, &P90Skin);
 
 	UMP45Skin.SetFileId("ump45_skin");
@@ -953,6 +995,8 @@ void CMiscTab::Setup()
 	UMP45Skin.AddItem("Minotaur's Labyrinth");
 	UMP45Skin.AddItem("Riot");
 	UMP45Skin.AddItem("Primal Saber");
+	UMP45Skin.AddItem("Scaffold");
+	UMP45Skin.AddItem("Metal Flowers");
 	MPGroup.PlaceLabledControl("UMP-45", this, &UMP45Skin);
 
 	BIZONSkin.SetFileId("bizon_skin");
@@ -979,6 +1023,8 @@ void CMiscTab::Setup()
 	BIZONSkin.AddItem("Fuel Rod");
 	BIZONSkin.AddItem("Photic Zone");
 	BIZONSkin.AddItem("Judgement of Anubis");
+	BIZONSkin.AddItem("Jungle Slipstream");
+
 	MPGroup.PlaceLabledControl("PP-Bizon", this, &BIZONSkin);
 
 	MP7Skin.SetFileId("mp7_skin");
@@ -1004,6 +1050,7 @@ void CMiscTab::Setup()
 	MP7Skin.AddItem("Nemesis");
 	MP7Skin.AddItem("Special Delivery");
 	MP7Skin.AddItem("Impire");
+	MP7Skin.AddItem("Akoben");
 	MPGroup.PlaceLabledControl("MP7", this, &MP7Skin);
 
 	MP9Skin.SetFileId("mp9_skin");
@@ -1443,9 +1490,9 @@ void CSkinchangerTab::Setup()
 	SkinEnable.SetPosition(66, 16);
 	RegisterControl(&SkinEnable);
 
-	SkinApply.SetText("接受");
+	SkinApply.SetText("应用");
 	SkinApply.SetCallback(KnifeApplyCallbk);
-	SkinApply.SetPosition(408, 490);
+	SkinApply.SetPosition(16, 490);
 	SkinApply.SetSize(360, 106);
 	RegisterControl(&SkinApply);
 
@@ -1538,6 +1585,7 @@ void CSkinchangerTab::Setup()
 	M249Skin.AddItem("Impact Drill");
 	M249Skin.AddItem("Nebula Crusader");
 	M249Skin.AddItem("Spectre");
+	M249Skin.AddItem("Emerald Poison Dart");
 	MachinegunsGroup.PlaceLabledControl("M249", this, &M249Skin);
 
 #pragma endregion
@@ -1567,6 +1615,8 @@ void CSkinchangerTab::Setup()
 	AWPSkin.AddItem("Sun in Leo");
 	AWPSkin.AddItem("Hyper Beast");
 	AWPSkin.AddItem("Elite Build");
+	AWPSkin.AddItem("Fever Dream");
+	AWPSkin.AddItem("Oni Taiji");
 	Snipergroup.PlaceLabledControl("AWP", this, &AWPSkin);
 
 	SSG08Skin.SetFileId("sgg08_skin");
@@ -1586,6 +1636,7 @@ void CSkinchangerTab::Setup()
 	SSG08Skin.AddItem("Necropos");
 	SSG08Skin.AddItem("Ghost Crusader");
 	SSG08Skin.AddItem("Dragonfire");
+	SSG08Skin.AddItem("Death's Head");
 	Snipergroup.PlaceLabledControl("SGG 08", this, &SSG08Skin);
 
 	SCAR20Skin.SetFileId("scar20_skin");
@@ -1605,6 +1656,7 @@ void CSkinchangerTab::Setup()
 	SCAR20Skin.AddItem("Green Marine");
 	SCAR20Skin.AddItem("Outbreak");
 	SCAR20Skin.AddItem("Bloodsport");
+	SCAR20Skin.AddItem("Blueprint");
 	Snipergroup.PlaceLabledControl("SCAR-20", this, &SCAR20Skin);
 
 	G3SG1Skin.SetFileId("g3sg1_skin");
@@ -1652,6 +1704,7 @@ void CSkinchangerTab::Setup()
 	MAG7Skin.AddItem("Seabird");
 	MAG7Skin.AddItem("Cobalt Core");
 	MAG7Skin.AddItem("Praetorian");
+	MAG7Skin.AddItem("Hard Water");
 	Shotgungroup.PlaceLabledControl("Mag-7", this, &MAG7Skin);
 
 	XM1014Skin.SetFileId("xm1014_skin");
@@ -1678,6 +1731,7 @@ void CSkinchangerTab::Setup()
 	XM1014Skin.AddItem("Scumbria");
 	XM1014Skin.AddItem("Teclu Burner");
 	XM1014Skin.AddItem("Black Tie");
+	XM1014Skin.AddItem("Seasons");
 	Shotgungroup.PlaceLabledControl("XM1014", this, &XM1014Skin);
 
 	SAWEDOFFSkin.SetFileId("sawedoff_skin");
@@ -1704,6 +1758,7 @@ void CSkinchangerTab::Setup()
 	SAWEDOFFSkin.AddItem("Yorick");
 	SAWEDOFFSkin.AddItem("Fubar");
 	SAWEDOFFSkin.AddItem("Wasteland Princess");
+	SAWEDOFFSkin.AddItem("Zander");
 	Shotgungroup.PlaceLabledControl("Sawed-Off", this, &SAWEDOFFSkin);
 
 	NOVASkin.SetFileId("nova_skin");
@@ -1757,6 +1812,8 @@ void CSkinchangerTab::Setup()
 	AK47Skin.AddItem("Point Disarray");
 	AK47Skin.AddItem("Fuel Injector");
 	AK47Skin.AddItem("Neon Revolution");
+	AK47Skin.AddItem("BloodSport");
+	AK47Skin.AddItem("Orbit Mk01");
 	Riflegroup.PlaceLabledControl("AK-47", this, &AK47Skin);
 
 	M41SSkin.SetFileId("m4a1s_skin");
@@ -1779,6 +1836,8 @@ void CSkinchangerTab::Setup()
 	M41SSkin.AddItem("Chantico's Fire");
 	M41SSkin.AddItem("Mecha Industries");
 	M41SSkin.AddItem("Flashback");
+	M41SSkin.AddItem("Decimator");
+	M41SSkin.AddItem("Briefing");
 	Riflegroup.PlaceLabledControl("M4A1-S", this, &M41SSkin);
 
 	M4A4Skin.SetFileId("m4a4_skin");
@@ -1797,6 +1856,7 @@ void CSkinchangerTab::Setup()
 	M4A4Skin.AddItem("The BattleStar");
 	M4A4Skin.AddItem("Desolate Space");
 	M4A4Skin.AddItem("Buzz Kill");
+	M4A4Skin.AddItem("Hell Fire");
 	Riflegroup.PlaceLabledControl("M4A4", this, &M4A4Skin);
 
 	AUGSkin.SetFileId("aug_skin");
@@ -1831,6 +1891,7 @@ void CSkinchangerTab::Setup()
 	FAMASSkin.AddItem("Valence");
 	FAMASSkin.AddItem("Roll Cage");
 	FAMASSkin.AddItem("Mecha Industries");
+	FAMASSkin.AddItem("Macabre");
 	Riflegroup.PlaceLabledControl("FAMAS", this, &FAMASSkin);
 
 	GALILSkin.SetFileId("galil_skin");
@@ -1855,6 +1916,8 @@ void CSkinchangerTab::Setup()
 	GALILSkin.AddItem("Rocket Pop");
 	GALILSkin.AddItem("Stone Cold");
 	GALILSkin.AddItem("Firefight");
+	GALILSkin.AddItem("Crimson Tsunami");
+	GALILSkin.AddItem("Suger Rush");
 	Riflegroup.PlaceLabledControl("GALIL", this, &GALILSkin);
 
 	SG553Skin.SetFileId("sg552_skin");
@@ -1880,7 +1943,7 @@ void CSkinchangerTab::Setup()
 #pragma region Pistols
 	PistolGroup.SetPosition(408, 270);
 	PistolGroup.SetText("Pistols");
-	PistolGroup.SetSize(360, 215);
+	PistolGroup.SetSize(360, 242);
 	RegisterControl(&PistolGroup);
 
 	GLOCKSkin.SetFileId("glock_skin");
@@ -1927,6 +1990,8 @@ void CSkinchangerTab::Setup()
 	USPSSkin.AddItem("Kill Confirmed");
 	USPSSkin.AddItem("Lead Conduit");
 	USPSSkin.AddItem("Cyrex");
+	USPSSkin.AddItem("Neo-Noir");
+	USPSSkin.AddItem("Blueprint");
 	PistolGroup.PlaceLabledControl("USP-S", this, &USPSSkin);
 
 	DEAGLESkin.SetFileId("deagle_skin");
@@ -1953,17 +2018,16 @@ void CSkinchangerTab::Setup()
 	DEAGLESkin.AddItem("Sunset Storm");
 	DEAGLESkin.AddItem("Corinthian");
 	DEAGLESkin.AddItem("Kumicho Dragon");
+	DEAGLESkin.AddItem("Oxide Blaze");
 	PistolGroup.PlaceLabledControl("Deagle", this, &DEAGLESkin);
 
 	DUALSSkin.SetFileId("duals_skin");
 	DUALSSkin.AddItem("Anodized Navy");
-	DUALSSkin.AddItem("Ossified");
 	DUALSSkin.AddItem("Stained");
 	DUALSSkin.AddItem("Contractor");
 	DUALSSkin.AddItem("Colony");
 	DUALSSkin.AddItem("Demolition");
 	DUALSSkin.AddItem("Black Limba");
-	DUALSSkin.AddItem("Red Quartz");
 	DUALSSkin.AddItem("Cobalt Quartz");
 	DUALSSkin.AddItem("Hemoglobin");
 	DUALSSkin.AddItem("Urban Shock");
@@ -1976,6 +2040,7 @@ void CSkinchangerTab::Setup()
 	DUALSSkin.AddItem("Dualing Dragons");
 	DUALSSkin.AddItem("Cartel");
 	DUALSSkin.AddItem("Ventilators");
+	DUALSSkin.AddItem("Cobra Strike");
 	PistolGroup.PlaceLabledControl("Duals", this, &DUALSSkin);
 
 	FIVESEVENSkin.SetFileId("fiveseven_skin");
@@ -2000,6 +2065,8 @@ void CSkinchangerTab::Setup()
 	FIVESEVENSkin.AddItem("Monkey Business");
 	FIVESEVENSkin.AddItem("Retrobution");
 	FIVESEVENSkin.AddItem("Triumvirate");
+	FIVESEVENSkin.AddItem("Capillary");
+	FIVESEVENSkin.AddItem("Hyper Beast");
 	PistolGroup.PlaceLabledControl("Five-Seven", this, &FIVESEVENSkin);
 
 	TECNINESkin.SetFileId("tec9_skin");
@@ -2026,6 +2093,7 @@ void CSkinchangerTab::Setup()
 	TECNINESkin.AddItem("Jambiya");
 	TECNINESkin.AddItem("Re-Entry");
 	TECNINESkin.AddItem("Fuel Injector");
+	TECNINESkin.AddItem("Cut Out");
 	PistolGroup.PlaceLabledControl("Tec-9", this, &TECNINESkin);
 
 	P2000Skin.SetFileId("p2000_skin");
@@ -2052,6 +2120,7 @@ void CSkinchangerTab::Setup()
 	P2000Skin.AddItem("Imperial");
 	P2000Skin.AddItem("Oceanic");
 	P2000Skin.AddItem("Imperial Dragon");
+	P2000Skin.AddItem("Woodsman");
 	PistolGroup.PlaceLabledControl("P2000", this, &P2000Skin);
 
 	P250Skin.SetFileId("p250_skin");
@@ -2080,7 +2149,30 @@ void CSkinchangerTab::Setup()
 	P250Skin.AddItem("Mint Kimono");
 	P250Skin.AddItem("Wing Shot");
 	P250Skin.AddItem("Asiimov");
+	P250Skin.AddItem("Ripple");
+	P250Skin.AddItem("Red Rock");
 	PistolGroup.PlaceLabledControl("P250", this, &P250Skin);
+
+	CZSkin.SetFileId("cz_skin");
+	CZSkin.AddItem("Victoria");
+	CZSkin.AddItem("Crimson Web");
+	CZSkin.AddItem("Yellow Jacket");
+	CZSkin.AddItem("Fuschia");
+	CZSkin.AddItem("Xiangliu");
+	CZSkin.AddItem("Pole Position");
+	CZSkin.AddItem("Tigris");
+	CZSkin.AddItem("Red Astor");
+	CZSkin.AddItem("Tread Plate");
+	CZSkin.AddItem("Chalice");
+	CZSkin.AddItem("Imprint");
+	CZSkin.AddItem("Twist");
+	CZSkin.AddItem("Polymer");
+	CZSkin.AddItem("Hexane");
+	CZSkin.AddItem("Tuxedo");
+	CZSkin.AddItem("Nitro");
+	CZSkin.AddItem("Emerald");
+	CZSkin.AddItem("Poison Dart");
+	PistolGroup.PlaceLabledControl("CZ75", this, &CZSkin);
 
 #pragma endregion
 
@@ -2098,6 +2190,15 @@ void Menu::SetupMenu()
 
 void Menu::DoUIFrame()
 {
+	static bool sumfuk = false;
+	if (!sumfuk)
+	{
+		if (Menu::Window.SkinchangerTab.SkinEnable.GetState())
+		{
+			KnifeApplyCallbk();
+		}
+		sumfuk = true;
+	}
 	// General Processing
 
 	// If the "all filter is selected tick all the others
@@ -2111,7 +2212,16 @@ void Menu::DoUIFrame()
 
 	if (Window.MiscTab.OtherSkinChanger.GetState())
 	{
-		//		RegisterTab(&GhostWareWindow::Setup.SkinchangerTab);
+		//		RegisterTab(&ApocalypseWindow::Setup.SkinchangerTab);
+	}
+	if (Window.MiscTab.OtherHAutoJump.GetState())
+	{
+		Window.MiscTab.OtherAutoJump.SetState(false);
+	}
+
+	if (Window.MiscTab.OtherAutoJump.GetState())
+	{
+		Window.MiscTab.OtherHAutoJump.SetState(false);
 	}
 
 

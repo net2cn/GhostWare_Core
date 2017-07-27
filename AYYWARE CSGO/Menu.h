@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWare
+Rest In Peace ApocalypseCheats
 */
 
 #pragma once
@@ -37,7 +37,7 @@ public:
 	CCheckBox TargetHitscan;
 	CCheckBox TargetMultipoint;
 	CSlider   TargetPointscale;
-
+	CSlider AimbotAutoPistolD;
 	// Accuracy Settings
 	CGroupBox AccuracyGroup;
 	CCheckBox AccuracyRecoil;
@@ -86,11 +86,10 @@ public:
 
 	// Main
 	CGroupBox TriggerGroup;
-	CCheckBox TriggerRecoil;
 	CCheckBox TriggerEnable;
 	CCheckBox TriggerKeyPress;
 	CKeyBind  TriggerKeyBind;
-	CSlider   TriggerDelay;
+	CSlider  TriggerDelay;
 
 	// Main
 	CGroupBox WeaponMainGroup;
@@ -100,6 +99,7 @@ public:
 	CCheckBox WeaponMainPSilent;
 	CSlider   WeaponMainInacc;
 	CComboBox WeaponMainHitbox;
+	CComboBox WeaponMainSecHitbox;
 
 	// Pistol
 	CGroupBox WeaponPistGroup;
@@ -109,7 +109,7 @@ public:
 	CCheckBox WeaponPistPSilent;
 	CSlider   WeaponPistInacc;
 	CComboBox WeaponPistHitbox;
-
+	CComboBox WeaponPistSecHitbox;
 	// Sniper
 	CCheckBox WeaponSnipEnable;
 	CGroupBox WeaponSnipGroup;
@@ -119,7 +119,17 @@ public:
 	CCheckBox WeaponSnipPSilent;
 	CSlider   WeaponSnipInacc;
 	CComboBox WeaponSnipHitbox;
+	CComboBox WeaponSnipSecHitbox;
 
+	CGroupBox TriggerFilterGroup;
+
+	CCheckBox TriggerHead;
+	CCheckBox TriggerChest;
+	CCheckBox TriggerStomach;
+	CCheckBox TriggerArms;
+	CCheckBox TriggerLegs;
+	CCheckBox TriggerTeammates;
+	CCheckBox TriggerRecoil;
 	//More
 	CGroupBox AimMoreGroup;
 	CCheckBox FoVRadius;
@@ -138,11 +148,13 @@ public:
 
 	// Options Settings
 	CGroupBox OptionsGroup;
-	CCheckBox OptionsBox;
+	CComboBox OptionsBox;
 	CCheckBox OptionsBoxFill;
 	CCheckBox OptionsBoxFillColor;
 	CCheckBox OptionsName;
 	CCheckBox OptionsHealth;
+	CCheckBox OptionsArmor;
+	CCheckBox OptionsDistance;
 	CCheckBox OptionsWeapon;
 	CCheckBox OptionsInfo;
 	CCheckBox OptionsHelmet;
@@ -165,6 +177,7 @@ public:
 	CCheckBox FiltersWeapons;
 	CCheckBox FiltersChickens;
 	CCheckBox FiltersC4;
+	CCheckBox FiltersDead;
 
 	// Other Settings
 	CGroupBox OtherGroup;
@@ -173,9 +186,13 @@ public:
 	CCheckBox OtherHitmarker;
 	CCheckBox OtherRadar;
 	CCheckBox OtherNoVisualRecoil;
-	CCheckBox OtherNoSky; 
-	CCheckBox OtherNoFlash; 
+	CCheckBox OtherNoSky;
+	CCheckBox OtherNoFlash;
 	CSlider   OtherNoFlashVal;
+	CCheckBox OtherGlow;
+	CSlider   OtherGlowAlpha;
+	CCheckBox NightMode;
+	CButton ResetXD;
 	CCheckBox OtherNoSmoke;
 	CCheckBox OtherAsusWalls;
 	CComboBox OtherNoHands;
@@ -201,6 +218,7 @@ public:
 	// Other Settings
 	CGroupBox OtherGroup;
 	CCheckBox OtherAutoJump;
+	CCheckBox OtherHAutoJump;
 	CCheckBox OtherEdgeJump;
 	CComboBox OtherAutoStrafe;
 	CCheckBox OtherSafeMode;
@@ -226,14 +244,13 @@ public:
 	CComboBox BIZONSkin;
 	CComboBox MP7Skin;
 	CComboBox MP9Skin;
-	CTextField OtherPName;
-	CTextField OtherCName;
+
 	CButton NApply;
 	// Fake Lag Settings
 	CGroupBox FakeLagGroup;
 	CCheckBox FakeLagEnable;
-	CSlider   FakeLagChoke;
-	CSlider	  FakeLagSend;
+	CSlider  FakeLagChoke;
+	CSlider  FakeLagSend;
 	CCheckBox ChokeRandomize;
 	CCheckBox SendRandomize;
 	//CCheckBox FakeLagWhileShooting;
@@ -249,6 +266,7 @@ public:
 	void Setup();
 
 	//Groups
+	CSlider CharmsA;
 	CGroupBox ColorsGroup;
 	CGroupBox CTNVisGroup;
 	CGroupBox CTVisGroup;
@@ -278,7 +296,7 @@ public:
 
 	//Menu Colors
 
-	
+
 	CSlider  MenuBar1R;
 	CSlider  MenuBar1G;
 	CSlider  MenuBar1B;
@@ -321,9 +339,10 @@ public:
 	CComboBox TECNINESkin;
 	CComboBox P2000Skin;
 	CComboBox P250Skin;
+	CComboBox CZSkin;
 
 	// MPs
-	
+
 
 	// Rifles
 	CGroupBox Riflegroup;
@@ -359,10 +378,8 @@ public:
 	CGroupBox SkinsettingsGroup;
 	CCheckBox StatTrakEnable;
 	/*
-*/
-	CTextField StatTrackAmount;
-	CTextField2 SkinName;
-	CTextField2 KnifeName;
+	*/
+
 };
 
 class CSettingsTab : public CTab
@@ -375,9 +392,9 @@ public:
 	//Options
 	CComboBox SetNr;
 	CButton Unload;
-	
 
-	
+
+
 };
 class ApocalypseWindow : public CWindow
 {

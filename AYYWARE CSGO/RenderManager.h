@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWare
+Rest In Peace ApocalypseCheats
 */
 
 #pragma once
@@ -35,6 +35,7 @@ namespace Render
 		extern DWORD Menu;
 		extern DWORD MenuBold;
 		extern DWORD ESP;
+		extern DWORD Untitled1;
 		extern DWORD MenuText;
 	};
 

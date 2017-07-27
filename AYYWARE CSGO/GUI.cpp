@@ -435,7 +435,7 @@ void CGUI::SaveWindowState(CWindow* window, std::string Filename)
 	tinyxml2::XMLElement *Root = Doc.NewElement("AC");
 	Doc.LinkEndChild(Root);
 
-	Utilities::Log("Saving Window %s", window->Title.c_str());
+	Utilities::Log("正在保存%s状态", window->Title.c_str());
 
 	// If the window has some tabs..
 	if (Root && window->Tabs.size() > 0)
@@ -446,7 +446,7 @@ void CGUI::SaveWindowState(CWindow* window, std::string Filename)
 			tinyxml2::XMLElement *TabElement = Doc.NewElement(Tab->Title.c_str());
 			Root->LinkEndChild(TabElement);
 
-			Utilities::Log("Saving Tab %s", Tab->Title.c_str());
+			Utilities::Log("正在保存选项卡%s状态", Tab->Title.c_str());
 
 			// Now we itterate the controls this tab contains
 			if (TabElement && Tab->Controls.size() > 0)
@@ -460,11 +460,11 @@ void CGUI::SaveWindowState(CWindow* window, std::string Filename)
 						tinyxml2::XMLElement *ControlElement = Doc.NewElement(Control->FileIdentifier.c_str());
 						TabElement->LinkEndChild(ControlElement);
 
-						Utilities::Log("Saving control %s", Control->FileIdentifier.c_str());
+						Utilities::Log("正在保存控件%s状态", Control->FileIdentifier.c_str());
 
 						if (!ControlElement)
 						{
-							Utilities::Log("Errorino :("); // s0 cute
+							Utilities::Log("发生未知错误 :("); // s0 cute
 							return;
 						}
 
