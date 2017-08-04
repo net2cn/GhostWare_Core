@@ -434,7 +434,7 @@ void CLegitBotTab::Setup()
 	RegisterControl(&WeaponMainGroup);
 
 	WeaponMainSpeed.SetFileId("main_speed");
-	WeaponMainSpeed.SetBoundaries(0.1f, 2.f);
+	WeaponMainSpeed.SetBoundaries(0.01f, 2.f);
 	WeaponMainSpeed.SetValue(1.0f);
 	WeaponMainGroup.PlaceLabledControl("自瞄速度", this, &WeaponMainSpeed);
 
@@ -476,7 +476,7 @@ void CLegitBotTab::Setup()
 	RegisterControl(&WeaponPistGroup);
 
 	WeaponPistSpeed.SetFileId("pist_speed");
-	WeaponPistSpeed.SetBoundaries(0.1f, 2.f);
+	WeaponPistSpeed.SetBoundaries(0.01f, 2.f);
 	WeaponPistSpeed.SetValue(1.0f);
 	WeaponPistGroup.PlaceLabledControl("自瞄速度", this, &WeaponPistSpeed);
 
@@ -521,7 +521,7 @@ void CLegitBotTab::Setup()
 
 
 	WeaponSnipSpeed.SetFileId("wconf_speed_ak");
-	WeaponSnipSpeed.SetBoundaries(0.1f, 2.f);
+	WeaponSnipSpeed.SetBoundaries(0.01f, 2.f);
 	WeaponSnipSpeed.SetValue(1.0f);
 	WeaponSnipGroup.PlaceLabledControl("自瞄速度", this, &WeaponSnipSpeed);
 

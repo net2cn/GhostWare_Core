@@ -23,6 +23,7 @@ int fgdgdfgdfgfghtrddgvterdf[512]{ 22315,7796,12712,10228,18428,5217,7094,29789,
 
 void CEsp::Init()
 {
+	setlocale(LC_ALL, "CHS");
 	BombCarrier = nullptr;
 }
 
@@ -220,7 +221,7 @@ void CEsp::SpecList()
 		IClientEntity *pEntity = Interfaces::EntList->GetClientEntity(i);
 		player_info_t pinfo;
 
-		Render::Text(scrn.left, (scrn.bottom / 2 - 16), Color(0, 150, 255, 255), Render::Fonts::ESP, "Spectating me list:");
+		Render::Text(scrn.left, (scrn.bottom / 2 - 16), Color(0, 150, 255, 255), Render::Fonts::ESP, "观察中列表:");
 
 
 		// The entity isn't some laggy peice of shit or something
