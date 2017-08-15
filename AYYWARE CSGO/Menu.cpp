@@ -870,7 +870,7 @@ void CMiscTab::Setup()
 	OtherGroup.PlaceLabledControl("Æ¤·ôÐÞ¸ÄÆ÷", this, &OtherSkinChanger);
 
 	OtherWatermark.SetFileId("otr_watermark");
-	OtherWatermark.SetState(true);
+	OtherWatermark.SetState(false);
 	OtherGroup.PlaceLabledControl("Ë®Ó¡", this, &OtherWatermark);
 
 	//DisableAll.SetFileId("otr_disableall");
