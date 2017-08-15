@@ -1,5 +1,5 @@
 /*
-Rest In Peace ApocalypseCheats
+Rest In Peace GhostWare_CSGO
 */
 
 // Credits Valve / Shad0w

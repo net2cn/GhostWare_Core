@@ -456,8 +456,8 @@ void __fastcall PaintTraverse_Hooked(PVOID pPanels, int edx, unsigned int vguiPa
 		{
 			RECT scrn = Render::GetViewport();
 			//Render::GradientV(8, 8, 160, 18, Color(0, 0, 0, 0), Color(7, 39, 17, 255));
-			RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, "ApocalypseCheats");
-			Render::Text(scrn.right - TextSize.right - 20, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "ApocalypseCheats");
+			RECT TextSize = Render::GetTextSize(Render::Fonts::ESP, "GhostWare_CSGO");
+			Render::Text(scrn.right - TextSize.right - 20, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "GhostWare_CSGO");
 			Render::Text(10, 10, Color(Menu::Window.ColorTab.MenuInnerR.GetValue(), Menu::Window.ColorTab.MenuInnerG.GetValue(), Menu::Window.ColorTab.MenuInnerB.GetValue(), 255), Render::Fonts::MenuBold, "Private");
 		}
 		if (Interfaces::Engine->IsConnected() && Interfaces::Engine->IsInGame())
@@ -555,7 +555,6 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 			{
 				IMaterial *covered = ChamsStyle == 1 ? CoveredLit : CoveredFlat;
 				IMaterial *open = ChamsStyle == 1 ? OpenLit : OpenFlat;
-
 				IClientEntity* pModelEntity = (IClientEntity*)Interfaces::EntList->GetClientEntity(pInfo.entity_index);
 				if (pModelEntity)
 				{
@@ -564,50 +563,25 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					{
 						if (pModelEntity->IsAlive() && pModelEntity->GetHealth() > 0 /*&& pModelEntity->GetTeamNum() != local->GetTeamNum()*/)
 						{
-							int alpharaw = Menu::Window.ColorTab.CharmsA.GetValue();
-
-							float alpha2 = alpharaw / 255;
-							float alpha;
-
+							float alpha = 1.f;
 							if (pModelEntity->HasGunGameImmunity())
-								alpha2 = 0.5f;
-
-
+								alpha = 0.5f;
 							if (pModelEntity->GetTeamNum() == 2)
 							{
 								flColor[0] = TNVR / 255.f;
 								flColor[1] = TNVG / 255.f;
 								flColor[2] = TNVB / 255.f;
-								if (ChamsStyle == 3 || ChamsStyle == 4)
-								{
-									alpha = 0;
-								}
-								else
-								{
-									alpha = alpha2;
-								}
-
 							}
 							else
 							{
 								flColor[0] = CTNVR / 255.f;
 								flColor[1] = CTNVG / 255.f;
 								flColor[2] = CTNVB / 255.f;
-								if (ChamsStyle == 3 || ChamsStyle == 4)
-								{
-									alpha = 0;
-								}
-								else
-								{
-									alpha = alpha2;
-								}
 							}
-
 							Interfaces::RenderView->SetColorModulation(flColor);
 							Interfaces::RenderView->SetBlend(alpha);
 							Interfaces::ModelRender->ForcedMaterialOverride(covered);
 							oDrawModelExecute(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-
 							if (pModelEntity->GetTeamNum() == 2)
 							{
 								flColor[0] = TR / 255.f;
@@ -620,14 +594,13 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 								flColor[1] = CTG / 255.f;
 								flColor[2] = CTB / 255.f;
 							}
-
 							Interfaces::RenderView->SetColorModulation(flColor);
 							Interfaces::RenderView->SetBlend(alpha);
 							Interfaces::ModelRender->ForcedMaterialOverride(open);
 						}
 						else
 						{
-							color.SetColor(255, 255, 255, 255);
+							color.SetColor(199, 199, 199, 255);
 							ForceMaterial(color, open);
 						}
 					}
@@ -653,15 +626,12 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					if (pLocal->IsAlive())
 					{
 						int alpha = pLocal->HasGunGameImmunity() ? 150 : 255;
-
 						if (pLocal->GetTeamNum() == 2)
 							color.SetColor(240, 30, 35, alpha);
 						else
 							color.SetColor(63, 72, 205, alpha);
-
 						ForceMaterial(color, covered);
 						oDrawModelExecute(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-
 						if (pLocal->GetTeamNum() == 2)
 							color.SetColor(247, 180, 20, alpha);
 						else
@@ -669,9 +639,8 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					}
 					else
 					{
-						color.SetColor(255, 255, 255, 255);
+						color.SetColor(199, 199, 199, 255);
 					}
-
 					ForceMaterial(color, open);
 				}
 			}
@@ -679,7 +648,6 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 			{
 				static int counter = 0;
 				static float colors[3] = { 1.f, 0.f, 0.f };
-
 				if (colors[counter] >= 1.0f)
 				{
 					colors[counter] = 1.0f;
@@ -694,7 +662,6 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 					colors[prev] -= 0.05f;
 					colors[counter] += 0.05f;
 				}
-
 				Interfaces::RenderView->SetColorModulation(colors);
 				Interfaces::RenderView->SetBlend(0.3);
 				Interfaces::ModelRender->ForcedMaterialOverride(OpenLit);
@@ -703,7 +670,7 @@ void __fastcall Hooked_DrawModelExecute(void* thisptr, int edx, void* ctx, void*
 		else if (ChamsStyle != 0 && Menu::Window.VisualsTab.FiltersWeapons.GetState() && strstr(ModelName, "_dropped.mdl"))
 		{
 			IMaterial *covered = ChamsStyle == 1 ? CoveredLit : CoveredFlat;
-			color.SetColor(255, 255, 255, 255);
+			color.SetColor(199, 199, 199, 255);
 			ForceMaterial(color, covered);
 		}
 	}

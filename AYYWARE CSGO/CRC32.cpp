@@ -1,5 +1,5 @@
 /*
-ApocalypseCheats
+GhostWare_CSGO
 */
 
 #include "CRC32.h"

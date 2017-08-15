@@ -1,5 +1,5 @@
 /*
-ApocalypseCheats
+GhostWare_CSGO
 */
 
 #pragma once

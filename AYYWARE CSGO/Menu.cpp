@@ -615,8 +615,8 @@ void CVisualTab::Setup()
 	OptionsChams.AddItem("关闭");
 	OptionsChams.AddItem("普通");
 	OptionsChams.AddItem("扁平");
-	OptionsChams.AddItem("仅可见 - 普通");
-	OptionsChams.AddItem("仅可见 - 扁平");
+	//OptionsChams.AddItem("仅可见 - 普通");
+	//OptionsChams.AddItem("仅可见 - 扁平");
 	OptionsGroup.PlaceLabledControl("彩人", this, &OptionsChams);
 
 	OptionsSkeleton.SetFileId("opt_bone");
