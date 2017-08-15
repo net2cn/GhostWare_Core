@@ -587,59 +587,45 @@ void CEsp::DrawHealth(IClientEntity* pEntity, CEsp::ESPBox size)
 	ESPBox HealthBar = size;
 	HealthBar.y += (HealthBar.h + 6);
 	HealthBar.h = 4;
-
 	float HealthValue = pEntity->GetHealth();
 	float HealthPerc = HealthValue / 100.f;
 	float Width = (size.w * HealthPerc);
 	HealthBar.w = Width;
-
 	// --  Main Bar -- //
-
 	Vertex_t Verts[4];
 	Verts[0].Init(Vector2D(HealthBar.x, HealthBar.y));
 	Verts[1].Init(Vector2D(HealthBar.x + size.w, HealthBar.y));
 	Verts[2].Init(Vector2D(HealthBar.x + size.w, HealthBar.y + 5));
 	Verts[3].Init(Vector2D(HealthBar.x, HealthBar.y + 5));
-
 	// Verts[1].Init(Vector2D(HealthBar.x + size.w + 5, HealthBar.y));
 	//Verts[2].Init(Vector2D(HealthBar.x + size.w, HealthBar.y + 5));
 	//Verts[3].Init(Vector2D(HealthBar.x - 5, HealthBar.y + 5));
 	Render::PolygonOutline(4, Verts, Color(10, 10, 10, 255), Color(255, 255, 255, 170));
-
 	Vertex_t Verts2[4];
 	Verts2[0].Init(Vector2D(HealthBar.x, HealthBar.y + 1));
 	Verts2[1].Init(Vector2D(HealthBar.x + HealthBar.w, HealthBar.y + 1));
 	Verts2[2].Init(Vector2D(HealthBar.x + HealthBar.w, HealthBar.y + 5));
 	Verts2[3].Init(Vector2D(HealthBar.x, HealthBar.y + 5));
-
 	/*
 	Verts2[1].Init(Vector2D(HealthBar.x + HealthBar.w + 4, HealthBar.y + 1));
 	Verts2[2].Init(Vector2D(HealthBar.x + HealthBar.w, HealthBar.y + 5));
 	Verts2[3].Init(Vector2D(HealthBar.x - 4, HealthBar.y + 5));
 	*/
-	
+
 	Color colorxd(0, 255, 0);
 	Color colorxd2(255, 255, 0);
 	Color colorxd3(255, 119, 0);
 	Color colorxd4(255, 0, 0);
-
-
 	Render::Polygon(4, Verts2, GetPlayerColor(pEntity));
-
-
-
-
 	Verts2[0].Init(Vector2D(HealthBar.x + 1, HealthBar.y + 1));
-
 	Verts2[1].Init(Vector2D(HealthBar.x + HealthBar.w, HealthBar.y + 1));
 	Verts2[2].Init(Vector2D(HealthBar.x + HealthBar.w, HealthBar.y + 2));
-	Verts2[3].Init(Vector2D(HealthBar.x , HealthBar.y + 2));
+	Verts2[3].Init(Vector2D(HealthBar.x, HealthBar.y + 2));
+
 	/*Verts2[1].Init(Vector2D(HealthBar.x + HealthBar.w + 2, HealthBar.y + 1));
 	Verts2[2].Init(Vector2D(HealthBar.x + HealthBar.w, HealthBar.y + 2));
 	Verts2[3].Init(Vector2D(HealthBar.x - 2, HealthBar.y + 2));*/
-
 	Render::Polygon(4, Verts2, Color(255, 255, 255, 40));
-
 }
 
 // Cleans the internal class name up to something human readable and nice
@@ -678,7 +664,7 @@ void CEsp::DrawInfo(IClientEntity* pEntity, CEsp::ESPBox size)
 	// Bomb Carrier
 	if (Menu::Window.VisualsTab.OptionsInfo.GetState() && pEntity == BombCarrier)
 	{
-		Info.push_back("Bomb Carrier");
+		Info.push_back("’®µØ≥÷”–’ﬂ");
 	}
 	
 
