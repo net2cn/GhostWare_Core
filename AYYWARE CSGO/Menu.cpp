@@ -810,17 +810,17 @@ void CMiscTab::Setup()
 	OtherEdgeJump.SetFileId("otr_edgejump");
 	OtherGroup.PlaceLabledControl("连跳", this, &OtherEdgeJump);
 
-	OtherAutoStrafe.SetFileId("otr_strafe");
-	OtherAutoStrafe.AddItem("关闭");
-	OtherAutoStrafe.AddItem("温柔");
-	OtherAutoStrafe.AddItem("暴力");
-	OtherGroup.PlaceLabledControl("自动扫射", this, &OtherAutoStrafe);
+	//OtherAutoStrafe.SetFileId("otr_strafe");
+	//OtherAutoStrafe.AddItem("关闭");
+	//OtherAutoStrafe.AddItem("温柔");
+	//OtherAutoStrafe.AddItem("暴力");
+	//OtherGroup.PlaceLabledControl("自动扫射", this, &OtherAutoStrafe);
 
-	OtherAutoCounterStafe.SetFileId("otr_autocs");
-	OtherGroup.PlaceLabledControl("自动反击", this, &OtherAutoCounterStafe);
+	//OtherAutoCounterStafe.SetFileId("otr_autocs");
+	//OtherGroup.PlaceLabledControl("自动反击", this, &OtherAutoCounterStafe);
 
-	OtherAutoCounterStafeKey.SetFileId("otr_autocs_key");
-	OtherGroup.PlaceLabledControl("自动扫射", this, &OtherAutoCounterStafeKey);
+	//OtherAutoCounterStafeKey.SetFileId("otr_autocs_key");
+	//OtherGroup.PlaceLabledControl("自动扫射", this, &OtherAutoCounterStafeKey);
 
 	OtherSafeMode.SetFileId("otr_safemode");
 	OtherSafeMode.SetState(true);
