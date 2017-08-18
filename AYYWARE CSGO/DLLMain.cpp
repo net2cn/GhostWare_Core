@@ -36,21 +36,25 @@ int InitialThread()
 {
 	Utilities::OpenConsole(Utilities::GetTitle() + " 构建日期 " __DATE__);
 
-	//Sleep(200);
-	//if(!Utilities::StartNamedPipeVerification())
-	//{
-	//	Utilities::Log("日你爹不行啊！");
-	//}
-
-	// Simple anti crack - Noob proofed.
-	if (!Utilities::GetProcessByName("GhostWare_Injector.exe"))
+	Sleep(200);
+	if(!Utilities::SocketListenClient())
 	{
-		Utilities::Log("无法连接后端！");
-		Utilities::Log("注入失败！");
-		Sleep(5000);
-		Utilities::CloseConsole();
-		return -1;
+		Utilities::Log("无法连接到后端！即将终止进程");
+		Sleep(1000);
+		Hooks::UndoHooks();
+		Sleep(2000); // Make sure none of our hooks are running
+		FreeLibraryAndExitThread(HThisModule, 0);
 	}
+
+	// Simple anti crack - Noob proofed. (Obsolete)
+	//if (!Utilities::GetProcessByName("GhostWare_Injector.exe"))
+	//{
+	//	Utilities::Log("无法连接后端！");
+	//	Utilities::Log("注入失败！");
+	//	Sleep(5000);
+	//	Utilities::CloseConsole();
+	//	return -1;
+	//}
 
 	// Intro banner with info
 	PrintMetaHeader();

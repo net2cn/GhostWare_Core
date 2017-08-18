@@ -10,7 +10,9 @@ Syn's GhostWare Framework
 #include <Psapi.h>
 #include <TlHelp32.h>
 #include <cstdio>
-#include "locale.h"
+#include <locale.h>
+#include <WinSock2.h>
+
 
 #define RandomInt(min, max) (rand() % (max - min + 1) + min)
 
@@ -347,65 +349,45 @@ bool Utilities::GetProcessByName(const char* processName)
 	return false;
 }
 
-bool Utilities::StartNamedPipeVerification()
+bool Utilities::SocketListenClient()
 {
-	HANDLE hFile;
-	BOOL flg;
-	DWORD dwWrite;
-	DWORD cbResponse, cbRead;
-	char chResponse[512];
-	char szPipeUpdate[512];
-	hFile = CreateFile("\\\\.\\pipe\\GWPipe", GENERIC_WRITE | GENERIC_READ,
-		0, NULL, OPEN_EXISTING,
-		0, NULL);
+	WORD wVersionRequested;
+	WSADATA wsaData;
+	int err;
 
-	printf("Let's read!\n");
-	//Read the datas sent by the server
-	BOOL fFinishRead = FALSE;
-	do
-	{
-		cbResponse = sizeof(chResponse);
+	wVersionRequested = MAKEWORD(1, 1);
 
-		fFinishRead = ReadFile(
-			hFile,                  // Handle of the pipe
-			chResponse,             // Buffer to receive the reply
-			cbResponse,             // Size of buffer in bytes
-			&cbRead,                // Number of bytes read 
-			NULL                    // Not overlapped 
-		);
-
-		if (!fFinishRead && ERROR_MORE_DATA != GetLastError())
-		{
-			DWORD  dwError = GetLastError();
-			wprintf(L"ReadFile from pipe failed w/err 0x%08lx\n", dwError);
-			return false;
-		}
-
-		Log(chResponse);
-
-	} while (!fFinishRead); // Repeat loop if ERROR_MORE_DATA
-
-
-	strcpy(szPipeUpdate, chResponse);
-	if (hFile == INVALID_HANDLE_VALUE)
-	{
-		DWORD dw = GetLastError();
-		Log("CreateFile failed for Named Pipe client");
+	err = WSAStartup(wVersionRequested, &wsaData);
+	if (err != 0) {
 		return false;
 	}
 
-	flg = WriteFile(hFile, szPipeUpdate, strlen(szPipeUpdate), &dwWrite, NULL);
-	if (FALSE == flg)
-	{
-		Log("WriteFile failed for Named Pipe client");
+	if (LOBYTE(wsaData.wVersion) != 1 ||
+		HIBYTE(wsaData.wVersion) != 1) {
+		WSACleanup();
 		return false;
 	}
+	SOCKET sockClient = socket(AF_INET, SOCK_STREAM, 0);
 
-	Log("WriteFile succeeded for Named Pipe client");
+	SOCKADDR_IN addrSrv;
+	addrSrv.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(16896);
+	connect(sockClient, (SOCKADDR*)&addrSrv, sizeof(SOCKADDR));
+	//"<EOF>" is necessary.
+	send(sockClient, "Inject Success<EOF>", strlen("Inject Success<EOF>") + 1, 0);
+	char recvBuf[1024];
+	recv(sockClient, recvBuf, 1024, 0);
 
-	CloseHandle(hFile);
+	closesocket(sockClient);
+	WSACleanup();
 
-	if (chResponse == "TestCode")
+	//Make sure the identity is complete - by adding "<EOF>" mark we can know if the string is complete.
+	std::string recvStringBuffer(recvBuf);
+	int endPatternPosition = recvStringBuffer.find("<EOF>");
+	std::string recvContent = recvStringBuffer.substr(0, endPatternPosition);
+
+	if (recvContent == std::string("Server Ready"))
 		return true;
 
 	return false;

@@ -35,7 +35,7 @@ struct Head_t
 	int last_element;				//0x0018
 }; //Size=0x001C
 
-// could use CUtlString but this is just easier and CUtlString isn't needed anywhere else
+   // could use CUtlString but this is just easier and CUtlString isn't needed anywhere else
 struct String_t
 {
 	char* buffer;	//0x0000
@@ -134,17 +134,17 @@ void InitializeKits()
 
 		auto map_head = reinterpret_cast<Head_t<int, CPaintKit*>*>(uintptr_t(item_schema) + head_offset);
 
-		for(int i = 0; i <= map_head->last_element; ++i)
+		for (int i = 0; i <= map_head->last_element; ++i)
 		{
 			auto paint_kit = map_head->memory[i].value;
 
-			if(paint_kit->id == 9001)
+			if (paint_kit->id == 9001)
 				continue;
 
 			const wchar_t* wide_name = g_localize->Find(paint_kit->item_name.buffer + 1);
 			auto name = converter.to_bytes(wide_name);
 
-			if(paint_kit->id < 10000)
+			if (paint_kit->id < 10000)
 				k_skins.push_back({ paint_kit->id, name });
 			else
 				k_gloves.push_back({ paint_kit->id, name });
@@ -156,13 +156,13 @@ void InitializeKits()
 
 	// Dump sticker kits
 	{
-		auto sticker_sig = platform::FindPattern("client.dll", "\x8D\x48\x04\xE8\x00\x00\x00\x00\x89\x45\xF8\xE8", "xxxx????xxxx");
+		auto sticker_sig = platform::FindPattern("client.dll", "\x53\x8D\x48\x04\xE8\x00\x00\x00\x00\x8B\x4D\x10", "xxxxx????xxx") + 4;
 
-		// Skip the instructions between, skip the opcode, read rel32 address
-		auto get_sticker_kit_definition_offset = *reinterpret_cast<intptr_t*>(sticker_sig + 3 + 1);
+		// Skip the opcode, read rel32 address
+		auto get_sticker_kit_definition_offset = *reinterpret_cast<intptr_t*>(sticker_sig + 1);
 
 		// Add the offset to the end of the instruction
-		auto get_sticker_kit_definition_fn = reinterpret_cast<CPaintKit* (__thiscall *)(CCStrike15ItemSchema*, int)>(sticker_sig + 3 + 5 + get_sticker_kit_definition_offset);
+		auto get_sticker_kit_definition_fn = reinterpret_cast<CPaintKit* (__thiscall *)(CCStrike15ItemSchema*, int)>(sticker_sig + 5 + get_sticker_kit_definition_offset);
 
 		// The last offset is head_element, we need that
 
@@ -182,7 +182,7 @@ void InitializeKits()
 
 		auto map_head = reinterpret_cast<Head_t<int, CStickerKit*>*>(uintptr_t(item_schema) + head_offset);
 
-		for(int i = 0; i <= map_head->last_element; ++i)
+		for (int i = 0; i <= map_head->last_element; ++i)
 		{
 			auto sticker_kit = map_head->memory[i].value;
 
@@ -190,7 +190,7 @@ void InitializeKits()
 
 			auto sticker_name_ptr = sticker_kit->item_name.buffer + 1;
 
-			if(strstr(sticker_name_ptr, "StickerKit_dhw2014_dignitas"))
+			if (strstr(sticker_name_ptr, "StickerKit_dhw2014_dignitas"))
 			{
 				strcpy_s(sticker_name_if_valve_fucked_up_their_translations, "StickerKit_dhw2014_teamdignitas");
 				strcat_s(sticker_name_if_valve_fucked_up_their_translations, sticker_name_ptr + 27);

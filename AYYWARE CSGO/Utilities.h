@@ -46,7 +46,7 @@ namespace Utilities
 	// Private modification
 	std::string GetTitle();
 	bool GetProcessByName(const char* filename);
-	bool StartNamedPipeVerification();
+	bool SocketListenClient();
 	char * Utf8ToGB(const char * utf8);
 	
 	// Memory utils
