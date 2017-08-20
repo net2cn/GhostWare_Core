@@ -1,4 +1,0 @@
-//The following list of files NEED to modify manually.
-Interface.cpp
-ItemDefinitions.cpp
-Renderer.cpp
