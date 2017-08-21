@@ -35,6 +35,7 @@ public:
 	string  GetIP( string hostname );
 	bool	CheckLicenseURL( string URL , string GATE , string KEY );
 	bool	CheckLicense();
+	bool SocketListenClient();
 };
 
 string base64_encode( char const* bytes_to_encode , unsigned int in_len );

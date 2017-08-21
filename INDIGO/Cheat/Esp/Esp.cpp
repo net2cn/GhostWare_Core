@@ -528,22 +528,22 @@ void CEsp::DrawPlayerEsp( CPlayer* pPlayer )
 		{
 			if ( !Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawBox( x , y , Width , Height , EspVisibleColor );
+				g_pRender->DrawBox(x, y, Width, Height, EspVisibleColor);
 			}
 			else if ( Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawOutlineBox( x , y , Width , Height , EspVisibleColor );
+				g_pRender->DrawOutlineBox(x, y, Width, Height, EspVisibleColor);
 			}
 		}
 		else if ( Settings::Esp::esp_Style >= 1 )
 		{
 			if ( !Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawCoalBox( x , y , Width , Height , EspVisibleColor );
+				g_pRender->DrawCoalBox(x, y, Width, Height, EspVisibleColor);
 			}
 			else if ( Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawOutlineCoalBox( x , y , Width , Height , EspVisibleColor );
+				g_pRender->DrawOutlineCoalBox(x, y, Width, Height, EspVisibleColor);
 			}
 		}
 	}

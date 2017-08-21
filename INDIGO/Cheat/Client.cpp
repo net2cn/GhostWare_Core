@@ -78,6 +78,9 @@ namespace Client
 
 		g_pGui->GUI_Init( pDevice );
 
+		//Make sure settings.ini exists...
+		string ConfigFileName = "settings";
+		Settings::SaveSettings(BaseDir + "\\" + ConfigFileName + ".ini");
 		RefreshConfigs();
 
 		return true;
@@ -280,7 +283,7 @@ namespace Client
 
 			const char* tabNames[] = { 
 				AIMBOT_TEXT , TRIGGER_TEXT , VISUAL_TEXT , RADAR_TEXT , 
-				KNIFEBOT_TEXT , SKIN_TEXT , MISC_TEXT , CONFIG_TEXT };
+				KNIFEBOT_TEXT , /*SKIN_TEXT ,*/ MISC_TEXT , CONFIG_TEXT };
 			//Skin changer is damaged... need futher repair
 			
 			static int tabOrder[] = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 };
@@ -313,7 +316,7 @@ namespace Client
 				ImGui::SameLine( SpaceLineOne );
 				ImGui::Checkbox( "\xe7\xa9\xbf\xe5\xa2\x99" , &Settings::Aimbot::aim_WallAttack );//WallAttack 穿墙
 				ImGui::SameLine( SpaceLineTwo );
-				ImGui::Checkbox( "\xe6\xa3\x80\xe6\xb5\x8b\xe7\x83\x9f\xe9\x9b\xbe" , &Settings::Aimbot::aim_CheckSmoke );//CheckSmoke 检测烟雾
+				ImGui::Checkbox( "\xE6\x98\xAF\xE5\x90\xA6\xE7\xA9\xBF\xE7\x83\x9F\x0A" , &Settings::Aimbot::aim_CheckSmoke );//CheckSmoke 穿否穿烟
 
 				ImGui::Checkbox( "\xe5\x8f\x8d\xe8\xb7\xb3\xe8\xb7\x83" , &Settings::Aimbot::aim_AntiJump );//AntiJump 反跳跃
 				ImGui::SameLine( SpaceLineOne );
@@ -335,7 +338,7 @@ namespace Client
 
 				ImGui::PushItemWidth( 362.f );
 				ImGui::SliderInt( "\xE5\xB9\xB3\xE6\xBB\x91\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Smooth , 1 , 300 );//Smooth 平滑
-				ImGui::SliderInt( "Fov" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Fov , 1 , 300 );
+				ImGui::SliderInt( "\xE8\x8C\x83\xE5\x9B\xB4\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Fov , 1 , 300 );//Fov 范围
 				ImGui::PopItemWidth();
 
 				const char* AimFovType[] = { "\xE5\x8A\xA8\xE6\x80\x81\x0A" , "\xE9\x9D\x99\xE6\x80\x81\x0A" };//Dynamic Static 动态 静态
@@ -354,7 +357,7 @@ namespace Client
 
 				const char* Aimspot[] = { "\xE5\xA4\xB4\x0A" , "\xE8\x84\x96\xE5\xAD\x90\x0A" , "\xE9\x94\x81\xE9\xAA\xA8\x0A" , "\xE8\xBA\xAB\xE4\xBD\x93\x0A" , "\xE8\x83\xB8\xE9\x83\xA8\x0A" , "\xE8\x85\xB9\xE9\x83\xA8\x0A" };//"Head" , "Neck" , "Low Neck" , "Body" , "Thorax" , "Chest" 头 脖子 锁骨 身体 胸部 腹部
 				ImGui::PushItemWidth( 362.f );
-				ImGui::Combo( "\xE8\x87\xAA\xE7\x9E\x84\xE7\x82\xB9\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Spot , Aimspot , IM_ARRAYSIZE( Aimspot ) );//Aimspot 自瞄点
+				ImGui::Combo( "\xE7\x9E\x84\xE5\x87\x86\xE9\x83\xA8\xE4\xBD\x8D\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Spot , Aimspot , IM_ARRAYSIZE( Aimspot ) );//Aimspot 瞄准部位
 				ImGui::PopItemWidth();
 
 				ImGui::Spacing();
@@ -403,9 +406,9 @@ namespace Client
 				ImGui::SameLine( SpaceLineOne );
 				ImGui::Checkbox( "\xe7\xa9\xbf\xe5\xa2\x99" , &Settings::Triggerbot::trigger_WallAttack );//WallAttack 穿墙
 				ImGui::SameLine( SpaceLineTwo );
-				ImGui::Checkbox( "\xE5\xBF\xAB\xE9\x80\x9F\xE7\xBC\xA9\xE6\x94\xBE\x0A" , &Settings::Triggerbot::trigger_FastZoom );//FastZoom 快速缩放
+				ImGui::Checkbox( "\xE8\x87\xAA\xE5\x8A\xA8\xE5\xBC\x80\xE9\x95\x9C\x0A" , &Settings::Triggerbot::trigger_FastZoom );//FastZoom 自动开镜
 				
-				ImGui::Checkbox( "\xE7\x83\x9F\xE9\x9B\xBE\xE6\xA3\x80\xE6\xB5\x8B\x0A" , &Settings::Triggerbot::trigger_SmokCheck );//SmokeCheck 烟雾检测
+				ImGui::Checkbox( "\xE6\x98\xAF\xE5\x90\xA6\xE7\xA9\xBF\xE7\x83\x9F\x0A" , &Settings::Triggerbot::trigger_SmokCheck );//SmokeCheck 是否穿烟
 				ImGui::SameLine( SpaceLineOne );
 				ImGui::Checkbox( "\xE7\x9E\x84\xE5\x87\x86\xE7\x82\xB9\xE8\x8C\x83\xE5\x9B\xB4\x0A" , &Settings::Triggerbot::trigger_DrawFov );//DrawFov 瞄准点范围
 				ImGui::SameLine( SpaceLineTwo );
@@ -419,13 +422,13 @@ namespace Client
 				
 				const char* items1[] = { CVAR_KEY_MOUSE3 , CVAR_KEY_MOUSE4 , CVAR_KEY_MOUSE5 };
 				ImGui::PushItemWidth( 80.f );
-				ImGui::Combo( "Key" , &Settings::Triggerbot::trigger_Key , items1 , IM_ARRAYSIZE( items1 ) );//不确定!!!!!!!!!!!!!!!key
+				ImGui::Combo( "\xE6\x8C\x89\xE9\x94\xAE\x0A" , &Settings::Triggerbot::trigger_Key , items1 , IM_ARRAYSIZE( items1 ) );//不确定!!!!!!!!!!!!!!!key 按键
 				ImGui::PopItemWidth();
 				ImGui::SameLine();
 
-				const char* items2[] = { "Hold" , "Press" };//不确定!!!!!!!!!!!!!!!
+				const char* items2[] = { "\xE6\x8C\x89\xE4\xBD\x8F\x0A" , "\xE6\x8C\x89\xE9\x94\xAE\x0A" };//不确定!!!!!!!!!!!!!!!Hold Press按住 按键
 				ImGui::PushItemWidth( 80.f );
-				ImGui::Combo( "Key Mode" , &Settings::Triggerbot::trigger_KeyMode , items2 , IM_ARRAYSIZE( items2 ) );//不确定!!!!!!!!!!!!!!!key mode
+				ImGui::Combo( "\xE6\x8C\x89\xE9\x94\xAE\xE6\xA8\xA1\xE5\xBC\x8F\x0A" , &Settings::Triggerbot::trigger_KeyMode , items2 , IM_ARRAYSIZE( items2 ) );//不确定!!!!!!!!!!!!!!!key mode 按键模式
 				ImGui::PopItemWidth();
 				ImGui::SameLine();
 
@@ -452,25 +455,25 @@ namespace Client
 				ImGui::Checkbox( "\xE5\x8F\xAA\xE7\x9E\x84\xE5\xA4\xB4\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_HeadOnly );//HeadOnly 只瞄头
 				ImGui::SameLine();
 
-				const char* AssistMode[] = { "Disable" , "One Shot" , "Auto" };//不确定!!!!!!!!!!!!!!!
+				const char* AssistMode[] = { "\xE5\x85\xB3\xE9\x97\xAD\x0A" , "One Shot" , "\xE8\x87\xAA\xE5\x8A\xA8\x0A" };//不确定!!!!!!!!!!!!!!!Disable One Shot Auto关闭 一枪 自动
 				ImGui::PushItemWidth( 80.f );
 				ImGui::Combo( "\xE5\x90\xB8\xE9\x99\x84\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_Assist , AssistMode , IM_ARRAYSIZE( AssistMode ) );//不确定!!!!!!!!!!!!!!!Assist 吸附
 				ImGui::PopItemWidth();
 				ImGui::SameLine();
 
-				const char* AssistFovType[] = { "Dynamic" , "Static" };//不确定!!!!!!!!!!!!!!!
+				const char* AssistFovType[] = { "\xE5\x8A\xA8\xE6\x80\x81\x0A" , "\xE9\x9D\x99\xE6\x80\x81\x0A" };//不确定!!!!!!!!!!!!!!!Dynamic Static 动态 静态
 				ImGui::PushItemWidth( 80.f );
 				ImGui::Combo( "\xE5\x90\xB8\xE9\x99\x84\xE7\xB1\xBB\xE5\x9E\x8B\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_AssistFovType , AssistFovType , IM_ARRAYSIZE( AssistFovType ) );//不确定!!!!!!!!!!!!!!!Assist Fov Type 吸附类型
 				ImGui::PopItemWidth();
 
-				const char* HitGroup[] = { "All" , "Head + Body" , "Head" };
-				ImGui::Combo( "HitGroup" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_HitGroup , HitGroup , IM_ARRAYSIZE( HitGroup ) );
+				const char* HitGroup[] = { "\xE5\x85\xA8\xE9\x83\xA8\x0A" , "\xE5\xA4\xB4\x2B\xE8\xBA\xAB\xE4\xBD\x93\x0A" , "\xE5\xA4\xB4\x0A" };//all head+body Head 全部 头+身子 头
+				ImGui::Combo( "\xE7\x9B\xAE\xE6\xA0\x87\xE9\x83\xA8\xE4\xBD\x8D\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_HitGroup , HitGroup , IM_ARRAYSIZE( HitGroup ) );//hitgroup 目标部位
 				//ImGui::PopItemWidth();
 				
 				ImGui::PushItemWidth( 362.f );
 				ImGui::SliderInt( "\xE5\x90\xB8\xE9\x99\x84\xE5\x90\x8E\xE5\x9D\x90\xE5\x8A\x9B\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_AssistRcs , 0 , 100 );//不确定!!!!!!!!!!!!!!! Assist Rcs 吸附后坐力
 				ImGui::SliderInt("\xE5\x90\xB8\xE9\x99\x84\xE8\x8C\x83\xE5\x9B\xB4\x0A", &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_AssistFov, 1, 300);//不确定!!!!!!!!!!!!!!! Assist Fov 吸附范围
-				ImGui::SliderInt("\xE5\x90\xB8\xE9\x99\x84\xE5\xB9\xB3\xE6\xBB\x91\x0A", &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_AssistSmooth, 1, 300);//不确定!!!!!!!!!!!!!!! Assist Smooth 吸附平滑
+				ImGui::SliderInt("\xE5\x90\xB8\xE9\x99\x84\xE9\x80\x9F\xE5\xBA\xA6\x0A", &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_AssistSmooth, 1, 300);//不确定!!!!!!!!!!!!!!! Assist Smooth 吸附速度
 				ImGui::PopItemWidth();
 
 				ImGui::Spacing();
@@ -479,8 +482,8 @@ namespace Client
 			}
 			else if ( tabSelected == 2 ) // Visuals
 			{
-				string style_1 = "\xE6\x96\xB9\xE6\xA1\x86\x0A";//不确定!!!!!!!!!!!!!!!Box 方框
-				string style_2 = "\xE5\xA1\xAB\xE5\x85\x85\xE6\xA1\x86\x0A";//不确定!!!!!!!!!!!!!!!CoalBox 填充框
+				string style_1 = "\xE6\x96\xB9\xE6\xA1\x86\x0A";//Box 方框
+				string style_2 = "\xE8\xBE\xB9\xE8\xA7\x92\xE6\xA1\x86";//CoalBox 边角框
 
 				const char* items1[] = { style_1.c_str() , style_2.c_str() };
 
@@ -508,7 +511,7 @@ namespace Client
 				ImGui::SameLine( SpaceLineThr );
 				ImGui::Checkbox( "\xE6\xAE\xB5\xE4\xBD\x8D\x0A" , &Settings::Esp::esp_Rank );//Esp Rank 段位
 
-				ImGui::Checkbox( "\xE6\xAD\xA6\xE5\x99\xA8\x0A" , &Settings::Esp::esp_Weapon );//Esp Weapon 武器
+				ImGui::Checkbox( "\xE6\xAD\xA6\xE5\x99\xA8\xE4\xBF\xA1\xE6\x81\xAF\x0A" , &Settings::Esp::esp_Weapon );//Esp Weapon 武器信息
 				ImGui::SameLine( SpaceLineOne );
 				ImGui::Checkbox( "\xE5\xBC\xB9\xE8\x8D\xAF\x0A" , &Settings::Esp::esp_Ammo );//Esp Ammo 弹药
 				ImGui::SameLine( SpaceLineTwo );
@@ -520,17 +523,17 @@ namespace Client
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				ImGui::Checkbox( "\xE6\xAD\xA6\xE5\x99\xA8\x0A" , &Settings::Esp::esp_WorldWeapons );//Esp World Weapon 武器
+				ImGui::Checkbox( "\xE5\x85\xA8\xE5\xB1\x80\xE6\xAD\xA6\xE5\x99\xA8\x0A" , &Settings::Esp::esp_WorldWeapons );//Esp World Weapon 全局武器
 				ImGui::Checkbox( "\xE6\x89\x8B\xE9\x9B\xB7\xE8\xBD\xA8\xE8\xBF\xB9\x0A" , &Settings::Esp::esp_WorldGrenade );//Esp World Grenade 手雷轨迹
 
 				ImGui::Spacing();
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				string visible_1 = "\xE6\x95\x8C\xE4\xBA\xBA\x0A";//不确定!!!!!!!!!!!!!!! Enemy 敌人
-				string visible_2 = "\xE9\x98\x9F\xE5\x8F\x8B\x0A";//不确定!!!!!!!!!!!!!!! Team 队友
-				string visible_3 = "\xE5\x85\xA8\xE9\x83\xA8\x0A";//不确定!!!!!!!!!!!!!!! All 全部
-				string visible_4 = "\xE4\xBB\x85\xE5\x8F\xAF\xE8\xA7\x81\xE6\x97\xB6\x0A";//不确定!!!!!!!!!!!!!!! Only Visible 仅可见时
+				string visible_1 = "\xE6\x95\x8C\xE4\xBA\xBA\x0A";//Enemy 敌人
+				string visible_2 = "\xE9\x98\x9F\xE5\x8F\x8B\x0A";//Team 队友
+				string visible_3 = "\xE5\x85\xA8\xE9\x83\xA8\x0A";//All 全部
+				string visible_4 = "\xE4\xBB\x85\xE5\x8F\xAF\xE8\xA7\x81\xE6\x97\xB6\x0A";//Only Visible 仅可见时
 
 				const char* items2[] = { visible_1.c_str() , visible_2.c_str() , visible_3.c_str() , visible_4.c_str() };
 
@@ -541,40 +544,40 @@ namespace Client
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				ImGui::SliderInt( "\xE9\x80\x8F\xE8\xA7\x86\xE8\x8C\x83\xE5\x9B\xB4\x0A" , &Settings::Esp::esp_Size , 0 , 10 );//不确定!!!!!!!!!!!!!!! Esp Size 透视范围
-				ImGui::SliderInt( "\xE8\xAE\xA1\xE6\x97\xB6\xE5\x99\xA8\x0A" , &Settings::Esp::esp_BombTimer , 0 , 65 );//不确定!!!!!!!!!!!!!!! Esp BombTimer 计时器
+				ImGui::SliderInt( "\xE6\x96\xB9\xE6\xA1\x86\xE5\xA4\xA7\xE5\xB0\x8F" , &Settings::Esp::esp_Size , 0 , 10 );//Esp Size 方框大小
+				ImGui::SliderInt( "C4\xE7\x88\x86\xE7\x82\xB8\xE6\x97\xB6\xE9\x97\xB4" , &Settings::Esp::esp_BombTimer , 0 , 65 );//Esp BombTimer C4爆炸时间
 				ImGui::SliderInt( "\xE7\x9E\x84\xE5\x87\x86\xE7\xBA\xBF\x0A" , &Settings::Esp::esp_BulletTrace , 0 , 3000 );//不确定!!!!!!!!!!!!!!! Esp BulletTrace 瞄准线
 
 				ImGui::Spacing();
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				string hpbar_1 = "\xE6\x97\xA0\x0A";//不确定!!!!!!!!!!!!!!! None 无
-				string hpbar_2 = "\xE6\x95\xB0\xE5\xAD\x97\x0A";//不确定!!!!!!!!!!!!!!! Number 数字
-				string hpbar_3 = "\xE6\x9D\xA1\xE7\x8A\xB6\x0A";//不确定!!!!!!!!!!!!!!! Bottom 条状
-				string hpbar_4 = "\xE5\xB7\xA6\xE4\xBE\xA7\x0A";//不确定!!!!!!!!!!!!!!! Left 左侧
+				string hpbar_1 = "\xE6\x97\xA0\x0A";//None 无
+				string hpbar_2 = "\xE6\x95\xB0\xE5\xAD\x97\x0A";//Number 数字
+				string hpbar_3 = "\xE5\xBA\x95\xE9\x83\xA8";//Bottom 底部
+				string hpbar_4 = "\xE5\xB7\xA6\xE4\xBE\xA7";//Left 左侧
 
 				const char* items3[] = { hpbar_1.c_str() , hpbar_2.c_str() , hpbar_3.c_str() , hpbar_4.c_str() };
-				ImGui::Combo( "\xE8\xA1\x80\xE9\x87\x8F\x0A" , &Settings::Esp::esp_Health , items3 , IM_ARRAYSIZE( items3 ) );//不确定!!!!!!!!!!!!!!! Esp Health 血量
+				ImGui::Combo( "\xE8\xA1\x80\xE9\x87\x8F\xE6\xA0\xB7\xE5\xBC\x8F" , &Settings::Esp::esp_Health , items3 , IM_ARRAYSIZE( items3 ) );// Esp Health 血量样式
 
-				string arbar_1 = "\xE6\x97\xA0\x0A";//不确定!!!!!!!!!!!!!!!None 无
-				string arbar_2 = "\xE6\x95\xB0\xE5\xAD\x97\x0A";//不确定!!!!!!!!!!!!!!! Number 数字
-				string arbar_3 = "\xE6\x9D\xA1\xE7\x8A\xB6\x0A";//不确定!!!!!!!!!!!!!!! Bottom 条状
-				string arbar_4 = "\xE5\x8F\xB3\xE4\xBE\xA7\x0A";//不确定!!!!!!!!!!!!!!! Left 右侧
+				string arbar_1 = "\xE6\x97\xA0\x0A";//None 无
+				string arbar_2 = "\xE6\x95\xB0\xE5\xAD\x97\x0A";//Number 数字
+				string arbar_3 = "\xE5\xBA\x95\xE9\x83\xA8";//Bottom 底部
+				string arbar_4 = "\xE5\xB7\xA6\xE4\xBE\xA7";//Left 左侧
 
 				const char* items4[] = { arbar_1.c_str() , arbar_2.c_str() , arbar_3.c_str() , arbar_4.c_str() };
-				ImGui::Combo( "\xE6\x8A\xA4\xE7\x94\xB2\x0A" , &Settings::Esp::esp_Armor , items4 , IM_ARRAYSIZE( items4 ) );//不确定!!!!!!!!!!!!!!! Esp Armor 透视护甲
+				ImGui::Combo( "\xE6\x8A\xA4\xE7\x94\xB2\xE6\xA0\xB7\xE5\xBC\x8F" , &Settings::Esp::esp_Armor , items4 , IM_ARRAYSIZE( items4 ) );//Esp Armor 护甲样式
 
 				ImGui::Spacing();
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				string chams_1 = "\xE6\x97\xA0\x0A";//不确定!!!!!!!!!!!!!!! None 无
-				string chams_2 = "\xE5\xB9\xB3\xE6\xBB\x91 2D \x0A";//不确定!!!!!!!!!!!!!!! Flat 平滑(2D)
-				string chams_3 = "\xE5\x8E\x9F\xE7\x89\x88 3D \x0A";//不确定!!!!!!!!!!!!!!! Texture 原版(3D材质)
+				string chams_1 = "\xE6\x97\xA0\x0A";//None 无
+				string chams_2 = "\xE6\x89\x81\xE5\xB9\xB3\x28 2D \x29";//Flat 扁平(2D)
+				string chams_3 = "\xE5\x8E\x9F\xE7\x89\x88\x28 3D \x29";//Texture 原版(3D)
 
 				const char* items5[] = { chams_1.c_str() , chams_2.c_str() , chams_3.c_str() };
-				ImGui::Combo( "\xE5\xBD\xA9\xE4\xBA\xBA\x0A" , &Settings::Esp::esp_Chams , items5 , IM_ARRAYSIZE( items5 ) );//不确定!!!!!!!!!!!!!!!Chams 彩人
+				ImGui::Combo( "\xE5\xBD\xA9\xE4\xBA\xBA\x0A" , &Settings::Esp::esp_Chams , items5 , IM_ARRAYSIZE( items5 ) );//Chams 彩人
 
 				ImGui::Spacing();
 				ImGui::Separator();
@@ -648,127 +651,128 @@ namespace Client
 				ImGui::SliderInt( "\xE5\x8C\xBA\xE5\x88\x86\xE8\xBD\xBB\xE5\x87\xBB\x0A" , &Settings::Knifebot::knf_DistAttack , 1 , 100 );//不确定!!!!!!!!!!!!!!!Dist to attack 1 区分轻击
 				ImGui::SliderInt( "\xE5\x8C\xBA\xE5\x88\x86\xE9\x87\x8D\xE5\x87\xBB\x0A" , &Settings::Knifebot::knf_DistAttack2 , 1 , 100 );//不确定!!!!!!!!!!!!!!!Dist to attack 2 区分重击
 			}
-			else if ( tabSelected == 5 ) // Skins
-			{
-				//[enc_string_disable /]
-				const char* knife_models_items[] =
-				{
-					"Default","Bayonet","Flip","Gut","Karambit" ,"M9 Bayonet",
-					"Huntsman","Falchion","Bowie","Butterfly","Shadow Daggers"
-				};
+			//else if ( tabSelected == 5 ) // Skins
+			//{
+			//	//[enc_string_disable /]
+			//	const char* knife_models_items[] =
+			//	{
+			//		"Default","Bayonet","Flip","Gut","Karambit" ,"M9 Bayonet",
+			//		"Huntsman","Falchion","Bowie","Butterfly","Shadow Daggers"
+			//	};
 
-				const char* quality_items[] =
-				{
-					"Normal","Genuine","Vintage","Unusual","Community","Developer",
-					"Self-Made","Customized","Strange","Completed","Tournament"
-				};
+			//	const char* quality_items[] =
+			//	{
+			//		"Normal","Genuine","Vintage","Unusual","Community","Developer",
+			//		"Self-Made","Customized","Strange","Completed","Tournament"
+			//	};
 
-				const char* gloves_listbox_items[25] =
-				{
-					"default",
-					"bloodhound_black_silver","bloodhound_snakeskin_brass","bloodhound_metallic","handwrap_leathery",
-					"handwrap_camo_grey","slick_black","slick_military","slick_red","sporty_light_blue","sporty_military",
-					"handwrap_red_slaughter","motorcycle_basic_black","motorcycle_mint_triangle","motorcycle_mono_boom",
-					"motorcycle_triangle_blue","specialist_ddpat_green_camo","specialist_kimono_diamonds_red",
-					"specialist_emerald_web","specialist_orange_white","handwrap_fabric_orange_camo","sporty_purple",
-					"sporty_green","bloodhound_guerrilla","slick_snakeskin_yellow"
-				};
-				//[enc_string_enable /]
+			//	const char* gloves_listbox_items[25] =
+			//	{
+			//		"default",
+			//		"bloodhound_black_silver","bloodhound_snakeskin_brass","bloodhound_metallic","handwrap_leathery",
+			//		"handwrap_camo_grey","slick_black","slick_military","slick_red","sporty_light_blue","sporty_military",
+			//		"handwrap_red_slaughter","motorcycle_basic_black","motorcycle_mint_triangle","motorcycle_mono_boom",
+			//		"motorcycle_triangle_blue","specialist_ddpat_green_camo","specialist_kimono_diamonds_red",
+			//		"specialist_emerald_web","specialist_orange_white","handwrap_fabric_orange_camo","sporty_purple",
+			//		"sporty_green","bloodhound_guerrilla","slick_snakeskin_yellow"
+			//	};
+			//	//[enc_string_enable /]
 
-				ImGui::Text( "\xE5\xBD\x93\xE5\x89\x8D\xE6\xAD\xA6\xE5\x99\xA8\x0A: %s" , pWeaponData[iWeaponID] );//不确定!!!!!!!!!!!!!!!Current Weapon: %s
+			//	ImGui::Text( "\xE5\xBD\x93\xE5\x89\x8D\xE6\xAD\xA6\xE5\x99\xA8\x0A: %s" , pWeaponData[iWeaponID] );//不确定!!!!!!!!!!!!!!!Current Weapon: %s
 
-				ImGui::PushItemWidth( 362.f );
+			//	ImGui::PushItemWidth( 362.f );
 
-				ImGui::Separator();
+			//	ImGui::Separator();
 
-				ImGui::Combo( "CT\xE5\x88\x80\xE6\xA8\xA1\xE5\x9E\x8B\x0A" , &Settings::Skin::knf_ct_model , knife_models_items , IM_ARRAYSIZE( knife_models_items ) );//不确定!!!!!!!!!!!!!!! Knife CT Model CT刀模型
-				ImGui::Combo( "T\xE5\x88\x80\xE6\xA8\xA1\xE5\x9E\x8B\x0A" , &Settings::Skin::knf_tt_model , knife_models_items , IM_ARRAYSIZE( knife_models_items ) );//不确定!!!!!!!!!!!!!!! Knife TT Model T刀模型
+			//	ImGui::Combo( "CT\xE5\x88\x80\xE6\xA8\xA1\xE5\x9E\x8B\x0A" , &Settings::Skin::knf_ct_model , knife_models_items , IM_ARRAYSIZE( knife_models_items ) );//不确定!!!!!!!!!!!!!!! Knife CT Model CT刀模型
+			//	ImGui::Combo( "T\xE5\x88\x80\xE6\xA8\xA1\xE5\x9E\x8B\x0A" , &Settings::Skin::knf_tt_model , knife_models_items , IM_ARRAYSIZE( knife_models_items ) );//不确定!!!!!!!!!!!!!!! Knife TT Model T刀模型
 
-				ImGui::Separator();
+			//	ImGui::Separator();
 
-				static int iSelectKnifeCTSkinIndex = -1;
-				static int iSelectKnifeTTSkinIndex = -1;
+			//	static int iSelectKnifeCTSkinIndex = -1;
+			//	static int iSelectKnifeTTSkinIndex = -1;
 
-				int iKnifeCTModelIndex = Settings::Skin::knf_ct_model - 1;
-				int iKnifeTTModelIndex = Settings::Skin::knf_tt_model - 1;
+			//	int iKnifeCTModelIndex = Settings::Skin::knf_ct_model - 1;
+			//	int iKnifeTTModelIndex = Settings::Skin::knf_tt_model - 1;
 
-				static int iOldKnifeCTModelIndex = -1;
-				static int iOldKnifeTTModelIndex = -1;
+			//	static int iOldKnifeCTModelIndex = -1;
+			//	static int iOldKnifeTTModelIndex = -1;
 
-				if ( iOldKnifeCTModelIndex != iKnifeCTModelIndex )
-					iSelectKnifeCTSkinIndex = GetKnifeSkinIndexFromPaintKit( Settings::Skin::knf_ct_skin , false );
+			//	if ( iOldKnifeCTModelIndex != iKnifeCTModelIndex )
+			//		iSelectKnifeCTSkinIndex = GetKnifeSkinIndexFromPaintKit( Settings::Skin::knf_ct_skin , false );
 
-				if ( iOldKnifeTTModelIndex != iKnifeTTModelIndex )
-					iSelectKnifeTTSkinIndex = GetKnifeSkinIndexFromPaintKit( Settings::Skin::knf_ct_skin , true );
+			//	if ( iOldKnifeTTModelIndex != iKnifeTTModelIndex )
+			//		iSelectKnifeTTSkinIndex = GetKnifeSkinIndexFromPaintKit( Settings::Skin::knf_ct_skin , true );
 
-				iOldKnifeCTModelIndex = iKnifeCTModelIndex;
-				iOldKnifeTTModelIndex = iKnifeTTModelIndex;
+			//	iOldKnifeCTModelIndex = iKnifeCTModelIndex;
+			//	iOldKnifeTTModelIndex = iKnifeTTModelIndex;
 
-				string KnifeCTModel = knife_models_items[Settings::Skin::knf_ct_model];
-				string KnifeTTModel = knife_models_items[Settings::Skin::knf_tt_model];
+			//	string KnifeCTModel = knife_models_items[Settings::Skin::knf_ct_model];
+			//	string KnifeTTModel = knife_models_items[Settings::Skin::knf_tt_model];
 
-				KnifeCTModel += " Skin##KCT";//不确定!!!!!!!!!!!!!!!
-				KnifeTTModel += " Skin##KTT";//不确定!!!!!!!!!!!!!!!
+			//	KnifeCTModel += " Skin##KCT";//不确定!!!!!!!!!!!!!!!
+			//	KnifeTTModel += " Skin##KTT";//不确定!!!!!!!!!!!!!!!
 
-				ImGui::SliderFloat( "Knife CT Wear" , &g_SkinChangerCfg[WEAPON_KNIFE].flFallbackWear , 0.f , 1.f );
-				ImGui::Combo( "Knife CT Qality" , &g_SkinChangerCfg[WEAPON_KNIFE].iEntityQuality , quality_items , IM_ARRAYSIZE( quality_items ) );//不确定!!!!!!!!!!!!!!!
-				ImGui::ComboBoxArray( KnifeCTModel.c_str() , &iSelectKnifeCTSkinIndex , KnifeSkins[iKnifeCTModelIndex].SkinNames );//不确定!!!!!!!!!!!!!!!
+			//	ImGui::SliderFloat( "Knife CT Wear" , &g_SkinChangerCfg[WEAPON_KNIFE].flFallbackWear , 0.f , 1.f );//不确定!!!!!!!!!!!!!!!
+			//	ImGui::Combo( "Knife CT Qality" , &g_SkinChangerCfg[WEAPON_KNIFE].iEntityQuality , quality_items , IM_ARRAYSIZE( quality_items ) );//不确定!!!!!!!!!!!!!!!
+			//	ImGui::ComboBoxArray( KnifeCTModel.c_str() , &iSelectKnifeCTSkinIndex , KnifeSkins[iKnifeCTModelIndex].SkinNames );
 
-				ImGui::Separator();
+			//	ImGui::Separator();
 
-				ImGui::SliderFloat( "Knife TT Wear" , &g_SkinChangerCfg[WEAPON_KNIFE_T].flFallbackWear , 0.f , 1.f );
-				ImGui::Combo( "Knife TT Qality" , &g_SkinChangerCfg[WEAPON_KNIFE_T].iEntityQuality , quality_items , IM_ARRAYSIZE( quality_items ) );//不确定!!!!!!!!!!!!!!!
-				ImGui::ComboBoxArray( KnifeTTModel.c_str() , &iSelectKnifeTTSkinIndex , KnifeSkins[iKnifeTTModelIndex].SkinNames );//不确定!!!!!!!!!!!!!!!
+			//	ImGui::SliderFloat( "Knife TT Wear" , &g_SkinChangerCfg[WEAPON_KNIFE_T].flFallbackWear , 0.f , 1.f );
+			//	ImGui::Combo( "Knife TT Qality" , &g_SkinChangerCfg[WEAPON_KNIFE_T].iEntityQuality , quality_items , IM_ARRAYSIZE( quality_items ) );//不确定!!!!!!!!!!!!!!!
+			//	ImGui::ComboBoxArray( KnifeTTModel.c_str() , &iSelectKnifeTTSkinIndex , KnifeSkins[iKnifeTTModelIndex].SkinNames );//不确定!!!!!!!!!!!!!!!
 
-				ImGui::Separator();
+			//	ImGui::Separator();
 
-				static int iOldWeaponID = -1;
+			//	static int iOldWeaponID = -1;
 
-				ImGui::Combo( "Weapon##WeaponSelect" , &iWeaponID , pWeaponData , IM_ARRAYSIZE( pWeaponData ) );//不确定!!!!!!!!!!!!!!!
+			//	ImGui::Combo( "Weapon##WeaponSelect" , &iWeaponID , pWeaponData , IM_ARRAYSIZE( pWeaponData ) );//不确定!!!!!!!!!!!!!!!
 
-				iWeaponSelectIndex = pWeaponItemIndexData[iWeaponID];
+			//	iWeaponSelectIndex = pWeaponItemIndexData[iWeaponID];
 
-				if ( iOldWeaponID != iWeaponID )
-					iWeaponSelectSkinIndex = GetWeaponSkinIndexFromPaintKit( g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit );
+			//	if ( iOldWeaponID != iWeaponID )
+			//		iWeaponSelectSkinIndex = GetWeaponSkinIndexFromPaintKit( g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit );
 
-				iOldWeaponID = iWeaponID;
+			//	iOldWeaponID = iWeaponID;
 
-				string WeaponSkin = pWeaponData[iWeaponID];
-				WeaponSkin += " Skin";//不确定!!!!!!!!!!!!!!!
+			//	string WeaponSkin = pWeaponData[iWeaponID];
+			//	WeaponSkin += " \xE7\x9A\xAE\xE8\x82\xA4\x0A";//不确定!!!!!!!!!!!!!!!Skin 皮肤
 
-				ImGui::ComboBoxArray( WeaponSkin.c_str() , &iWeaponSelectSkinIndex , WeaponSkins[iWeaponID].SkinNames );
+			//	ImGui::ComboBoxArray( WeaponSkin.c_str() , &iWeaponSelectSkinIndex , WeaponSkins[iWeaponID].SkinNames );
 
-				ImGui::Combo("\xE5\x93\x81\xE8\xB4\xA8\x0A", &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].iEntityQuality, quality_items, IM_ARRAYSIZE(quality_items));//不确定!!!!!!!!!!!!!!!Weapon Qality 武器品质
-				ImGui::SliderFloat( "\xE7\xA3\xA8\xE6\x8D\x9F\x0A" , &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].flFallbackWear , 0.f , 1.f );//不确定!!!!!!!!!!!!!!!Weapon Wear 武器磨损
-				ImGui::InputInt( "\xE6\x9A\x97\xE9\x87\x91\x0A" , &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].nFallbackStatTrak , 1 , 100 , ImGuiInputTextFlags_CharsDecimal );//不确定!!!!!!!!!!!!!!! Weapon StatTrak 暗金武器
+			//	ImGui::Combo("\xE5\x93\x81\xE8\xB4\xA8\x0A", &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].iEntityQuality, quality_items, IM_ARRAYSIZE(quality_items));//不确定!!!!!!!!!!!!!!!Weapon Qality 武器品质
+			//	ImGui::SliderFloat( "\xE7\xA3\xA8\xE6\x8D\x9F\x0A" , &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].flFallbackWear , 0.f , 1.f );//不确定!!!!!!!!!!!!!!!Weapon Wear 武器磨损
+			//	ImGui::InputInt( "\xE6\x9A\x97\xE9\x87\x91\x0A" , &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].nFallbackStatTrak , 1 , 100 , ImGuiInputTextFlags_CharsDecimal );//不确定!!!!!!!!!!!!!!! Weapon StatTrak 暗金武器
 
-				ImGui::Separator();
+			//	ImGui::Separator();
 
-				ImGui::Combo( "\xE6\x89\x8B\xE5\xA5\x97\x0A" , &Settings::Skin::gloves_skin , gloves_listbox_items ,//不确定!!!!!!!!!!!!!!!Gloves Skin 手套皮肤
-							  IM_ARRAYSIZE( gloves_listbox_items ) );
+			//	ImGui::Combo( "\xE6\x89\x8B\xE5\xA5\x97\x0A" , &Settings::Skin::gloves_skin , gloves_listbox_items ,//不确定!!!!!!!!!!!!!!!Gloves Skin 手套皮肤
+			//				  IM_ARRAYSIZE( gloves_listbox_items ) );
 
-				ImGui::Separator();
+			//	ImGui::Separator();
 
-				ImGui::PopItemWidth();
+			//	ImGui::PopItemWidth();
 
-				if ( ImGui::Button( "\xE5\xBA\x94\xE7\x94\xA8##\xE7\x9A\xAE\xE8\x82\xA4" ) )//不确定!!!!!!!!!!!!!!!Apply##Skin 接受皮肤
-				{
-					g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit = WeaponSkins[iWeaponID].SkinPaintKit[iWeaponSelectSkinIndex];
+			//	if ( ImGui::Button( "\xE5\xBA\x94\xE7\x94\xA8##\xE7\x9A\xAE\xE8\x82\xA4" ) )//不确定!!!!!!!!!!!!!!!Apply##Skin 接受皮肤
+			//	{
+			//		g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit = WeaponSkins[iWeaponID].SkinPaintKit[iWeaponSelectSkinIndex];
 
-					Settings::Skin::knf_ct_skin = KnifeSkins[iKnifeCTModelIndex].SkinPaintKit[iSelectKnifeCTSkinIndex];
-					Settings::Skin::knf_tt_skin = KnifeSkins[iKnifeTTModelIndex].SkinPaintKit[iSelectKnifeTTSkinIndex];
+			//		Settings::Skin::knf_ct_skin = KnifeSkins[iKnifeCTModelIndex].SkinPaintKit[iSelectKnifeCTSkinIndex];
+			//		Settings::Skin::knf_tt_skin = KnifeSkins[iKnifeTTModelIndex].SkinPaintKit[iSelectKnifeTTSkinIndex];
 
-					ForceFullUpdate();
-				}
-			}
-			else if ( tabSelected == 6 ) // Misc
+			//		ForceFullUpdate();
+			//	}
+			//}
+			else if ( tabSelected == 5 ) // Misc Original 6
 			{
 				ImGui::Checkbox( "\xE8\xBF\x9E\xE8\xB7\xB3\x0A" , &Settings::Misc::misc_Bhop );//Bhop 连跳
-				ImGui::Checkbox( "punch" , &Settings::Misc::misc_Punch );//Punch ?
+				ImGui::Checkbox( "\xE5\x87\xBB\xE4\xB8\xAD\xE8\xA1\xA5\xE5\x81\xBF\x0A" , &Settings::Misc::misc_Punch );//Punch 击中补偿
 				ImGui::Checkbox( "\xE7\x8B\x99\xE5\x87\xBB\xE6\x9E\xAA\xE5\x87\x86\xE5\xBF\x83" , &Settings::Misc::misc_SniperAim );//SniperAim 狙击准星
 				ImGui::Checkbox( "\xE6\x97\xA0\xE9\x97\xAA\xE5\x85\x89\x0A" , &Settings::Misc::misc_NoFlash );//NoFlash 无闪光
 				ImGui::Checkbox( "\xE8\x87\xAA\xE5\x8A\xA8\xE6\x89\xAB\xE5\xB0\x84\x0A" , &Settings::Misc::misc_AutoStrafe );//AutoStrafe 自动扫射
 				ImGui::Checkbox( "\xE8\x87\xAA\xE5\x8A\xA8\xE7\xA1\xAE\xE8\xAE\xA4\x0A" , &Settings::Misc::misc_AutoAccept );//AutoAccept 自动确认
+				//ImGui::Checkbox("\xE7\xAC\xAC\xE4\xB8\x89\xE4\xBA\xBA\xE7\xA7\xB0", &Settings::Misc::misc_ThirdPerson);//ThirdPerson 第三人称
 				ImGui::Checkbox( "\xE8\xA7\x82\xE5\xAF\x9F\xE8\x80\x85\xE5\x88\x97\xE8\xA1\xA8\x0A" , &Settings::Misc::misc_Spectators );//Spectators 观察者列表
 				ImGui::Checkbox( "\xE8\xB7\x9D\xE7\xA6\xBB\x0A" , &Settings::Misc::misc_FovChanger );//Fov Changer 距离开关
 				ImGui::PushItemWidth( 362.f );
@@ -778,7 +782,7 @@ namespace Client
 				ImGui::ColorEdit3( "\xE5\x87\x86\xE5\xBF\x83\xE9\xA2\x9C\xE8\x89\xB2" , Settings::Misc::misc_SniperAimColor );//Awp Aim Color AWP自瞄颜色
 				ImGui::PopItemWidth();
 			}
-			else if ( tabSelected == 7 ) // Config
+			else if ( tabSelected == 6 ) // Config Original 7
 			{
 				static int iConfigSelect = 0;
 				static int iMenuSheme = 1;
@@ -788,12 +792,12 @@ namespace Client
 
 				ImGui::Separator();
 
-				if ( ImGui::Button( "\xE8\xBD\xBD\xE5\x85\xA5\xE9\x85\x8D\xE7\xBD\xAE\x0A" ) & ConfigName != NULL )//Load Config 载入配置
+				if ( ImGui::Button( "\xE8\xBD\xBD\xE5\x85\xA5\xE9\x85\x8D\xE7\xBD\xAE\x0A" ) && ConfigList[iConfigSelect] != "" )//Load Config 载入配置
 				{
 					Settings::LoadSettings( BaseDir + "\\" + ConfigList[iConfigSelect] );
 				}
 				ImGui::SameLine();
-				if ( ImGui::Button( "\xE4\xBF\x9D\xE5\xAD\x98\xE9\x85\x8D\xE7\xBD\xAE\x0A") & ConfigName != NULL )//Save Config 保存配置
+				if ( ImGui::Button( "\xE4\xBF\x9D\xE5\xAD\x98\xE9\x85\x8D\xE7\xBD\xAE\x0A" ) && ConfigList[iConfigSelect] != "" )//Save Config 保存配置
 				{
 					Settings::SaveSettings( BaseDir + "\\" + ConfigList[iConfigSelect] );
 				}
@@ -811,12 +815,12 @@ namespace Client
 				{
 					string ConfigFileName = ConfigName;
 
-					if ( ConfigFileName.size() < 1 )
+					if (ConfigFileName.size() < 1)
 					{
-						ConfigFileName = "\xE8\xAE\xBE\xE7\xBD\xAE\x0A";//Settings 设置
+						ConfigFileName = "settings";
 					}
 
-					Settings::SaveSettings( BaseDir + "\\" + ConfigFileName + ".ini" );
+					Settings::SaveSettings(BaseDir + "\\" + ConfigFileName + ".ini");
 					RefreshConfigs();
 				}
 

@@ -83,6 +83,7 @@ namespace Engine
 			m_pMe->WeaponIndex = *pWeaponEntity->GeteAttributableItem()->GetItemDefinitionIndex();
 			m_pMe->WeaponAmmo = pWeaponEntity->GetWeaponAmmo();
 			m_pMe->bInReload = pWeaponEntity->GetWeaponReload();
+			m_pMe->ScopeLevel = pWeaponEntity->GetZoomLevel();
 
 			if ( m_pMe->WeaponAmmo < 0 )
 				m_pMe->WeaponAmmo = 0;

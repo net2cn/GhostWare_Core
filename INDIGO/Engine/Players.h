@@ -32,6 +32,7 @@ namespace Engine
 		WEAPON_TYPE		WeaponType;
 		int				WeaponIndex;
 		int				WeaponAmmo;
+		int				ScopeLevel;
 
 		PLAYER_TEAM		Team;
 

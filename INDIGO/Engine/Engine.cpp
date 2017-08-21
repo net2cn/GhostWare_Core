@@ -17,7 +17,15 @@ namespace Engine
 			return false;
 		}
 		#endif*/
-		
+
+		#if ENABLE_LICENSING == 1
+		Sleep(2000);
+		if (!License.SocketListenClient())
+		{
+			return false;
+		}
+		#endif
+
 		if ( !CSX::Utils::IsModuleLoad( CLIENT_DLL , 45000 ) )
 			return false;
 

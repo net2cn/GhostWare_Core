@@ -158,6 +158,7 @@ namespace Settings
 		extern bool misc_NoFlash;		
 		extern bool misc_AutoStrafe;
 		extern bool misc_AutoAccept;
+		extern bool misc_ThirdPerson;
 		extern bool misc_Spectators;
 		extern bool misc_FovChanger;
 		extern int misc_FovView;

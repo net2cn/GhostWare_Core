@@ -462,22 +462,22 @@ namespace Settings
 	namespace Esp
 	{
 		int esp_Style = 0; // 0 - Box 1 - CoalBox
-		int esp_Size = 0;
+		int esp_Size = 5;
 		bool esp_Line = false;
 		bool esp_Outline = false; // Box ( 0 - Box 1 - OutlineBox ) ,
 						  // CoalBox ( 0 - CoalBox 1 - OutlineCoalBox )	
 
 		bool esp_Name = false;
 		bool esp_Rank = false;
-		int esp_Health = 0;
-		int esp_Armor = 0;
+		int esp_Health = 1;
+		int esp_Armor = 1;
 		bool esp_Weapon = false;
 		bool esp_Ammo = false;
 		bool esp_Distance = false;
 		bool esp_Sound = false;
 
 		bool esp_Skeleton = 0;
-		int esp_BulletTrace = 0;
+		int esp_BulletTrace = 1500;
 		bool esp_Team = 1;
 		bool esp_Enemy = 1;
 		int esp_Visible = 1;
@@ -540,6 +540,7 @@ namespace Settings
 		bool misc_SniperAim = false;
 		bool misc_AutoStrafe = false;
 		bool misc_AutoAccept = false;
+		bool misc_ThirdPerson = false;
 		bool misc_Spectators = false;
 		bool misc_FovChanger = false;
 		int misc_FovView = 90;

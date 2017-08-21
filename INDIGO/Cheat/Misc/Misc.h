@@ -13,6 +13,7 @@ public:
 
 	void OnOverrideView( CViewSetup* pSetup );
 	void OnGetViewModelFOV( float& fov );
+	void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp);
 
 	vector<int> GetObservervators( int playerId );
 	void OnRenderSpectatorList();
