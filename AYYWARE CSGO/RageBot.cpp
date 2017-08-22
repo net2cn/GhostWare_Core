@@ -1,5 +1,5 @@
 /*
-GhostWare_CSGO
+ApocalypseCheats
 ------------------------------
 Contributors:
 XBoom
@@ -328,7 +328,7 @@ void CRageBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket) // Creds to encore133
 			if (Menu::Window.RageBotTab.AccuracyAutoStop.GetState())
 			{
 				pCmd->forwardmove = 0.f;
-				pCmd->sidemove = 0.f;	
+				pCmd->sidemove = 0.f;
 			}
 			if (Menu::Window.RageBotTab.AccuracyAutoCrouch.GetState())
 			{
@@ -522,10 +522,10 @@ int CRageBot::HitScan(IClientEntity* pEntity)
 	bool AWall = Menu::Window.RageBotTab.AccuracyAutoWall.GetState();
 	bool Multipoint = Menu::Window.RageBotTab.TargetMultipoint.GetState();
 
-	
+
 	if (HitScanMode = false)
 	{
-			// No Hitscan, just a single hitbox
+		// No Hitscan, just a single hitbox
 		switch (Menu::Window.RageBotTab.TargetHitbox.GetIndex())
 		{
 		case 0:
@@ -550,27 +550,27 @@ int CRageBot::HitScan(IClientEntity* pEntity)
 	}
 	else
 	{
-			HitBoxesToScan.push_back((int)CSGOHitboxID::Head);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::Neck);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::NeckLower);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::Stomach);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::Pelvis);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::UpperChest);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::Chest);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::LowerChest);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::LeftUpperArm);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::RightUpperArm);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::LeftThigh);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::RightThigh);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::LeftHand);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::RightHand);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::LeftFoot);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::RightFoot);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::LeftShin);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::RightShin);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::LeftLowerArm);
-			HitBoxesToScan.push_back((int)CSGOHitboxID::RightLowerArm);
-		}
+		HitBoxesToScan.push_back((int)CSGOHitboxID::Head);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::Neck);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::NeckLower);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::Stomach);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::Pelvis);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::UpperChest);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::Chest);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::LowerChest);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::LeftUpperArm);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::RightUpperArm);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::LeftThigh);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::RightThigh);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::LeftHand);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::RightHand);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::LeftFoot);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::RightFoot);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::LeftShin);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::RightShin);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::LeftLowerArm);
+		HitBoxesToScan.push_back((int)CSGOHitboxID::RightLowerArm);
+	}
 #pragma endregion Get the list of shit to scan
 
 	// check hits
@@ -914,7 +914,7 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 
 	void BackJitter(CUserCmd *pCmd)
 	{
-		
+
 		switch ((int)rand % 5)
 		{
 		case 0:
@@ -933,7 +933,7 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 			}
 		case 4:
 			pCmd->viewangles.y -= (int)rand % 30;
-		}		
+		}
 	}
 
 	void Backwards(CUserCmd *pCmd)
@@ -953,7 +953,7 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 			else
 				pCmd->viewangles.y = -170;
 		}
-		
+
 	}
 
 	void FakeSideways(CUserCmd *pCmd, bool &bSendPacket)
@@ -976,7 +976,7 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 	{
 		static int ChokedPackets = -1;
 		ChokedPackets++;
-        #define RandomInt(min, max) (rand() % (max - min + 1) + min)
+#define RandomInt(min, max) (rand() % (max - min + 1) + min)
 		if (ChokedPackets < 1)
 		{
 			bSendPacket = false;
@@ -1172,7 +1172,7 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 
 		Vector eye_position = pLocal->GetEyePosition();
 
-		float best_dist = pWeapon->GetCSWpnData()->m_flRange;
+		float best_dist = pWeapon->GetCSWpnData()->flRange;
 
 		IClientEntity* target = Interfaces::EntList->GetClientEntity(Globals::TargetID);
 
@@ -1385,11 +1385,11 @@ void CRageBot::DoAntiAim(CUserCmd *pCmd, bool &bSendPacket) // pCmd->viewangles.
 	case 4:
 		// Fake Inverse
 		AntiAims::BackJitter(pCmd);
-	//	AntiAims::TFake(pCmd, bSendPacket);
+		//	AntiAims::TFake(pCmd, bSendPacket);
 		break;
 	case 5:
 		// Fake Jitter
-        AntiAims::fakelowerbody2(pCmd, bSendPacket);
+		AntiAims::fakelowerbody2(pCmd, bSendPacket);
 		break;
 	case 6:
 		// Jitter
@@ -1419,4 +1419,3 @@ void CRageBot::DoAntiAim(CUserCmd *pCmd, bool &bSendPacket) // pCmd->viewangles.
 	// Angle offset
 	pCmd->viewangles.y += Menu::Window.RageBotTab.AntiAimOffset.GetValue();
 }
-

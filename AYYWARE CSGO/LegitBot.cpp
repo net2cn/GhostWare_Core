@@ -1,5 +1,5 @@
 /*
-GhostWare_CSGO
+ApocalypseCheats
 */
 
 #include "LegitBot.h"
@@ -133,6 +133,7 @@ void CLegitBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket)
 	IClientEntity* pLocal = hackManager.pLocal();
 	bool FindNewTarget = true;
 	//IsLocked = false;
+
 	// Don't aimbot with the knife..
 	CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(pLocal->GetActiveWeaponHandle());
 	if (pWeapon)
@@ -145,9 +146,11 @@ void CLegitBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket)
 			return;
 		}
 		SyncWeaponSettings();
+
 	}
 	else
 		return;
+
 	// Make sure we have a good target
 	if (IsLocked && TargetID >= 0 && HitBox >= 0)
 	{
@@ -166,13 +169,16 @@ void CLegitBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket)
 			}
 		}
 	}
+
 	// Find a new target, apparently we need to
 	if (FindNewTarget)
 	{
 		TargetID = 0;
 		pTarget = nullptr;
 		HitBox = -1;
+
 		TargetID = GetTargetCrosshair();
+
 		// Memes
 		if (TargetID >= 0)
 		{
@@ -184,12 +190,15 @@ void CLegitBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket)
 			HitBox = -1;
 		}
 	}
+
 	SyncWeaponSettings();
+
 	// If we finally have a good target
 	if (TargetID >= 0 && pTarget)
 	{
 		//HitBox = (int)CSGOHitboxID::Head;//
 		SyncWeaponSettings();
+
 		// Key
 		if (Menu::Window.LegitBotTab.AimbotKeyPress.GetState())
 		{
@@ -202,7 +211,9 @@ void CLegitBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket)
 				return;
 			}
 		}
+
 		Vector AimPoint = GetHitboxPosition(pTarget, HitBox);
+
 		if (AimAtPoint(pLocal, AimPoint, pCmd, bSendPacket))
 		{
 			//IsLocked = true;
@@ -212,28 +223,22 @@ void CLegitBot::DoAimbot(CUserCmd *pCmd, bool &bSendPacket)
 			}
 		}
 	}
+
 	// Auto Pistol
-	// Modified Version from AimTux
-	//static bool WasFiring = false;
-	//if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
-	//{
-	//	if (pCmd->buttons & IN_ATTACK)
-	//	{
-	//		static bool WasFiring = false;
-	//		WasFiring = !WasFiring;
-	//		if (WasFiring)
-	//		{
-	//			pCmd->buttons &= ~IN_ATTACK;
-	//		}
-	//	}
-	//}
-	if (Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
-		if (GameUtils::IsPistol(pWeapon))
-			if (pWeapon->GetNextPrimaryAttack() > Interfaces::Globals->curtime)
-				if (pWeapon->GetCSWpnData()->m_iWeaponId == WEAPON_REVOLVER)
-					pCmd->buttons &= ~IN_ATTACK2;
-				else
-					pCmd->buttons &= ~IN_ATTACK;
+	static bool WasFiring = false;
+	if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
+	{
+		if (pCmd->buttons & IN_ATTACK)
+		{
+			static bool WasFiring = false;
+			WasFiring = !WasFiring;
+
+			if (WasFiring)
+			{
+				pCmd->buttons &= ~IN_ATTACK;
+			}
+		}
+	}
 }
 
 bool TargetMeetsTriggerRequirements(IClientEntity* pEntity)
@@ -264,80 +269,187 @@ bool TargetMeetsTriggerRequirements(IClientEntity* pEntity)
 
 void CLegitBot::DoTrigger(CUserCmd *pCmd)
 {
-    IClientEntity* pLocal = hackManager.pLocal();
-    // Don't triggerbot with the knife..
-    CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(pLocal->GetActiveWeaponHandle());
-    if (pWeapon)
-    {
-        if (pWeapon->GetAmmoInClip() == 0 || !GameUtils::IsBallisticWeapon(pWeapon))
-        {
-            return;
-        }
-    }
-    else
-        return;
-    // Triggerbot
-    //Get the view with the recoil
-    Vector ViewAngles = pCmd->viewangles;
-    if (Menu::Window.LegitBotTab.TriggerRecoil.GetState())
-        ViewAngles += pLocal->localPlayerExclusive()->GetAimPunchAngle() * 2.f;
-    // Build a ray going fowards at that angle
-    Vector fowardVec;
-    AngleVectors(ViewAngles, &fowardVec);
-    fowardVec *= 10000;
-    // Get ray start / end
-    Vector start = pLocal->GetOrigin() + pLocal->GetViewOffset();
-    Vector end = start + fowardVec, endScreen;
-    trace_t Trace;
-    UTIL_TraceLine(start, end, MASK_SHOT, pLocal, 0, &Trace);
-    if (!Trace.m_pEnt)
-        return;
-    if (!Trace.m_pEnt->IsAlive())
-        return;
-    if (Trace.m_pEnt->GetHealth() <= 0 || Trace.m_pEnt->GetHealth() > 100)
-        return;
-    if (Trace.m_pEnt->IsImmune())
-        return;
-        if (TargetMeetsTriggerRequirements(Trace.m_pEnt) && !time < Menu::Window.LegitBotTab.TriggerDelay.GetValue())
-        {
-            float time = 0;
-            time++;
-            float delay = Menu::Window.LegitBotTab.TriggerDelay.GetValue() / 1000.f;
-            if ((time * 64) < delay)
-            {
-                return;
-            }
-            else
-            {
-                pCmd->buttons |= IN_ATTACK;
-                time = 0;
-            }
-        }
-    // Auto Pistol
-    // Modified Version from AimTux
-    //if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
-    //{
-    //	if (pCmd->buttons & IN_ATTACK)
-    //	{
-    //		static bool WasFiring = false;
-    //		WasFiring = !WasFiring;
-    //		if (WasFiring)
-    //		{
-    //			pCmd->buttons &= ~IN_ATTACK;
-    //		}
-    //	}
-    //}
-    if (Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
-        if (GameUtils::IsPistol(pWeapon))
-            if (pWeapon->GetNextPrimaryAttack() > Interfaces::Globals->curtime)
-                if (pWeapon->GetCSWpnData()->m_iWeaponId == WEAPON_REVOLVER)
-                    pCmd->buttons &= ~IN_ATTACK2;
-                else
-                    pCmd->buttons &= ~IN_ATTACK;
+	IClientEntity* pLocal4 = hackManager.pLocal();
+	CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(pLocal4->GetActiveWeaponHandle());
+
+	IClientEntity* LocalPlayer = hackManager.pLocal();
+
+	//===============================================================================
+	auto LocalPlayerWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(LocalPlayer->GetWeaponHandle());
+	auto WeaponEntity = (IClientEntity*)LocalPlayerWeapon;
+
+	if (LocalPlayerWeapon) {
+		if (LocalPlayerWeapon->GetAmmoInClip() == 0)
+			return;
+
+		auto ClientClass = WeaponEntity->GetClientClass2();
+		if (ClientClass->m_ClassID == (int)CSGOClassID::CKnife ||
+			ClientClass->m_ClassID == (int)CSGOClassID::CHEGrenade ||
+			ClientClass->m_ClassID == (int)CSGOClassID::CDecoyGrenade ||
+			ClientClass->m_ClassID == (int)CSGOClassID::CIncendiaryGrenade ||
+			ClientClass->m_ClassID == (int)CSGOClassID::CSmokeGrenade ||
+			ClientClass->m_ClassID == (int)CSGOClassID::CC4) {
+			return;
+		}
+	}
+	else
+		return;
+	//===============================================================================
+
+	Vector ViewAngles = pCmd->viewangles;
+	if (Menu::Window.LegitBotTab.TriggerRecoil.GetState())
+		ViewAngles += LocalPlayer->GetAimPunch() * 2.0f;
+
+	Vector CrosshairForward;
+	AngleVectors(ViewAngles, &CrosshairForward);
+	//CrosshairForward *= LocalPlayerWeaponData->m_flRange;
+	CrosshairForward *= 8000.f;
+
+
+	Vector TraceSource = LocalPlayer->GetEyePosition();
+	Vector TraceDestination = TraceSource + CrosshairForward;
+
+	Ray_t Ray;
+	trace_t Trace;
+	CTraceFilter Filter;
+
+	Filter.pSkip = LocalPlayer;
+
+	Ray.Init(TraceSource, TraceDestination);
+	Interfaces::Trace->TraceRay(Ray, MASK_SHOT, &Filter, &Trace);
+
+	if (!Trace.m_pEnt)
+		return;
+	if (!Trace.m_pEnt->IsAlive())
+		return;
+	if (Trace.m_pEnt->GetHealth() <= 0 || Trace.m_pEnt->GetHealth() > 100)
+		return;
+	if (Trace.m_pEnt->IsImmune())
+		return;
+
+	if (!Menu::Window.LegitBotTab.TriggerTeammates.GetState()) {
+		if (LocalPlayer->GetTeamNum() == Trace.m_pEnt->GetTeamNum())
+			return;
+	}
+
+	if ((Menu::Window.LegitBotTab.TriggerHead.GetState() && Trace.hitgroup == HITGROUP_HEAD) ||
+		(Menu::Window.LegitBotTab.TriggerChest.GetState() && Trace.hitgroup == HITGROUP_CHEST) ||
+		(Menu::Window.LegitBotTab.TriggerStomach.GetState() && Trace.hitgroup == HITGROUP_STOMACH) ||
+		(Menu::Window.LegitBotTab.TriggerArms.GetState() && (Trace.hitgroup == HITGROUP_LEFTARM || Trace.hitgroup == HITGROUP_RIGHTARM)) ||
+		(Menu::Window.LegitBotTab.TriggerLegs.GetState() && (Trace.hitgroup == HITGROUP_LEFTLEG || Trace.hitgroup == HITGROUP_RIGHTLEG))) {
+		pCmd->buttons |= IN_ATTACK;
+	}
+
+	///Original code:
+	IClientEntity* pLocal = hackManager.pLocal();
+
+	//CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(pLocal->GetActiveWeaponHandle());
+	//if (pWeapon)
+	//{
+	//	if (pWeapon->GetAmmoInClip() == 0 || !GameUtils::IsBallisticWeapon(pWeapon))
+	//	{
+	//		return;
+	//	}
+	//}
+	//else
+	//	return;
+
+	//Vector ViewAngles = pCmd->viewangles;
+	//if (Menu::Window.LegitBotTab.TriggerRecoil.GetState())
+	//	ViewAngles += pLocal->localPlayerExclusive()->GetAimPunchAngle() * 2.f;
+
+	//Vector src, dst, forward;
+	//trace_t tr;
+	//Ray_t ray;
+	//CTraceFilter filter;
+
+	//AngleVectors(ViewAngles, &forward);
+	//forward *= 8192;
+
+	//filter.pSkip = pLocal;
+	//src = pLocal->GetOrigin() + pLocal->GetViewOffset();
+	//dst = src + forward;
+
+	//ray.Init(src, dst);
+
+	//Interfaces::Trace->TraceRay(ray, 0x46004003, &filter, &tr);
+
+	//if (!tr.m_pEnt)
+	//	return;
+
+	//int hitgroup = tr.hitgroup;
+	//bool didHit = false;
+
+	//if (Menu::Window.LegitBotTab.TriggerHead.GetState() && hitgroup == HITGROUP_HEAD)
+	//	didHit = true;
+	//if (Menu::Window.LegitBotTab.TriggerChest.GetState() && hitgroup == HITGROUP_CHEST)
+	//	didHit = true;
+	//if (Menu::Window.LegitBotTab.TriggerStomach.GetState() && hitgroup == HITGROUP_STOMACH)
+	//	didHit = true;
+	//if (Menu::Window.LegitBotTab.TriggerArms.GetState() && (hitgroup == HITGROUP_LEFTARM || hitgroup == HITGROUP_RIGHTARM))
+	//	didHit = true;
+	//if (Menu::Window.LegitBotTab.TriggerLegs.GetState() && (hitgroup == HITGROUP_LEFTLEG || hitgroup == HITGROUP_RIGHTLEG))
+	//	didHit = true;
+
+	//float hitchance = 75.f + (Menu::Window.LegitBotTab.TriggerHitChanceAmmount.GetValue() / 4);
+	//if (didHit && (!Menu::Window.LegitBotTab.TriggerHitChance.GetState() || (1.0f - pWeapon->GetAccuracyPenalty()) * 100.f >= hitchance))
+	//{
+	//	if (TargetMeetsTriggerRequirements(tr.m_pEnt))
+	//	{
+	//		if (Menu::Window.LegitBotTab.TriggerDelay.GetValue() > 1)
+	//		{
+	//			if (CustomDelay >= Menu::Window.LegitBotTab.TriggerDelay.GetValue() / 30)
+	//			{
+	//				CustomDelay = 0;
+	//				shoot = true;
+	//				if (*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() != 64)
+	//					pCmd->buttons |= IN_ATTACK;
+	//				else
+	//					pCmd->buttons |= IN_ATTACK2;
+	//			}
+	//			else
+	//			{
+	//				CustomDelay++;
+	//				return;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			CustomDelay = 0;
+	//			shoot = true;
+	//			if (*pWeapon->m_AttributeManager()->m_Item()->ItemDefinitionIndex() != 64)
+	//				pCmd->buttons |= IN_ATTACK;
+	//			else
+	//				pCmd->buttons |= IN_ATTACK2;
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	if (Menu::Window.LegitBotTab.TriggerBreak.GetValue() > 1)
+	//	{
+	//		if (CustomBreak <= Menu::Window.LegitBotTab.TriggerBreak.GetValue())
+	//			CustomBreak = 0;
+	//		shoot = false;
+	//	}
+	//}
+	if (GameUtils::IsPistol(pWeapon) && Menu::Window.LegitBotTab.AimbotAutoPistol.GetState())
+	{
+		if (pCmd->buttons & IN_ATTACK)
+		{
+			static bool WasFiring = false;
+			WasFiring = !WasFiring;
+
+			if (WasFiring)
+			{
+				pCmd->buttons &= ~IN_ATTACK;
+			}
+		}
+	}
 }
 
-	// Auto Pistol
-	
+// Auto Pistol
+
 
 
 bool CLegitBot::TargetMeetsRequirements(IClientEntity* pEntity)

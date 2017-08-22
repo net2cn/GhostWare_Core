@@ -1,5 +1,5 @@
 /*
-Rest In Peace GhostWare_CSGO
+Rest In Peace ApocalypseCheats1
 */
 
 #include "Offsets.h"
@@ -51,7 +51,7 @@ void Offsets::Initialise()
 	VMT::Surface_DrawPrintText = 28;
 	VMT::Surface_DrawSetTextureRGBA = 37;
 	VMT::Surface_DrawSetTexture = 38;
-	VMT::Surface_CreateNewTextureID  = 43;
+	VMT::Surface_CreateNewTextureID = 43;
 	VMT::Surface_FontCreate = 71;
 	VMT::Surface_SetFontGlyphSet = 72;
 	VMT::Surface_GetTextSize = 79;
@@ -65,13 +65,13 @@ void Offsets::Initialise()
 	VMT::Material_AlphaModulate = 28;
 	VMT::Material_ColorModulate = 29;
 	VMT::Material_IncrementReferenceCount = 14;
-	
+
 	VMT::MaterialSystem_FindMaterial = 84;
 	VMT::MaterialSystem_CreateMaterial = 83;
-	
+
 	VMT::ModelRender_ForcedMaterialOverride = 1;
 	VMT::ModelRender_DrawModelExecute = 21;
-	
+
 	VMT::ModelInfo_GetModelName = 3;
 	VMT::ModelInfo_GetStudiomodel = 30;
 
@@ -95,7 +95,7 @@ void Offsets::Initialise()
 
 	Functions::dwIsReady = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 51 56 8B 35 ? ? ? ? 80 7E 58 00"));
 
-	Utilities::Log("偏移/索引已更新");
+	Utilities::Log("Offsets/Indexes Up to Date");
 }
 
 namespace Offsets

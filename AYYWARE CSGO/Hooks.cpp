@@ -841,7 +841,7 @@ void  __stdcall Hooked_FrameStageNotify(ClientFrameStage_t curStage)
 					{
 						std::string sWeapon = Interfaces::ModelInfo->GetModelName(pEntity->GetModel());
 
-						if (!(sWeapon.find("models/weapons", 0) != std::string::npos))
+						if ((sWeapon.find("models/weapons", 0) != std::string::npos))
 							continue;
 
 						if (sWeapon.find("c4_planted", 0) != std::string::npos)
