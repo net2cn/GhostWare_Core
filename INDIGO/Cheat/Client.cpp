@@ -305,7 +305,11 @@ namespace Client
 				ImGui::PushItemWidth( 110.f );
 				ImGui::Text( "\xe5\xbd\x93\xe5\x89\x8d\xe6\xad\xa6\xe5\x99\xa8: " );//Current Weapon 当前武器
 				ImGui::SameLine();
-				ImGui::Combo( "##\xE6\xAD\xA6\xE5\x99\xA8\xE8\x87\xAA\xE7\x9E\x84\x0A" , &iWeaponID , pWeaponData , IM_ARRAYSIZE( pWeaponData ) );//不确定!!!!!!!!!!!!!!!AimWeapon 武器自瞄
+				ImGui::Combo( "##\xE6\xAD\xA6\xE5\x99\xA8\xE8\x87\xAA\xE7\x9E\x84\x0A" , &iWeaponID , pWeaponData , IM_ARRAYSIZE( pWeaponData ) );//AimWeapon 武器自瞄
+				ImGui::SameLine();
+				ImGui::Checkbox("\xE5\x85\xA8\xE5\xB1\x80\xE5\x90\xAF\xE7\x94\xA8", &Settings::Aimbot::aim_ActiveAll);//Active All 全局启用
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("\xE8\xBF\x99\xE4\xB8\xAA\xE8\xAE\xBE\xE7\xBD\xAE\xE5\xB0\x86\xE8\xA6\x86\xE7\x9B\x96\xE4\xB8\x8B\xE9\x9D\xA2\xE7\x9A\x84\x22\xE5\x90\xAF\xE7\x94\xA8\x22\xE9\x80\x89\xE6\x8B\xA9\xE6\xA1\x86\xE3\x80\x82");//This will override Active Checkbox below. 这个设置将覆盖下面的“启用”选择框。
 				ImGui::PopItemWidth();
 
 				ImGui::Spacing();
@@ -338,12 +342,16 @@ namespace Client
 
 				ImGui::PushItemWidth( 362.f );
 				ImGui::SliderInt( "\xE5\xB9\xB3\xE6\xBB\x91\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Smooth , 1 , 300 );//Smooth 平滑
-				ImGui::SliderInt( "\xE8\x8C\x83\xE5\x9B\xB4\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Fov , 1 , 300 );//Fov 范围
+				ImGui::SliderInt( "\xE8\x87\xAA\xE7\x9E\x84\xE8\x8C\x83\xE5\x9B\xB4" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Fov , 1 , 300 );//Fov 自瞄范围
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("\xE6\x9B\xB4\xE6\x94\xB9\xE8\xBF\x99\xE4\xB8\xAA\xE8\xAE\xBE\xE7\xBD\xAE\xE8\x87\xAA\xE7\x9E\x84\xE4\xBD\x9C\xE7\x94\xA8\xE8\x8C\x83\xE5\x9B\xB4\xE3\x80\x82");//Change Fov to set aim affect size. 更改这个设置自瞄作用范围。
 				ImGui::PopItemWidth();
 
 				const char* AimFovType[] = { "\xE5\x8A\xA8\xE6\x80\x81\x0A" , "\xE9\x9D\x99\xE6\x80\x81\x0A" };//Dynamic Static 动态 静态
 				ImGui::PushItemWidth( 362.f );
-				ImGui::Combo( "\xE8\x8C\x83\xE5\x9B\xB4\xE7\xB1\xBB\xE5\x9E\x8B\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_FovType , AimFovType , IM_ARRAYSIZE( AimFovType ) ); //不确定!!!!!!!!!!!!!!!Fov Type 范围类型
+				ImGui::Combo( "\xE8\x8C\x83\xE5\x9B\xB4\xE7\xB1\xBB\xE5\x9E\x8B\x0A" , &Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_FovType , AimFovType , IM_ARRAYSIZE( AimFovType ) ); //Fov Type 范围类型
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("\xE5\x8A\xA8\xE6\x80\x81\x20-\x20\xE8\x87\xAA\xE7\x9E\x84\xE8\x8C\x83\xE5\x9B\xB4\xE8\xB7\x9F\xE9\x9A\x8F\xE7\x8E\xA9\xE5\xAE\xB6\xEF\xBC\x9B\xE9\x9D\x99\xE6\x80\x81\x20-\x20\xE8\x87\xAA\xE7\x9E\x84\xE8\x8C\x83\xE5\x9B\xB4\xE8\xB7\x9F\xE9\x9A\x8F\xE5\x87\x86\xE5\xBF\x83\xE3\x80\x82");//Dynamic - Fov follow Players; Static - Fov fixed on crosshair. 动态 - 自瞄范围跟随玩家；静态 - 自瞄范围跟随准心。
 				ImGui::PopItemWidth();
 
 				const char* BestHit[] = { "\xE5\x85\xB3\xE9\x97\xAD\x0A" , "\xE5\xBC\x80\xE5\x90\xAF\x0A" };//关闭 开启
@@ -394,7 +402,7 @@ namespace Client
 			{
 				const char* TriggerEnable[] = { "\xE5\x85\xB3\xE9\x97\xAD\x0A" , "\xE8\x8C\x83\xE5\x9B\xB4\x0A" , "\xE8\xBF\xBD\xE8\xB8\xAA\x0A" };//不确定!!!!!!!!!!!!!!!关闭 范围 跟踪
 				ImGui::PushItemWidth( 80.f );
-				ImGui::Combo( "\xE5\xBC\x80\xE5\x90\xAF\x0A" , &Settings::Triggerbot::trigger_Enable , TriggerEnable , IM_ARRAYSIZE( TriggerEnable ) );//不确定!!!!!!!!!!!!!!!开启
+				ImGui::Combo( "\xE5\xBC\x80\xE5\x90\xAF\x0A" , &Settings::Triggerbot::trigger_Enable , TriggerEnable , IM_ARRAYSIZE( TriggerEnable ) );//开启
 				ImGui::PopItemWidth();
 				ImGui::SameLine();
 
@@ -770,6 +778,7 @@ namespace Client
 				ImGui::Checkbox( "\xE5\x87\xBB\xE4\xB8\xAD\xE8\xA1\xA5\xE5\x81\xBF\x0A" , &Settings::Misc::misc_Punch );//Punch 击中补偿
 				ImGui::Checkbox( "\xE7\x8B\x99\xE5\x87\xBB\xE6\x9E\xAA\xE5\x87\x86\xE5\xBF\x83" , &Settings::Misc::misc_SniperAim );//SniperAim 狙击准星
 				ImGui::Checkbox( "\xE6\x97\xA0\xE9\x97\xAA\xE5\x85\x89\x0A" , &Settings::Misc::misc_NoFlash );//NoFlash 无闪光
+				ImGui::Checkbox("\xE6\x97\xA0\xE7\x83\x9F\xE9\x9B\xBE", &Settings::Misc::misc_NoSmoke);//NoSmoke 无烟雾
 				ImGui::Checkbox( "\xE8\x87\xAA\xE5\x8A\xA8\xE6\x89\xAB\xE5\xB0\x84\x0A" , &Settings::Misc::misc_AutoStrafe );//AutoStrafe 自动扫射
 				ImGui::Checkbox( "\xE8\x87\xAA\xE5\x8A\xA8\xE7\xA1\xAE\xE8\xAE\xA4\x0A" , &Settings::Misc::misc_AutoAccept );//AutoAccept 自动确认
 				//ImGui::Checkbox("\xE7\xAC\xAC\xE4\xB8\x89\xE4\xBA\xBA\xE7\xA7\xB0", &Settings::Misc::misc_ThirdPerson);//ThirdPerson 第三人称

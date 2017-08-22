@@ -32,6 +32,7 @@ namespace Settings
 			//[/swap_lines]
 		};
 		//[swap_lines]
+		extern bool aim_ActiveAll;
 		extern bool aim_Deathmatch;
 		extern bool aim_WallAttack;
 		extern bool aim_CheckSmoke;
@@ -155,7 +156,8 @@ namespace Settings
 		extern bool misc_Bhop;
 		extern bool misc_Punch;
 		extern bool misc_SniperAim;
-		extern bool misc_NoFlash;		
+		extern bool misc_NoFlash;	
+		extern bool misc_NoSmoke;
 		extern bool misc_AutoStrafe;
 		extern bool misc_AutoAccept;
 		extern bool misc_ThirdPerson;
@@ -192,6 +194,7 @@ namespace Settings
 #define SKIN_TEXT "\xE7\x9A\xAE\xE8\x82\xA4"
 #define MISC_TEXT "\xE6\x9D\x82\xE9\xA1\xB9"
 
+#define CVAR_AIMBOT_ACTIVEALL "aim_ActiveAll"
 #define CVAR_AIMBOT_DEATHMATCH "aim_Deathmatch"
 #define CVAR_AIMBOT_WALLATTACK "aim_WallAttack"
 #define CVAR_AIMBOT_CHECKSMOKE "aim_CheckSmoke"
@@ -312,6 +315,7 @@ namespace Settings
 #define CVAR_MISC_PUNCH "misc_Punch"
 #define CVAR_MISC_AWPAIM "misc_AwpAim"
 #define CVAR_MISC_NOFLASH "misc_NoFlash"
+#define CVAR_MISC_NOSMOKE "misc_NoSmoke"
 #define CVAR_MISC_AUTOSTRAFE "misc_AutoStrafe"
 #define CVAR_MISC_AUTOACCEPT "misc_AutoAccept"
 #define CVAR_MISC_SPECTATORS "misc_Spectators"

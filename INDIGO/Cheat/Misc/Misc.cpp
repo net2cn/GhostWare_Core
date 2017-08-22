@@ -26,13 +26,21 @@ void CMisc::OnCreateMove( CUserCmd* pCmd )
 
 	if ( Settings::Misc::misc_AutoStrafe && !( g_pPlayers->GetLocal()->iFlags & FL_ONGROUND ) )
 	{
-		if ( pCmd->mousedx < 0 )
+		//if ( pCmd->mousedx < 0 )
+		//{
+		//	pCmd->sidemove = -450.0f;
+		//}
+		//else if ( pCmd->mousedx > 0 )
+		//{
+		//	pCmd->sidemove = 450.0f;
+		//}
+
+		if (!(pCmd->buttons & IN_FORWARD) && !(pCmd->buttons & IN_BACK) && !(pCmd->buttons & IN_MOVELEFT) && !(pCmd->buttons & IN_MOVERIGHT))
 		{
-			pCmd->sidemove = -450.0f;
-		}
-		else if ( pCmd->mousedx > 0 )
-		{
-			pCmd->sidemove = 450.0f;
+			if (pCmd->mousedx > 1 || pCmd->mousedx < -1)
+			{
+				pCmd->sidemove = pCmd->mousedx < 0.f ? -450.f : 450.f;
+			}
 		}
 	}
 }
@@ -71,6 +79,30 @@ void CMisc::OnDrawModelExecute()
 			flashWhite->SetMaterialVarFlag( MATERIAL_VAR_NO_DRAW , false );
 
 			NoFlashReset = false;
+		}
+	}
+
+	vector<const char*> smoke_materials = {
+		"particle/vistasmokev1/vistasmokev1_fire",
+		"particle/vistasmokev1/vistasmokev1_smokegrenade",
+		"particle/vistasmokev1/vistasmokev1_emods",
+		"particle/vistasmokev1/vistasmokev1_emods_impactdust",
+	};
+	if (Settings::Misc::misc_NoSmoke)
+	{
+		//No Smoke
+		for (auto material_name : smoke_materials)
+		{
+			IMaterial* mat = Interfaces::MaterialSystem()->FindMaterial(material_name, TEXTURE_GROUP_OTHER);
+			mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::Misc::misc_NoSmoke);
+		}
+	}
+	else
+	{
+		for (auto material_name : smoke_materials)
+		{
+			IMaterial* mat = Interfaces::MaterialSystem()->FindMaterial(material_name, TEXTURE_GROUP_OTHER);
+			mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, false);
 		}
 	}
 }

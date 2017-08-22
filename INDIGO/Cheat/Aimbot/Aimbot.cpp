@@ -43,7 +43,7 @@ bool CAimbot::IsEnable()
 	if ( !m_pLocal || !m_pCmd )
 		return false;
 
-	if ( !Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Active )
+	if ( !(Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Active || Settings::Aimbot::aim_ActiveAll) )
 		return false;
 
 	if ( !m_pLocal->WeaponAmmo || m_pLocal->bInReload )

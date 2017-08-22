@@ -11,6 +11,7 @@ namespace Settings
 	{
 		CSX::Cvar::InitPath( szIniFile.c_str() );
 
+		Aimbot::aim_ActiveAll = CSX::Cvar::LoadCvar(AIMBOT_TEXT, CVAR_AIMBOT_ACTIVEALL, Aimbot::aim_ActiveAll);
 		Aimbot::aim_Deathmatch = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_DEATHMATCH , Aimbot::aim_Deathmatch );
 		Aimbot::aim_WallAttack = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_WALLATTACK , Aimbot::aim_WallAttack );
 		Aimbot::aim_CheckSmoke = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_CHECKSMOKE , Aimbot::aim_CheckSmoke );
@@ -21,12 +22,12 @@ namespace Settings
 
 		for ( DWORD i = 0; i < WEAPON_DATA_SIZE; i++ )
 		{
-			// пистолет?
+			// Default weapon_aim_settings
 			if ( i <= 9 )
 			{
 				Aimbot::weapon_aim_settings[i].aim_Active = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_ACTIVE , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Smooth = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SMOOTH , 50 );
-				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 35 );
+				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 250 );
 				Aimbot::weapon_aim_settings[i].aim_FovType = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOVTYPE , 1 );
 				Aimbot::weapon_aim_settings[i].aim_BestHit = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_BESTHIT , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Spot = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SPOT , 5 );
@@ -180,6 +181,7 @@ namespace Settings
 		Misc::misc_Punch = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_PUNCH , Misc::misc_Punch ) != false;
 		Misc::misc_SniperAim = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_AWPAIM , Misc::misc_SniperAim ) != false;
 		Misc::misc_NoFlash = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_NOFLASH , Misc::misc_NoFlash ) != false;
+		Misc::misc_NoSmoke = CSX::Cvar::LoadCvar(MISC_TEXT, CVAR_MISC_NOSMOKE, Misc::misc_NoSmoke) != false;
 		Misc::misc_AutoStrafe = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_AUTOSTRAFE , Misc::misc_AutoStrafe ) != false;
 		Misc::misc_AutoAccept = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_AUTOACCEPT , Misc::misc_AutoAccept ) != false;
 		Misc::misc_Spectators = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_SPECTATORS , Misc::misc_Spectators ) != false;
@@ -196,6 +198,7 @@ namespace Settings
 	{
 		CSX::Cvar::InitPath( szIniFile.c_str() );
 
+		CSX::Cvar::SaveCvar(AIMBOT_TEXT, CVAR_AIMBOT_ACTIVEALL, Aimbot::aim_ActiveAll);
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_DEATHMATCH , Aimbot::aim_Deathmatch );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_WALLATTACK , Aimbot::aim_WallAttack );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_CHECKSMOKE , Aimbot::aim_CheckSmoke );
@@ -404,6 +407,7 @@ namespace Settings
 
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_BHOP , Misc::misc_Bhop );
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_PUNCH , Misc::misc_Punch );
+		CSX::Cvar::SaveCvar(MISC_TEXT, CVAR_MISC_NOSMOKE, Misc::misc_NoSmoke);
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_NOFLASH , Misc::misc_NoFlash );
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_AWPAIM , Misc::misc_SniperAim );
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_AUTOSTRAFE , Misc::misc_AutoStrafe );
@@ -432,12 +436,13 @@ namespace Settings
 
 	namespace Aimbot
 	{
+		bool aim_ActiveAll = false;
 		bool aim_Deathmatch = false;
 		bool aim_WallAttack = false;
 		bool aim_CheckSmoke = false;
 		bool aim_AntiJump = false;
 		int aim_RcsType = 0;
-		bool aim_DrawFov = false;
+		bool aim_DrawFov = true;
 		bool aim_DrawSpot = false;
 
 		weapon_aim_s weapon_aim_settings[33] = { 0 };
@@ -483,7 +488,7 @@ namespace Settings
 		int esp_Visible = 1;
 
 		int esp_Chams = 0;
-		bool esp_Bomb = false;
+		bool esp_Bomb = true;
 		int esp_BombTimer = 40;
 		bool esp_WorldWeapons = false;
 		bool esp_WorldGrenade = false;
@@ -537,6 +542,7 @@ namespace Settings
 		bool misc_Bhop = false;
 		bool misc_Punch = false;
 		bool misc_NoFlash = false;
+		bool misc_NoSmoke = false;
 		bool misc_SniperAim = false;
 		bool misc_AutoStrafe = false;
 		bool misc_AutoAccept = false;
