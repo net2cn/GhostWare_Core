@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 #define FIND_W2MATRIX_PATTERN		"\xA1\x00\x00\x00\x00\x83\xF8\x01\x7E\x11\x69\xC8"
-//[enc_string_enable /]
+////[enc_string_enable /]
 #define FIND_W2MATRIX_MASK			"x????xxxxxxx"
 
 #define BASE_PLAYER					"DT_BasePlayer"
@@ -121,7 +121,7 @@ namespace Engine
 			extern DWORD m_bSpotted;
 
 			extern DWORD m_zoomLevel;
-//[/swap_lines]
+//[swap_lines]
 		}
 
 		bool	Initialize();

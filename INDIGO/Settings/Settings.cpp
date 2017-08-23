@@ -1,7 +1,7 @@
 #include "Settings.h"
 
-//[enc_string_enable /]
-//[junk_enable /]
+////[enc_string_enable /]
+////[junk_enable /]
 
 using namespace Client;
 

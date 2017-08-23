@@ -1,7 +1,7 @@
 #include "Client.h"
 
-//[enc_string_enable /]
-//[junk_enable /]
+////[enc_string_enable /]
+////[junk_enable /]
 
 namespace Client
 {
@@ -36,7 +36,7 @@ namespace Client
 	int			iWeaponID = 0;
 	int			iWeaponSelectIndex = WEAPON_DEAGLE;
 	int			iWeaponSelectSkinIndex = -1;
-	//[/swap_lines]
+	//[swap_lines]
 
 	void ReadConfigs( LPCTSTR lpszFileName )
 	{
@@ -661,7 +661,7 @@ namespace Client
 			}
 			//else if ( tabSelected == 5 ) // Skins
 			//{
-			//	//[enc_string_disable /]
+			//	////[enc_string_disable /]
 			//	const char* knife_models_items[] =
 			//	{
 			//		"Default","Bayonet","Flip","Gut","Karambit" ,"M9 Bayonet",
@@ -684,7 +684,7 @@ namespace Client
 			//		"specialist_emerald_web","specialist_orange_white","handwrap_fabric_orange_camo","sporty_purple",
 			//		"sporty_green","bloodhound_guerrilla","slick_snakeskin_yellow"
 			//	};
-			//	//[enc_string_enable /]
+			//	////[enc_string_enable /]
 
 			//	ImGui::Text( "\xE5\xBD\x93\xE5\x89\x8D\xE6\xAD\xA6\xE5\x99\xA8\x0A: %s" , pWeaponData[iWeaponID] );//²»È·¶¨!!!!!!!!!!!!!!!Current Weapon: %s
 

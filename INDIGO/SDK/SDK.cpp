@@ -1,6 +1,6 @@
 #include "SDK.h"
 
-//[enc_string_enable /]
+////[enc_string_enable /]
 
 namespace SDK
 {
@@ -20,8 +20,8 @@ namespace SDK
 	ISurface*			Interfaces::g_pSurface = nullptr;
 	IGameEventManager2*	Interfaces::g_pGameEventMgr = nullptr;
 	IInputSystem*		Interfaces::g_pInputSystem = nullptr;
-//[/swap_lines]
-//[junk_enable /]
+//[swap_lines]
+////[junk_enable /]
 	CreateInterfaceFn CaptureFactory( char* FactoryModule )
 	{
 		CreateInterfaceFn Interface = 0;

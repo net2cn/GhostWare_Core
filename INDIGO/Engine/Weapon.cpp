@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-//[junk_enable /]
+////[junk_enable /]
 	int CBaseWeapon::GetWeaponId()
 	{
 		typedef int( __thiscall* GetWeaponIDFn )( void* );

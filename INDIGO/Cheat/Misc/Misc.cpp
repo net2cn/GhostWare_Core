@@ -1,8 +1,8 @@
 #include "Misc.h"
 
 using namespace Client;
-//[junk_enable /]
-//[enc_string_enable /]
+////[junk_enable /]
+////[enc_string_enable /]
 void CMisc::OnRender()
 {
 	if ( Settings::Misc::misc_Punch )
@@ -278,7 +278,7 @@ void CMisc::OnRenderSpectatorList()
 						default:
 							break;
 					}
-//[junk_enable /]
+////[junk_enable /]
 					g_pRender->Text( iScreenWidth - 300 , 300 + ( DrawIndex * 13 ) , false , true , PlayerObsColor , "%s" , Name.c_str() );
 					DrawIndex++;
 				}

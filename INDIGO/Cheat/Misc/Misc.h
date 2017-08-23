@@ -17,5 +17,5 @@ public:
 
 	vector<int> GetObservervators( int playerId );
 	void OnRenderSpectatorList();
-//[/swap_lines]
+//[swap_lines]
 };

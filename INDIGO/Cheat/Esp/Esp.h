@@ -29,7 +29,7 @@ public:
 	void Update();
 	void AddSound( Vector vOrigin );
 	void DrawSoundEsp();
-//[/swap_lines]
+//[swap_lines]
 };
 
 class CEsp
@@ -64,7 +64,7 @@ public:
 	void OnReset();
 	void OnEvents( IGameEvent* pEvent );
 	void OnDrawModelExecute( IMatRenderContext* ctx , const DrawModelState_t &state , const ModelRenderInfo_t &pInfo , matrix3x4_t *pCustomBoneToWorld = NULL );
-	//[/swap_lines]
+	//[swap_lines]
 private:
 //[swap_lines]
 	void DrawPlayerEsp( CPlayer* pPlayer );
@@ -72,5 +72,5 @@ private:
 	void DrawPlayerBulletTrace( CPlayer* pPlayer );
 
 	void DrawHitBoxLine( Vector* vHitBoxArray , Color color );
-//[/swap_lines]
+//[swap_lines]
 };

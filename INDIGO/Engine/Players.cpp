@@ -4,7 +4,7 @@
 
 namespace Engine
 {
-//[junk_enable /]
+////[junk_enable /]
 	CPlayers::CPlayers()
 	{
 		m_pMe = new CMe();

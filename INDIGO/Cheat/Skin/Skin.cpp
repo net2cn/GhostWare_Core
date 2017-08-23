@@ -46,14 +46,14 @@ char* pKnifeData[10] =
 	"knife_tactical","knife_falchion","knife_survival_bowie","knife_butterfly","knife_push"
 };
 
-//[enc_string_enable /]
+////[enc_string_enable /]
 const char* bloodhound = "models/weapons/v_models/arms/glove_bloodhound/v_glove_bloodhound.mdl";
 const char* handwrap = "models/weapons/v_models/arms/glove_handwrap_leathery/v_glove_handwrap_leathery.mdl";
 const char* slick = "models/weapons/v_models/arms/glove_slick/v_glove_slick.mdl";
 const char* sporty = "models/weapons/v_models/arms/glove_sporty/v_glove_sporty.mdl";
 const char* motorcycle = "models/weapons/v_models/arms/glove_motorcycle/v_glove_motorcycle.mdl";
 const char* specialist = "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl";
-//[enc_string_disable /]
+////[enc_string_disable /]
 
 WeaponSkins_s WeaponSkins[33];
 KnifeSkins_s KnifeSkins[10];
@@ -85,8 +85,8 @@ GlovesSkins_s GlovesSkin_Array[25] =
 	{ 5027,10039,bloodhound },
 	{ 5031,10040,slick },
 };
-//[junk_enable /]
-//[enc_string_enable /]
+////[junk_enable /]
+////[enc_string_enable /]
 RecvVarProxyFn fnSequenceProxyFn = NULL;
 
 using namespace Client;
@@ -227,14 +227,14 @@ void CSkin::SetModelConfig()
 
 void CSkin::SetKillIconCfg()
 {
-//[enc_string_disable /]
+////[enc_string_disable /]
 	char* pszKnifeModelsIcon[10] =
 	{
 		"bayonet","knife_flip","knife_gut","knife_karambit",
 		"knife_m9_bayonet","knife_tactical","knife_falchion",
 		"knife_survival_bowie","knife_butterfly","knife_push"
 	};
-//[enc_string_enable /]
+////[enc_string_enable /]
 	if ( Settings::Skin::knf_ct_model >= 1 && Settings::Skin::knf_ct_model <= 10 )
 	{
 		g_KillIconCfg["knife_default_ct"] = pszKnifeModelsIcon[Settings::Skin::knf_ct_model - 1];
@@ -609,7 +609,7 @@ void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct
 						m_nSequence--;
 				}
 			}
-//[junk_enable /]
+////[junk_enable /]
 			pData->m_Value.m_Int = m_nSequence;
 		}
 	}

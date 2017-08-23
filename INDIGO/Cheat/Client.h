@@ -79,5 +79,5 @@ namespace Client
 	void OnOverrideView( CViewSetup* pSetup );
 	void OnGetViewModelFOV( float& fov );
 	void OnRenderGUI();
-//[/swap_lines]
+//[swap_lines]
 }

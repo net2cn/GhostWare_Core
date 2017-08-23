@@ -10,7 +10,7 @@
 #include "Render.h"
 #include "Players.h"
 
-//[enc_string_enable /]
+////[enc_string_enable /]
 
 #define VGUI2_DLL "vgui2.dll"
 #define VGUIMAT_DLL	"vguimatsurface.dll"
@@ -21,7 +21,7 @@
 #define GMOR_MASK "x????x????xxxx????xxxxxxx"
 #define FORCE_FULL_UPDATE_MASK "x????xxxxxxxxxxxxxxx"
 
-//[enc_string_disable /]
+////[enc_string_disable /]
 
 #define D3D9_PATTERN "\xA1\x00\x00\x00\x00\x50\x8B\x08\xFF\x51\x0C"
 #define FORCE_FULL_UPDATE_PATTERN "\xA1\x00\x00\x00\x00\x33\xD2\x6A\x00\x6A\x00\x33\xC9\x89\xB0\x08\x4E\x00\x00\xA1"
@@ -54,7 +54,7 @@ namespace Engine
 	IMaterial*	CreateMaterial( bool bFlat , bool bShouldIgnoreZ );
 	void		ForceMaterial( Color color , IMaterial* material , bool useColor = true , bool forceMaterial = true );
 	BOOL SearchFiles( LPCTSTR lpszFileName , LPSEARCHFUNC lpSearchFunc , BOOL bInnerFolders );
-//[/swap_lines]
+//[swap_lines]
 }
 
 class CTimer

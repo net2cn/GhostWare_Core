@@ -1,7 +1,7 @@
 #include "Radar.h"
 
 using namespace Client;
-//[junk_enable /]
+////[junk_enable /]
 void CRadar::RadarRange( float* x , float* y , float range )
 {
 	if ( fabs( ( *x ) ) > range || fabs( ( *y ) ) > range )

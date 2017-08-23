@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-//[junk_enable /]
+////[junk_enable /]
 	namespace Offset
 	{
 		namespace Entity
@@ -60,7 +60,7 @@ namespace Engine
 			DWORD m_bSpotted = 0;
 
 			DWORD m_zoomLevel = 0;
-//[/swap_lines]
+//[swap_lines]
 		}
 
 		bool Initialize()

@@ -1,9 +1,10 @@
 #include "Engine.h"
+#include <thread>
 
 #pragma warning(disable:4244)
 
-//[enc_string_enable /]
-//[junk_enable /]
+////[enc_string_enable /]
+////[junk_enable /]
 
 namespace Engine
 {
@@ -18,6 +19,7 @@ namespace Engine
 		}
 		#endif*/
 
+		// Yep we do IPC here. Considering heartbeat...
 		#if ENABLE_LICENSING == 1
 		Sleep(2000);
 		if (!License.SocketListenClient())
@@ -25,6 +27,9 @@ namespace Engine
 			return false;
 		}
 		#endif
+
+		std::thread licenseThread(CLicense::StartHeartbeatVerification);
+		licenseThread.join();
 
 		if ( !CSX::Utils::IsModuleLoad( CLIENT_DLL , 45000 ) )
 			return false;
@@ -251,7 +256,7 @@ namespace Engine
 
 		return WEAPON_TYPE_UNKNOWN;
 	}
-//[junk_enable /]
+////[junk_enable /]
 	bool IsLocalAlive()
 	{
 		if ( Client::g_pPlayers && 
@@ -513,7 +518,7 @@ namespace Engine
 
 		return false;
 	}
-//[enc_string_disable /]
+////[enc_string_disable /]
 	IMaterial* CreateMaterial( bool bFlat , bool bShouldIgnoreZ )
 	{
 		static int iCreated = 0;
@@ -560,7 +565,7 @@ namespace Engine
 		pCreatedMaterial->IncrementReferenceCount();
 		return pCreatedMaterial;
 	}
-//[enc_string_enable /]
+////[enc_string_enable /]
 	void ForceMaterial( Color color , IMaterial* material , bool useColor , bool forceMaterial )
 	{
 		if ( useColor )
@@ -575,7 +580,7 @@ namespace Engine
 		if ( forceMaterial )
 			Interfaces::ModelRender()->ForcedMaterialOverride( material );
 	}
-//[enc_string_disable /]
+////[enc_string_disable /]
 	BOOL SearchFiles( LPCTSTR lpszFileName , LPSEARCHFUNC lpSearchFunc , BOOL bInnerFolders = FALSE )
 	{
 		LPTSTR part;

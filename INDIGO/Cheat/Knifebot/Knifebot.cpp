@@ -1,8 +1,8 @@
 #include "Knifebot.h"
 
 using namespace Client;
-//[junk_enable /]
-//[enc_string_enable /]
+////[junk_enable /]
+////[enc_string_enable /]
 void CKnifebot::OnCreateMove( CUserCmd * pCmd )
 {
 	if ( Settings::Knifebot::knf_Active && g_pPlayers->GetLocal()->WeaponName.find( "knife" ) != string::npos )
@@ -35,7 +35,7 @@ void CKnifebot::OnCreateMove( CUserCmd * pCmd )
 							MinDistance = Settings::Knifebot::knf_DistAttack;
 							break;
 					}
-//[junk_enable /]
+////[junk_enable /]
 					int DistanceToPlayer = pPlayer->iDistance;
 
 					if ( DistanceToPlayer > MinDistance )
@@ -59,7 +59,7 @@ void CKnifebot::OnCreateMove( CUserCmd * pCmd )
 							break;
 							return;
 					}
-//[junk_enable /]
+////[junk_enable /]
 				}
 			}
 		}

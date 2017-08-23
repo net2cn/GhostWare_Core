@@ -29,7 +29,7 @@ namespace Settings
 			int aim_RcsSmooth;
 			int aim_RcsClampType;
 			bool aim_AutoPistol;
-			//[/swap_lines]
+			//[swap_lines]
 		};
 		//[swap_lines]
 		extern bool aim_ActiveAll;
@@ -42,7 +42,7 @@ namespace Settings
 		extern bool aim_DrawSpot;
 		
 		extern weapon_aim_s weapon_aim_settings[33];
-		//[/swap_lines]
+		//[swap_lines]
 	}
 
 	namespace Triggerbot
@@ -62,7 +62,7 @@ namespace Settings
 			int trigger_AssistFov;
 			int trigger_AssistFovType;
 			int trigger_AssistSmooth;
-			//[/swap_lines]
+			//[swap_lines]
 		};
 		//[swap_lines]
 		extern int trigger_Enable;
@@ -77,7 +77,7 @@ namespace Settings
 		extern bool trigger_DrawFovAssist;
 		
 		extern weapon_trigger_s weapon_trigger_settings[33];
-		//[/swap_lines]
+		//[swap_lines]
 	}
 
 	namespace Esp
@@ -119,7 +119,7 @@ namespace Settings
 		extern float chams_Color_TT[3];
 		extern float chams_Color_VCT[3];
 		extern float chams_Color_VTT[3];
-		//[/swap_lines]
+		//[swap_lines]
 	}
 
 	namespace Radar
@@ -136,7 +136,7 @@ namespace Settings
 		extern float rad_Color_TT[3];
 		extern float rad_Color_VCT[3];
 		extern float rad_Color_VTT[3];
-		//[/swap_lines]
+		//[swap_lines]
 	}
 
 	namespace Skin
@@ -147,7 +147,7 @@ namespace Settings
 		extern int knf_tt_model;
 		extern int knf_tt_skin;
 		extern int gloves_skin;
-		//[/swap_lines]
+		//[swap_lines]
 	}
 
 	namespace Misc
@@ -166,7 +166,7 @@ namespace Settings
 		extern int misc_FovView;
 		extern int misc_FovModelView;
 		extern float misc_SniperAimColor[3];
-		//[/swap_lines]
+		//[swap_lines]
 	}
 
 	namespace Knifebot
@@ -177,11 +177,11 @@ namespace Settings
 		extern int knf_Attack;
 		extern int knf_DistAttack;
 		extern int knf_DistAttack2;
-		//[/swap_lines]
+		//[swap_lines]
 	}
 }
 
-//[enc_string_enable /]
+////[enc_string_enable /]
 
 #define HACK_NAME "GhostWare CSGO Bokoblin"
 

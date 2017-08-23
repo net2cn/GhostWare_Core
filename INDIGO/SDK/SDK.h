@@ -43,7 +43,7 @@
 #include "IGameEvent.h"
 #include "TextureGroupNames.h"
 
-//[enc_string_enable /]
+////[enc_string_enable /]
 
 #define CREATEINTERFACE_PROCNAME "CreateInterface"
 #define VENGINE_CLIENT_INTERFACE_VERSION "VEngineClient014"
@@ -67,7 +67,7 @@
 #define VSTDLIB_DLL	"vstdlib.dll"
 #define INPUTSYSTEM_DLL	"inputsystem.dll"
 
-//[enc_string_disable /]
+////[enc_string_disable /]
 
 #define GLOBAL_VARS_PATTERN "\xA1\x00\x00\x00\x00\x8B\x4D\xFC\x8B\x55\x08"
 #define GLOBAL_VARS_MASK "x????xxxxxx"

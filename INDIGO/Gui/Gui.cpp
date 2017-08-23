@@ -2,8 +2,8 @@
 
 using namespace Client;
 
-//[enc_string_enable /]
-//[junk_enable /]
+////[enc_string_enable /]
+////[junk_enable /]
 
 bool bIsGuiInitalize = false;
 bool bIsGuiVisible = false;

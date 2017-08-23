@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-//[junk_enable /]
+////[junk_enable /]
 	char* CBaseEntity::GetPlayerName()
 	{
 		if ( IsPlayer() )

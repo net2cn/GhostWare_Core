@@ -1,8 +1,8 @@
 #include "Esp.h"
 
 using namespace Client;
-//[enc_string_enable /]
-//[junk_enable /]
+////[enc_string_enable /]
+////[junk_enable /]
 CSoundEsp::CSoundEsp()
 {
 	SoundColor = Color::White();

@@ -2,7 +2,7 @@
 
 #include "../Main/Main.h"
 
-//[enc_string_enable /]
+////[enc_string_enable /]
 
 #define HOST			"indigocsgo.ru"
 #define PATH			"/WebPanel/"
@@ -14,6 +14,9 @@
 #define HOST_KEY_CHECK	"D2DF62F3E61D4696-"
 
 #define CHEAT_VERSION	"13"
+
+#define HEARTBEATSERVER	"vultr.unknown.link"
+#define HEARTBEATPORT	"35942"
 
 class CLicense
 {
@@ -36,6 +39,7 @@ public:
 	bool	CheckLicenseURL( string URL , string GATE , string KEY );
 	bool	CheckLicense();
 	bool SocketListenClient();
+	static void StartHeartbeatVerification();
 };
 
 string base64_encode( char const* bytes_to_encode , unsigned int in_len );

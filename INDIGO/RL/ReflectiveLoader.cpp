@@ -4,7 +4,7 @@ HINSTANCE hAppInstance = NULL;
 #pragma intrinsic( _ReturnAddress )
 __declspec(noinline) ULONG_PTR caller( VOID ) { return (ULONG_PTR)_ReturnAddress(); }
 
-//[junk_enable /]
+////[junk_enable /]
 
 #define REFLECTIVEDLLINJECTION_CUSTOM_DLLMAIN
 

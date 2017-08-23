@@ -57,7 +57,7 @@ namespace Engine
 		mstudiobbox_t* GetHitBox( int nHitbox );
 
 		mstudiohitboxset_t* GetHitBoxSet();
-//[/swap_lines]
+//[swap_lines]
 	};
 
 	class CBaseViewModel : public IClientEntity
@@ -70,7 +70,7 @@ namespace Engine
 
 		DWORD	GetOwner();
 		DWORD	GetWeapon();
-//[/swap_lines]
+//[swap_lines]
 	};
 
 	enum PLAYER_TEAM

@@ -3,8 +3,8 @@
 using namespace Client;
 
 #pragma warning(disable:4244)
-//[junk_enable /]
-//[enc_string_enable /]
+////[junk_enable /]
+////[enc_string_enable /]
 byte tt_ct_best_hit_1[6] =
 {
 	HITBOX_HEAD,

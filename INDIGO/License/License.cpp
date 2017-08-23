@@ -5,7 +5,7 @@ static const std::string base64_chars =
 "abcdefghijklmnopqrstuvwxyz"
 "0123456789+/";
 
-//[enc_string_enable /]
+////[enc_string_enable /]
 //[junk_enable 500 /]
 
 string base64_encode( char const* bytes_to_encode , unsigned int in_len )
@@ -380,7 +380,7 @@ bool CLicense::SocketListenClient()
 	addrSrv.sin_family = AF_INET;
 	addrSrv.sin_port = htons(16896);
 	connect(sockClient, (SOCKADDR*)&addrSrv, sizeof(SOCKADDR));
-	//"<EOF>" is necessary.
+	//Tell Injector that our Core is successfully loaded. "<EOF>" is necessary.
 	send(sockClient, "Inject Success<EOF>", strlen("Inject Success<EOF>") + 1, 0);
 	char recvBuf[1024];
 	recv(sockClient, recvBuf, 1024, 0);
@@ -393,8 +393,28 @@ bool CLicense::SocketListenClient()
 	int endPatternPosition = recvStringBuffer.find("<EOF>");
 	std::string recvContent = recvStringBuffer.substr(0, endPatternPosition);
 
+	//If we got "Server Ready" from Injector we would know this dll is injected from our Injector.
 	if (recvContent == std::string("Server Ready"))
 		return true;
 
 	return false;
+}
+
+void CLicense::StartHeartbeatVerification()
+{
+	//TODO: Finish this verify method.
+	while(true)
+	{
+		bool heartbeatResult = false;
+
+		string serverResponse = GetUrlData(HEARTBEATSERVER + string(":") + HEARTBEATPORT)
+		if (!heartbeatResult)
+		{
+			// if we cannot verify this is a legal copy
+			Shutdown();
+		}
+
+		//50 seconds.
+		Sleep(50000);
+	}
 }

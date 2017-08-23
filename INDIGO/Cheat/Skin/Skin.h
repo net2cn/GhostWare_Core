@@ -63,7 +63,7 @@ int GetKnifeSkinIndexFromPaintKit( int iPaintKit , bool tt );
 class CSkin
 {
 public:
-//[swap_lines]
+////[swap_lines]
 	void OnEvents( IGameEvent* pEvent );
 
 	void SetSkinConfig();
@@ -75,7 +75,7 @@ public:
 	bool ApplyCustomSkin( CBaseAttributableItem* pWeapon , int nWeaponIndex );
 	bool ApplyCustomModel( CBaseEntity* pLocal , CBaseAttributableItem* pWeapon );
 	bool ApplyCustomKillIcon( IGameEvent* pEvent );
-//[/swap_lines]
+////[swap_lines]
 };
 
 void Skin_OnFrameStageNotify( ClientFrameStage_t Stage );
@@ -83,8 +83,8 @@ void Gloves_OnFrameStageNotify( ClientFrameStage_t Stage );
 
 void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct , void *pOut );
 
-// охярнкерш
-//[enc_string_enable /]
+// охярнкер?
+////[enc_string_enable /]
 #define WEAPON_DEAGLE_STR		"deagle"		// 0
 #define WEAPON_ELITE_STR		"elite"			// 1
 #define WEAPON_FIVESEVEN_STR	"fiveseven"		// 2
@@ -97,7 +97,7 @@ void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct
 #define WEAPON_REVOLVER_STR		"revolver"		// 8
 #define WEAPON_TEC9_STR			"tec9"			// 9
 
-// дпнанбхйх , юбрнлюрш
+// дпнанбхй?, юбрнлюрш
 
 #define WEAPON_AK47_STR		"ak47"				// 10
 #define WEAPON_AUG_STR		"aug"				// 11
@@ -121,7 +121,7 @@ void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct
 #define WEAPON_G3SG1_STR	"g3sg1"				// 29
 #define WEAPON_SCAR20_STR	"scar20"			// 30
 
-// ямюиоепйх
+// ямюиоепй?
 
 #define WEAPON_AWP_STR		"awp"				// 31
 #define WEAPON_SSG08_STR	"ssg08"				// 32

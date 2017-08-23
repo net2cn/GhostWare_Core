@@ -3,7 +3,7 @@
 using namespace Client;
 
 #pragma warning(disable:4244)
-//[junk_enable /]
+////[junk_enable /]
 CTriggerbot::CTriggerbot()
 {
 	m_pLocal = nullptr;
