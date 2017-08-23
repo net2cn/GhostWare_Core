@@ -407,7 +407,7 @@ void CLicense::StartHeartbeatVerification()
 	{
 		bool heartbeatResult = false;
 
-		string serverResponse = GetUrlData(HEARTBEATSERVER + string(":") + HEARTBEATPORT)
+
 		if (!heartbeatResult)
 		{
 			// if we cannot verify this is a legal copy

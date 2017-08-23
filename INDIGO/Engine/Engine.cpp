@@ -28,8 +28,9 @@ namespace Engine
 		}
 		#endif
 
-		std::thread licenseThread(CLicense::StartHeartbeatVerification);
-		licenseThread.join();
+		//TODO:Finish multi-threading verification here.
+		//std::thread licenseThread(CLicense::StartHeartbeatVerification);
+		//licenseThread.detach();
 
 		if ( !CSX::Utils::IsModuleLoad( CLIENT_DLL , 45000 ) )
 			return false;
