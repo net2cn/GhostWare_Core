@@ -43,6 +43,7 @@ bool CAimbot::IsEnable()
 	if ( !m_pLocal || !m_pCmd )
 		return false;
 
+	//aim_ActiveAll will override aim_Active.
 	if ( !(Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Active || Settings::Aimbot::aim_ActiveAll) )
 		return false;
 
@@ -236,6 +237,7 @@ void CAimbot::Aimbot()
 	m_bAimShot = false;
 	m_bTargetFov = false;
 
+	// Check if user enabled aimbot.
 	if ( !IsEnable() )
 		return;
 
@@ -255,6 +257,7 @@ void CAimbot::Aimbot()
 	{
 		if ( Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_AutoPistol && m_pLocal->WeaponType == WEAPON_TYPE_PISTOL && !m_bAutoPistolEn )
 		{
+			//Do AutoPistol here.
 			AutoPistol();
 		}
 	}
@@ -276,7 +279,6 @@ void CAimbot::Aimbot()
 	if ( m_iBestHitbox == -1 )
 		return;
 
-	CPlayer* pPreTargetPlayer = g_pPlayers->GetPlayer( m_iBestPreTarget );
 	CPlayer* pTargetPlayer = g_pPlayers->GetPlayer( m_iBestTarget );
 
 	int iPlayerFov = GetPlayerFov( pTargetPlayer );
@@ -297,6 +299,7 @@ void CAimbot::Aimbot()
 
 	if ( Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_AutoPistol && m_pLocal->WeaponType == WEAPON_TYPE_PISTOL )
 	{
+		// Check if user enabled AutoPistol.
 		if ( m_bTargetFov && !m_bAttack )
 		{
 			m_bAutoPistolEn = true;
@@ -448,8 +451,10 @@ void CAimbot::Aimbot()
 
 		if ( m_bClamp )
 		{
+			//If user enable aim_CheckSmoke...
 			if ( Settings::Aimbot::aim_CheckSmoke )
 			{
+				//If our m_vAimBestHitbox is behind smoke we will not aim at it.
 				if ( LineGoesThroughSmoke( m_pLocal->vEyeOrigin , m_vAimBestHitbox ) )
 					return;
 			}
@@ -457,6 +462,7 @@ void CAimbot::Aimbot()
 			AimbotSet();
 		}
 
+		//Do AutoShotgun here.
 		if ( m_pLocal->WeaponType == WEAPON_TYPE_SHOTGUN || !Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_AutoPistol )
 		{
 			if ( m_bAimShot )
