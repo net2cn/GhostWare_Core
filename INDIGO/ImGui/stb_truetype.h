@@ -229,11 +229,11 @@
 //   Inline sort     :  6.54 s     5.65 s
 //   New rasterizer  :  5.63 s     5.00 s
 
-////////////////////////////////////////
-////////////////////////////////////////
-//
-//  SAMPLE PROGRAMS
-//
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+////
+////  SAMPLE PROGRAMS
+////
 //
 //  Incomplete text-in-3d-api example, which draws quads properly aligned to be lossless
 //
@@ -281,7 +281,7 @@ void my_stbtt_print(float x, float y, char *text)
 #endif
 //
 //
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // Complete program (this compiles): get a single bitmap, print as ASCII art
 //
@@ -325,7 +325,7 @@ int main(int argc, char **argv)
 //   @@@o@@@@
 //   :M@@V:@@.
 //  
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // 
 // Complete program: print "Hello World!" banner, with bugs
 //
@@ -374,13 +374,13 @@ int main(int arg, char **argv)
 #endif
 
 
-////////////////////////////////////////
-////////////////////////////////////////
-//
-//   INTEGRATION WITH YOUR CODEBASE
-//
-//   The following sections allow you to supply alternate definitions
-//   of C library functions used by stb_truetype.
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+////
+////   INTEGRATION WITH YOUR CODEBASE
+////
+////   The following sections allow you to supply alternate definitions
+////   of C library functions used by stb_truetype.
 
 #ifdef STB_TRUETYPE_IMPLEMENTATION
    // #define your own (u)stbtt_int8/16/32 before including to override this
@@ -437,12 +437,12 @@ int main(int arg, char **argv)
    #endif
 #endif
 
-/////////////////////////////////////////
-/////////////////////////////////////////
-//
-//   INTERFACE
-//
-//
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+////
+////   INTERFACE
+////
+////
 
 #ifndef __STB_INCLUDE_STB_TRUETYPE_H__
 #define __STB_INCLUDE_STB_TRUETYPE_H__
@@ -465,7 +465,7 @@ typedef struct
    int size;
 } stbtt__buf;
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // TEXTURE BAKING API
 //
@@ -511,7 +511,7 @@ STBTT_DEF void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph,  //
 
 
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // NEW TEXTURE BAKING API
 //
@@ -627,7 +627,7 @@ struct stbtt_pack_context {
    void  *nodes;
 };
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // FONT LOADING
 //
@@ -677,7 +677,7 @@ STBTT_DEF int stbtt_InitFont(stbtt_fontinfo *info, const unsigned char *data, in
 // value data with no additional data structures. Returns 0 on failure.
 
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // CHARACTER TO GLYPH-INDEX CONVERSIOn
 
@@ -688,7 +688,7 @@ STBTT_DEF int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codep
 // codepoint-based functions.
 
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // CHARACTER PROPERTIES
 //
@@ -734,7 +734,7 @@ STBTT_DEF int  stbtt_GetGlyphBox(const stbtt_fontinfo *info, int glyph_index, in
 // as above, but takes one or more glyph indices for greater efficiency
 
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // GLYPH SHAPES (you probably don't need these, but they have to go before
 // the bitmaps for C declaration-order reasons)
@@ -777,7 +777,7 @@ STBTT_DEF int stbtt_GetGlyphShape(const stbtt_fontinfo *info, int glyph_index, s
 STBTT_DEF void stbtt_FreeShape(const stbtt_fontinfo *info, stbtt_vertex *vertices);
 // frees the data allocated above
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // BITMAP RENDERING
 //
@@ -847,7 +847,7 @@ STBTT_DEF void stbtt_Rasterize(stbtt__bitmap *result,        // 1-channel bitmap
                                int invert,                   // if non-zero, vertically flip shape
                                void *userdata);              // context for to STBTT_MALLOC
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // Finding the right font...
 //
@@ -947,12 +947,12 @@ enum { // languageID for STBTT_PLATFORM_ID_MAC
 
 #endif // __STB_INCLUDE_STB_TRUETYPE_H__
 
-/////////////////////////////////////////
-/////////////////////////////////////////
-//
-//   IMPLEMENTATION
-//
-//
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+////
+////   IMPLEMENTATION
+////
+////
 
 #ifdef STB_TRUETYPE_IMPLEMENTATION
 
@@ -976,7 +976,7 @@ typedef int stbtt__test_oversample_pow2[(STBTT_MAX_OVERSAMPLE & (STBTT_MAX_OVERS
 #define STBTT__NOTUSED(v)  (void)sizeof(v)
 #endif
 
-//////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //
 // stbtt__buf helpers to parse data from file
 //
@@ -1122,7 +1122,7 @@ static stbtt__buf stbtt__cff_index_get(stbtt__buf b, int i)
    return stbtt__buf_range(&b, 2+(count+1)*offsize+start, end - start);
 }
 
-//////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //
 // accessors to parse data from file
 //
@@ -2225,7 +2225,7 @@ STBTT_DEF void stbtt_FreeShape(const stbtt_fontinfo *info, stbtt_vertex *v)
    STBTT_free(v, info->userdata);
 }
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // antialiasing software rasterizer
 //
@@ -2263,7 +2263,7 @@ STBTT_DEF void stbtt_GetCodepointBitmapBox(const stbtt_fontinfo *font, int codep
    stbtt_GetCodepointBitmapBoxSubpixel(font, codepoint, scale_x, scale_y,0.0f,0.0f, ix0,iy0,ix1,iy1);
 }
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 //  Rasterizer
 
@@ -3235,7 +3235,7 @@ STBTT_DEF void stbtt_MakeCodepointBitmap(const stbtt_fontinfo *info, unsigned ch
    stbtt_MakeCodepointBitmapSubpixel(info, output, out_w, out_h, out_stride, scale_x, scale_y, 0.0f,0.0f, codepoint);
 }
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // bitmap baking
 //
@@ -3308,7 +3308,7 @@ STBTT_DEF void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph, int
    *xpos += b->xadvance;
 }
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // rectangle packing replacement routines if you don't have stb_rect_pack.h
 //
@@ -3317,7 +3317,7 @@ STBTT_DEF void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph, int
 
 typedef int stbrp_coord;
 
-//////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 //                                                                                //
 //                                                                                //
 // COMPILER WARNING ?!?!?                                                         //
@@ -3326,7 +3326,7 @@ typedef int stbrp_coord;
 // if you get a compile warning due to these symbols being defined more than      //
 // once, move #include "stb_rect_pack.h" before #include "stb_truetype.h"         //
 //                                                                                //
-//////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 typedef struct
 {
@@ -3378,7 +3378,7 @@ static void stbrp_pack_rects(stbrp_context *con, stbrp_rect *rects, int num_rect
 }
 #endif
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // bitmap baking
 //
@@ -3763,7 +3763,7 @@ STBTT_DEF void stbtt_GetPackedQuad(stbtt_packedchar *chardata, int pw, int ph, i
 }
 
 
-////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 //
 // font name matching -- recommended not to use this
 //
