@@ -36,6 +36,7 @@ namespace Settings
 		extern bool aim_Deathmatch;
 		extern bool aim_WallAttack;
 		extern bool aim_CheckSmoke;
+		extern bool aim_FollowTarget;
 		extern bool aim_AntiJump;
 		extern int aim_RcsType;
 		extern bool aim_DrawFov;
@@ -198,6 +199,7 @@ namespace Settings
 #define CVAR_AIMBOT_DEATHMATCH "aim_Deathmatch"
 #define CVAR_AIMBOT_WALLATTACK "aim_WallAttack"
 #define CVAR_AIMBOT_CHECKSMOKE "aim_CheckSmoke"
+#define CVAR_AIMBOT_FOLLOWTARGET "aim_FollowTarget"
 #define CVAR_AIMBOT_ANTIJUMP	"aim_IgnoreJump"
 #define CVAR_AIMBOT_RCSTYPE "aim_RcsType"
 #define CVAR_AIMBOT_DRAWFOV "aim_DrawFov"

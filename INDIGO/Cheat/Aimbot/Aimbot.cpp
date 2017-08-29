@@ -241,7 +241,14 @@ void CAimbot::Aimbot()
 	if ( !IsEnable() )
 		return;
 
-	m_bAttack = ( m_pCmd->buttons & IN_ATTACK );
+	// If user click fire button we will start aimbot scanning. Here we use m_bAttack to save user action.
+	m_bAttack = (m_pCmd->buttons & IN_ATTACK);
+
+	// If user checked FollowTarget we will set m_bAttack to true so we can override following dectection.
+	if (Settings::Aimbot::aim_FollowTarget)
+	{
+		m_bAttack = true;
+	}
 
 	if ( !g_pPlayers->GetPlayer( m_iBestTarget )->bUpdate )
 	{

@@ -15,6 +15,7 @@ namespace Settings
 		Aimbot::aim_Deathmatch = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_DEATHMATCH , Aimbot::aim_Deathmatch );
 		Aimbot::aim_WallAttack = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_WALLATTACK , Aimbot::aim_WallAttack );
 		Aimbot::aim_CheckSmoke = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_CHECKSMOKE , Aimbot::aim_CheckSmoke );
+		Aimbot::aim_FollowTarget = CSX::Cvar::LoadCvar(AIMBOT_TEXT, CVAR_AIMBOT_FOLLOWTARGET, Aimbot::aim_FollowTarget);
 		Aimbot::aim_AntiJump = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_ANTIJUMP , Aimbot::aim_AntiJump );
 		Aimbot::aim_RcsType = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_RCSTYPE , Aimbot::aim_RcsType );
 		Aimbot::aim_DrawFov = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_DRAWFOV , Aimbot::aim_DrawFov );
@@ -203,6 +204,7 @@ namespace Settings
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_DEATHMATCH , Aimbot::aim_Deathmatch );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_WALLATTACK , Aimbot::aim_WallAttack );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_CHECKSMOKE , Aimbot::aim_CheckSmoke );
+		CSX::Cvar::SaveCvar(AIMBOT_TEXT, CVAR_AIMBOT_FOLLOWTARGET, Aimbot::aim_FollowTarget);
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_ANTIJUMP , Aimbot::aim_AntiJump );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_RCSTYPE , Aimbot::aim_RcsType );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_DRAWFOV , Aimbot::aim_DrawFov );
@@ -441,6 +443,7 @@ namespace Settings
 		bool aim_Deathmatch = false;
 		bool aim_WallAttack = false;
 		bool aim_CheckSmoke = false;
+		bool aim_FollowTarget = false;
 		bool aim_AntiJump = false;
 		int aim_RcsType = 0;
 		bool aim_DrawFov = true;

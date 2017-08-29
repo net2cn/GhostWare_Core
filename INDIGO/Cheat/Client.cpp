@@ -323,6 +323,8 @@ namespace Client
 				ImGui::Checkbox( "\xE6\x98\xAF\xE5\x90\xA6\xE7\xA9\xBF\xE7\x83\x9F\x0A" , &Settings::Aimbot::aim_CheckSmoke );//CheckSmoke 是否穿烟
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("\xE5\xA6\x82\xE6\x9E\x9C\xE5\x90\xAF\xE7\x94\xA8\xE5\xB0\x86\xE4\xB8\x8D\xE4\xBC\x9A\xE7\x9E\x84\xE5\x87\x86\xE7\x83\x9F\xE9\x9B\xBE\xE5\x90\x8E\xE6\x95\x8C\xE4\xBA\xBA\xE3\x80\x82");//if enabled Aimbot will not aim target behind somke. 如果启用将不会瞄准烟雾后敌人。
+				ImGui::SameLine(SpaceLineThr);
+				ImGui::Checkbox("\xE8\xB7\x9F\xE9\x9A\x8F\xE7\x9B\xAE\xE6\xA0\x87", &Settings::Aimbot::aim_FollowTarget);//Follow Target 跟随目标
 
 				ImGui::Checkbox( "\xe5\x8f\x8d\xe8\xb7\xb3\xe8\xb7\x83" , &Settings::Aimbot::aim_AntiJump );//AntiJump 反跳跃
 				ImGui::SameLine( SpaceLineOne );
