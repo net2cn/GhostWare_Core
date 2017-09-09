@@ -270,7 +270,7 @@ namespace Client
 	{
 		ImGui::SetNextWindowSize( ImVec2( 560.f , 325.f ) );
 
-		if ( ImGui::Begin( HACK_NAME , &bIsGuiVisible , ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize ) )
+		if ( ImGui::Begin( HACK_NAME __DATE__ , &bIsGuiVisible , ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize ) )
 		{
 			if ( Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_FovType > 1 )
 				Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_FovType = 1;
@@ -440,7 +440,7 @@ namespace Client
 
 				const char* items2[] = { "\xE6\x8C\x89\xE4\xBD\x8F\x0A" , "\xE6\x8C\x89\xE9\x94\xAE\x0A" };//不确定!!!!!!!!!!!!!!!Hold Press按住 按键
 				ImGui::PushItemWidth( 80.f );
-				ImGui::Combo( "\xE6\x8C\x89\xE9\x94\xAE\xE6\xA8\xA1\xE5\xBC\x8F\x0A" , &Settings::Triggerbot::trigger_KeyMode , items2 , IM_ARRAYSIZE( items2 ) );//不确定!!!!!!!!!!!!!!!key mode 按键模式
+				ImGui::Combo( "\xE6\x8C\x89\xE9\x94\xAE\xE6\xA8\xA1\xE5\xBC\x8F\x0A" , &Settings::Triggerbot::trigger_KeyMode , items2 , IM_ARRAYSIZE( items2 ) );//key mode 按键模式
 				ImGui::PopItemWidth();
 				ImGui::SameLine();
 
@@ -453,7 +453,7 @@ namespace Client
 				ImGui::Spacing();
 				
 				ImGui::PushItemWidth( 362.f );
-				ImGui::SliderInt( "\xE6\x9C\x80\xE5\xB0\x8F\xE8\xB7\x9D\xE7\xA6\xBB\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_DistanceMin , 0 , 5000 );//不确定!!!!!!!!!!!!!!!Min Disstance最小距离
+				ImGui::SliderInt( "\xE6\x9C\x80\xE5\xB0\x8F\xE8\xB7\x9D\xE7\xA6\xBB\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_DistanceMin , 0 , 5000 );//Min Disstance最小距离
 				ImGui::SliderInt( "\xE6\x9C\x80\xE5\xA4\xA7\xE8\xB7\x9D\xE7\xA6\xBB\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_DistanceMax , 0 , 5000 );//不确定!!!!!!!!!!!!!!!Max Disstance最大距离
 				ImGui::SliderInt( "\xE8\x8C\x83\xE5\x9B\xB4\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_Fov , 1 , 100 );//不确定!!!!!!!!!!!!!!!Fov范围
 				ImGui::SliderInt( "\xE5\xBB\xB6\xE6\x97\xB6\xE5\x89\x8D\x0A" , &Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_DelayBefore , 0 , 200 );//不确定!!!!!!!!!!!!!!!Delay Before延时之前
