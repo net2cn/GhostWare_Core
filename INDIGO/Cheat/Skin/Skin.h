@@ -63,7 +63,7 @@ int GetKnifeSkinIndexFromPaintKit( int iPaintKit , bool tt );
 class CSkin
 {
 public:
-////[swap_lines]
+//[swap_lines]
 	void OnEvents( IGameEvent* pEvent );
 
 	void SetSkinConfig();
@@ -75,7 +75,7 @@ public:
 	bool ApplyCustomSkin( CBaseAttributableItem* pWeapon , int nWeaponIndex );
 	bool ApplyCustomModel( CBaseEntity* pLocal , CBaseAttributableItem* pWeapon );
 	bool ApplyCustomKillIcon( IGameEvent* pEvent );
-////[swap_lines]
+//[/swap_lines]
 };
 
 void Skin_OnFrameStageNotify( ClientFrameStage_t Stage );
@@ -84,7 +84,7 @@ void Gloves_OnFrameStageNotify( ClientFrameStage_t Stage );
 void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct , void *pOut );
 
 // охярнкер?
-////[enc_string_enable /]
+//[enc_string_enable /]
 #define WEAPON_DEAGLE_STR		"deagle"		// 0
 #define WEAPON_ELITE_STR		"elite"			// 1
 #define WEAPON_FIVESEVEN_STR	"fiveseven"		// 2

@@ -283,7 +283,7 @@ namespace Client
 
 			const char* tabNames[] = { 
 				AIMBOT_TEXT , TRIGGER_TEXT , VISUAL_TEXT , RADAR_TEXT , 
-				KNIFEBOT_TEXT , /*SKIN_TEXT ,*/ MISC_TEXT , CONFIG_TEXT };
+				KNIFEBOT_TEXT , MISC_TEXT , CONFIG_TEXT , SKIN_TEXT };
 			//Skin changer is damaged... need futher repair
 			
 			static int tabOrder[] = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 };
@@ -663,119 +663,6 @@ namespace Client
 				ImGui::SliderInt( "\xE5\x8C\xBA\xE5\x88\x86\xE8\xBD\xBB\xE5\x87\xBB\x0A" , &Settings::Knifebot::knf_DistAttack , 1 , 100 );//不确定!!!!!!!!!!!!!!!Dist to attack 1 区分轻击
 				ImGui::SliderInt( "\xE5\x8C\xBA\xE5\x88\x86\xE9\x87\x8D\xE5\x87\xBB\x0A" , &Settings::Knifebot::knf_DistAttack2 , 1 , 100 );//不确定!!!!!!!!!!!!!!!Dist to attack 2 区分重击
 			}
-			//else if ( tabSelected == 5 ) // Skins
-			//{
-			//	////[enc_string_disable /]
-			//	const char* knife_models_items[] =
-			//	{
-			//		"Default","Bayonet","Flip","Gut","Karambit" ,"M9 Bayonet",
-			//		"Huntsman","Falchion","Bowie","Butterfly","Shadow Daggers"
-			//	};
-
-			//	const char* quality_items[] =
-			//	{
-			//		"Normal","Genuine","Vintage","Unusual","Community","Developer",
-			//		"Self-Made","Customized","Strange","Completed","Tournament"
-			//	};
-
-			//	const char* gloves_listbox_items[25] =
-			//	{
-			//		"default",
-			//		"bloodhound_black_silver","bloodhound_snakeskin_brass","bloodhound_metallic","handwrap_leathery",
-			//		"handwrap_camo_grey","slick_black","slick_military","slick_red","sporty_light_blue","sporty_military",
-			//		"handwrap_red_slaughter","motorcycle_basic_black","motorcycle_mint_triangle","motorcycle_mono_boom",
-			//		"motorcycle_triangle_blue","specialist_ddpat_green_camo","specialist_kimono_diamonds_red",
-			//		"specialist_emerald_web","specialist_orange_white","handwrap_fabric_orange_camo","sporty_purple",
-			//		"sporty_green","bloodhound_guerrilla","slick_snakeskin_yellow"
-			//	};
-			//	////[enc_string_enable /]
-
-			//	ImGui::Text( "\xE5\xBD\x93\xE5\x89\x8D\xE6\xAD\xA6\xE5\x99\xA8\x0A: %s" , pWeaponData[iWeaponID] );//不确定!!!!!!!!!!!!!!!Current Weapon: %s
-
-			//	ImGui::PushItemWidth( 362.f );
-
-			//	ImGui::Separator();
-
-			//	ImGui::Combo( "CT\xE5\x88\x80\xE6\xA8\xA1\xE5\x9E\x8B\x0A" , &Settings::Skin::knf_ct_model , knife_models_items , IM_ARRAYSIZE( knife_models_items ) );//不确定!!!!!!!!!!!!!!! Knife CT Model CT刀模型
-			//	ImGui::Combo( "T\xE5\x88\x80\xE6\xA8\xA1\xE5\x9E\x8B\x0A" , &Settings::Skin::knf_tt_model , knife_models_items , IM_ARRAYSIZE( knife_models_items ) );//不确定!!!!!!!!!!!!!!! Knife TT Model T刀模型
-
-			//	ImGui::Separator();
-
-			//	static int iSelectKnifeCTSkinIndex = -1;
-			//	static int iSelectKnifeTTSkinIndex = -1;
-
-			//	int iKnifeCTModelIndex = Settings::Skin::knf_ct_model - 1;
-			//	int iKnifeTTModelIndex = Settings::Skin::knf_tt_model - 1;
-
-			//	static int iOldKnifeCTModelIndex = -1;
-			//	static int iOldKnifeTTModelIndex = -1;
-
-			//	if ( iOldKnifeCTModelIndex != iKnifeCTModelIndex )
-			//		iSelectKnifeCTSkinIndex = GetKnifeSkinIndexFromPaintKit( Settings::Skin::knf_ct_skin , false );
-
-			//	if ( iOldKnifeTTModelIndex != iKnifeTTModelIndex )
-			//		iSelectKnifeTTSkinIndex = GetKnifeSkinIndexFromPaintKit( Settings::Skin::knf_ct_skin , true );
-
-			//	iOldKnifeCTModelIndex = iKnifeCTModelIndex;
-			//	iOldKnifeTTModelIndex = iKnifeTTModelIndex;
-
-			//	string KnifeCTModel = knife_models_items[Settings::Skin::knf_ct_model];
-			//	string KnifeTTModel = knife_models_items[Settings::Skin::knf_tt_model];
-
-			//	KnifeCTModel += " Skin##KCT";//不确定!!!!!!!!!!!!!!!
-			//	KnifeTTModel += " Skin##KTT";//不确定!!!!!!!!!!!!!!!
-
-			//	ImGui::SliderFloat( "Knife CT Wear" , &g_SkinChangerCfg[WEAPON_KNIFE].flFallbackWear , 0.f , 1.f );//不确定!!!!!!!!!!!!!!!
-			//	ImGui::Combo( "Knife CT Qality" , &g_SkinChangerCfg[WEAPON_KNIFE].iEntityQuality , quality_items , IM_ARRAYSIZE( quality_items ) );//不确定!!!!!!!!!!!!!!!
-			//	ImGui::ComboBoxArray( KnifeCTModel.c_str() , &iSelectKnifeCTSkinIndex , KnifeSkins[iKnifeCTModelIndex].SkinNames );
-
-			//	ImGui::Separator();
-
-			//	ImGui::SliderFloat( "Knife TT Wear" , &g_SkinChangerCfg[WEAPON_KNIFE_T].flFallbackWear , 0.f , 1.f );
-			//	ImGui::Combo( "Knife TT Qality" , &g_SkinChangerCfg[WEAPON_KNIFE_T].iEntityQuality , quality_items , IM_ARRAYSIZE( quality_items ) );//不确定!!!!!!!!!!!!!!!
-			//	ImGui::ComboBoxArray( KnifeTTModel.c_str() , &iSelectKnifeTTSkinIndex , KnifeSkins[iKnifeTTModelIndex].SkinNames );//不确定!!!!!!!!!!!!!!!
-
-			//	ImGui::Separator();
-
-			//	static int iOldWeaponID = -1;
-
-			//	ImGui::Combo( "Weapon##WeaponSelect" , &iWeaponID , pWeaponData , IM_ARRAYSIZE( pWeaponData ) );//不确定!!!!!!!!!!!!!!!
-
-			//	iWeaponSelectIndex = pWeaponItemIndexData[iWeaponID];
-
-			//	if ( iOldWeaponID != iWeaponID )
-			//		iWeaponSelectSkinIndex = GetWeaponSkinIndexFromPaintKit( g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit );
-
-			//	iOldWeaponID = iWeaponID;
-
-			//	string WeaponSkin = pWeaponData[iWeaponID];
-			//	WeaponSkin += " \xE7\x9A\xAE\xE8\x82\xA4\x0A";//不确定!!!!!!!!!!!!!!!Skin 皮肤
-
-			//	ImGui::ComboBoxArray( WeaponSkin.c_str() , &iWeaponSelectSkinIndex , WeaponSkins[iWeaponID].SkinNames );
-
-			//	ImGui::Combo("\xE5\x93\x81\xE8\xB4\xA8\x0A", &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].iEntityQuality, quality_items, IM_ARRAYSIZE(quality_items));//不确定!!!!!!!!!!!!!!!Weapon Qality 武器品质
-			//	ImGui::SliderFloat( "\xE7\xA3\xA8\xE6\x8D\x9F\x0A" , &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].flFallbackWear , 0.f , 1.f );//不确定!!!!!!!!!!!!!!!Weapon Wear 武器磨损
-			//	ImGui::InputInt( "\xE6\x9A\x97\xE9\x87\x91\x0A" , &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].nFallbackStatTrak , 1 , 100 , ImGuiInputTextFlags_CharsDecimal );//不确定!!!!!!!!!!!!!!! Weapon StatTrak 暗金武器
-
-			//	ImGui::Separator();
-
-			//	ImGui::Combo( "\xE6\x89\x8B\xE5\xA5\x97\x0A" , &Settings::Skin::gloves_skin , gloves_listbox_items ,//不确定!!!!!!!!!!!!!!!Gloves Skin 手套皮肤
-			//				  IM_ARRAYSIZE( gloves_listbox_items ) );
-
-			//	ImGui::Separator();
-
-			//	ImGui::PopItemWidth();
-
-			//	if ( ImGui::Button( "\xE5\xBA\x94\xE7\x94\xA8##\xE7\x9A\xAE\xE8\x82\xA4" ) )//不确定!!!!!!!!!!!!!!!Apply##Skin 接受皮肤
-			//	{
-			//		g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit = WeaponSkins[iWeaponID].SkinPaintKit[iWeaponSelectSkinIndex];
-
-			//		Settings::Skin::knf_ct_skin = KnifeSkins[iKnifeCTModelIndex].SkinPaintKit[iSelectKnifeCTSkinIndex];
-			//		Settings::Skin::knf_tt_skin = KnifeSkins[iKnifeTTModelIndex].SkinPaintKit[iSelectKnifeTTSkinIndex];
-
-			//		ForceFullUpdate();
-			//	}
-			//}
 			else if ( tabSelected == 5 ) // Misc Original 6
 			{
 				ImGui::Checkbox( "\xE8\xBF\x9E\xE8\xB7\xB3\x0A" , &Settings::Misc::misc_Bhop );//Bhop 连跳
@@ -855,6 +742,125 @@ namespace Client
 					{
 						g_pGui->RedSheme();
 					}
+				}
+			}
+			else if ( tabSelected == 7 ) // Skins
+			{
+				//[enc_string_disable /]
+				const char* knife_models_items[] =
+				{
+					"Default","Bayonet","Flip","Gut","Karambit" ,"M9 Bayonet",
+					"Huntsman","Falchion","Bowie","Butterfly","Shadow Daggers"
+				};
+
+				const char* quality_items[] =
+				{
+					"Normal","Genuine","Vintage","Unusual","Community","Developer",
+					"Self-Made","Customized","Strange","Completed","Tournament"
+				};
+
+				const char* gloves_listbox_items[25] =
+				{
+					"default",
+					"bloodhound_black_silver","bloodhound_snakeskin_brass","bloodhound_metallic","handwrap_leathery",
+					"handwrap_camo_grey","slick_black","slick_military","slick_red","sporty_light_blue","sporty_military",
+					"handwrap_red_slaughter","motorcycle_basic_black","motorcycle_mint_triangle","motorcycle_mono_boom",
+					"motorcycle_triangle_blue","specialist_ddpat_green_camo","specialist_kimono_diamonds_red",
+					"specialist_emerald_web","specialist_orange_white","handwrap_fabric_orange_camo","sporty_purple",
+					"sporty_green","bloodhound_guerrilla","slick_snakeskin_yellow"
+				};
+				//[enc_string_enable /]
+
+
+				ImGui::Text("Current Weapon: %s", pWeaponData[iWeaponID]);
+
+				ImGui::PushItemWidth(362.f);
+
+				ImGui::Separator();
+
+				ImGui::Combo("Knife CT Model", &Settings::Skin::knf_ct_model, knife_models_items, IM_ARRAYSIZE(knife_models_items));
+				ImGui::Combo("Knife TT Model", &Settings::Skin::knf_tt_model, knife_models_items, IM_ARRAYSIZE(knife_models_items));
+
+				ImGui::Separator();
+
+				static int iSelectKnifeCTSkinIndex = -1;
+				static int iSelectKnifeTTSkinIndex = -1;
+
+				int iKnifeCTModelIndex = Settings::Skin::knf_ct_model;
+				int iKnifeTTModelIndex = Settings::Skin::knf_tt_model;
+
+				static int iOldKnifeCTModelIndex = -1;
+				static int iOldKnifeTTModelIndex = -1;
+
+				if (iOldKnifeCTModelIndex != iKnifeCTModelIndex && Settings::Skin::knf_ct_model)
+					iSelectKnifeCTSkinIndex = GetKnifeSkinIndexFromPaintKit(Settings::Skin::knf_ct_skin, false);
+
+				if (iOldKnifeTTModelIndex != iKnifeTTModelIndex && Settings::Skin::knf_tt_model)
+					iSelectKnifeTTSkinIndex = GetKnifeSkinIndexFromPaintKit(Settings::Skin::knf_ct_skin, true);
+
+				iOldKnifeCTModelIndex = iKnifeCTModelIndex;
+				iOldKnifeTTModelIndex = iKnifeTTModelIndex;
+
+				string KnifeCTModel = knife_models_items[Settings::Skin::knf_ct_model];
+				string KnifeTTModel = knife_models_items[Settings::Skin::knf_tt_model];
+
+				KnifeCTModel += " Skin##KCT";
+				KnifeTTModel += " Skin##KTT";
+
+				ImGui::SliderFloat("Knife CT Wear", &g_SkinChangerCfg[WEAPON_KNIFE].flFallbackWear, 0.001f, 1.f);
+				ImGui::Combo("Knife CT Qality", &g_SkinChangerCfg[WEAPON_KNIFE].iEntityQuality, quality_items, IM_ARRAYSIZE(quality_items));
+				ImGui::ComboBoxArray(KnifeCTModel.c_str(), &iSelectKnifeCTSkinIndex, KnifeSkins[iKnifeCTModelIndex].SkinNames);
+
+				ImGui::Separator();
+
+				ImGui::SliderFloat("Knife TT Wear", &g_SkinChangerCfg[WEAPON_KNIFE_T].flFallbackWear, 0.001f, 1.f);
+				ImGui::Combo("Knife TT Qality", &g_SkinChangerCfg[WEAPON_KNIFE_T].iEntityQuality, quality_items, IM_ARRAYSIZE(quality_items));
+				ImGui::ComboBoxArray(KnifeTTModel.c_str(), &iSelectKnifeTTSkinIndex, KnifeSkins[iKnifeTTModelIndex].SkinNames);
+
+				ImGui::Separator();
+
+				static int iOldWeaponID = -1;
+
+				ImGui::Combo("Weapon##WeaponSelect", &iWeaponID, pWeaponData, IM_ARRAYSIZE(pWeaponData));
+
+				iWeaponSelectIndex = pWeaponItemIndexData[iWeaponID];
+
+				if (iOldWeaponID != iWeaponID)
+					iWeaponSelectSkinIndex = GetWeaponSkinIndexFromPaintKit(g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit);
+
+				iOldWeaponID = iWeaponID;
+
+				string WeaponSkin = pWeaponData[iWeaponID];
+				WeaponSkin += " Skin";
+
+				ImGui::ComboBoxArray(WeaponSkin.c_str(), &iWeaponSelectSkinIndex, WeaponSkins[iWeaponID].SkinNames);
+
+				ImGui::Combo("Weapon Qality", &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].iEntityQuality, quality_items, IM_ARRAYSIZE(quality_items));
+				ImGui::SliderFloat("Weapon Wear", &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].flFallbackWear, 0.001f, 1.f);
+				ImGui::InputInt("Weapon StatTrak", &g_SkinChangerCfg[pWeaponItemIndexData[iWeaponID]].nFallbackStatTrak, 1, 100, ImGuiInputTextFlags_CharsDecimal);
+
+				ImGui::Separator();
+
+				ImGui::Combo("Gloves Skin", &Settings::Skin::gloves_skin, gloves_listbox_items,
+					IM_ARRAYSIZE(gloves_listbox_items));
+
+				ImGui::Separator();
+
+				ImGui::PopItemWidth();
+
+				if (ImGui::Button("Apply##Skin"))
+				{
+					if (iWeaponSelectSkinIndex >= 0) {
+						g_SkinChangerCfg[iWeaponSelectIndex].nFallbackPaintKit = WeaponSkins[iWeaponID].SkinPaintKit[iWeaponSelectSkinIndex];
+					}
+					if (iSelectKnifeCTSkinIndex >= 0) {
+						Settings::Skin::knf_ct_skin = KnifeSkins[iKnifeCTModelIndex].SkinPaintKit[iSelectKnifeCTSkinIndex];
+					}
+					if (iSelectKnifeTTSkinIndex >= 0) {
+						Settings::Skin::knf_tt_skin = KnifeSkins[iKnifeTTModelIndex].SkinPaintKit[iSelectKnifeTTSkinIndex];
+					}
+
+					ForceFullUpdate();
 				}
 			}
 

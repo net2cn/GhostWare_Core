@@ -16,12 +16,6 @@
     <ClCompile Include="Cheat\Radar\Radar.cpp">
       <Filter>Cheat\Radar</Filter>
     </ClCompile>
-    <ClCompile Include="Cheat\Skin\DynSkin.cpp">
-      <Filter>Cheat\Skin</Filter>
-    </ClCompile>
-    <ClCompile Include="Cheat\Skin\Skin.cpp">
-      <Filter>Cheat\Skin</Filter>
-    </ClCompile>
     <ClCompile Include="Cheat\Triggerbot\Triggerbot.cpp">
       <Filter>Cheat\Triggerbot</Filter>
     </ClCompile>
@@ -112,6 +106,12 @@
     <ClCompile Include="Engine\Offset.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Cheat\Skin\DynSkin.cpp">
+      <Filter>Cheat\Skin</Filter>
+    </ClCompile>
+    <ClCompile Include="Cheat\Skin\Skin.cpp">
+      <Filter>Cheat\Skin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -129,12 +129,6 @@
     </ClInclude>
     <ClInclude Include="Cheat\Radar\Radar.h">
       <Filter>Cheat\Radar</Filter>
-    </ClInclude>
-    <ClInclude Include="Cheat\Skin\DynSkin.h">
-      <Filter>Cheat\Skin</Filter>
-    </ClInclude>
-    <ClInclude Include="Cheat\Skin\Skin.h">
-      <Filter>Cheat\Skin</Filter>
     </ClInclude>
     <ClInclude Include="Cheat\Triggerbot\Triggerbot.h">
       <Filter>Cheat\Triggerbot</Filter>
@@ -358,6 +352,12 @@
     <ClInclude Include="Settings\Settings.h">
       <Filter>Settings</Filter>
     </ClInclude>
+    <ClInclude Include="Cheat\Skin\DynSkin.h">
+      <Filter>Cheat\Skin</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheat\Skin\Skin.h">
+      <Filter>Cheat\Skin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Cheat">
@@ -374,9 +374,6 @@
     </Filter>
     <Filter Include="Cheat\Misc">
       <UniqueIdentifier>{567c144c-619a-443d-8141-87075d442aca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Cheat\Skin">
-      <UniqueIdentifier>{d9583c3c-bf41-4462-b915-216cb6e3d5b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Cheat\Triggerbot">
       <UniqueIdentifier>{5ff0e7d3-85d3-479d-b105-4966827b4a37}</UniqueIdentifier>
@@ -410,6 +407,9 @@
     </Filter>
     <Filter Include="Settings">
       <UniqueIdentifier>{1dc64d08-ff65-4026-8c65-6d3a53e7a138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cheat\Skin">
+      <UniqueIdentifier>{22c6ae79-b001-45bb-b31c-fa9124f84207}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
