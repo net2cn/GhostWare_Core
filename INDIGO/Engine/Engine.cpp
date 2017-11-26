@@ -1,37 +1,34 @@
 #include "Engine.h"
-#include <thread>
 
 #pragma warning(disable:4244)
 
-////[enc_string_enable /]
-////[junk_enable /]
+//[enc_string_enable /]
+//[junk_enable /]
 
 namespace Engine
 {
 	bool Initialize()
 	{
 		CLicense License;
-		
+
 		/*#if ENABLE_LICENSING == 1
 		if ( !License.CheckLicense() )
 		{
-			return false;
+		return false;
 		}
 		#endif*/
-
 		// Yep we do IPC here. Considering heartbeat...
-		#if ENABLE_LICENSING == 1
+#if ENABLE_LICENSING == 1
 		Sleep(2000);
 		if (!License.SocketListenClient())
 		{
 			return false;
 		}
-		#endif
-
+#endif
 		//TODO:Finish multi-threading verification here.
 		//std::thread licenseThread(CLicense::StartHeartbeatVerification);
 		//licenseThread.detach();
-
+		
 		if ( !CSX::Utils::IsModuleLoad( CLIENT_DLL , 45000 ) )
 			return false;
 
@@ -257,7 +254,7 @@ namespace Engine
 
 		return WEAPON_TYPE_UNKNOWN;
 	}
-////[junk_enable /]
+//[junk_enable /]
 	bool IsLocalAlive()
 	{
 		if ( Client::g_pPlayers && 
@@ -272,25 +269,16 @@ namespace Engine
 
 	void ForceFullUpdate()
 	{
-		DWORD pClientState = 0;
-
-		if ( !pClientState )
-			pClientState = CSX::Memory::FindPattern( ENGINE_DLL , FORCE_FULL_UPDATE_PATTERN , FORCE_FULL_UPDATE_MASK , 0x01 );
-
-		if ( !pClientState )
-			return;
-
-		DWORD dwClientState = ( **(PDWORD*)pClientState ) + 0x16C;
-
-		if ( Client::g_pSkin )
+		if (Client::g_pSkin)
 		{
 			Client::g_pSkin->SetSkinConfig();
 			Client::g_pSkin->SetModelConfig();
 			Client::g_pSkin->SetKillIconCfg();
 		}
 
-		if ( *(PDWORD)dwClientState != -1 )
-			*(PDWORD)dwClientState = -1;
+		typedef void(*ForceUpdate) (void);
+		ForceUpdate FullUpdate = (ForceUpdate)CSX::Memory::FindSignature("engine.dll", "FullUpdate", "A1 ? ? ? ? B9 ? ? ? ? 56 FF 50 14 8B 34 85");
+		FullUpdate();
 	}
 
 	int GetWeaponSettingsSelectID()
@@ -388,21 +376,43 @@ namespace Engine
 		return false;
 	}
 
-	void AngleVectors( const Vector &vAngles , Vector& vForward )
+	void AngleVectors(const Vector &vAngles, Vector& vForward)
 	{
-		float	sp , sy , cp , cy;
+		float	sp, sy, cp, cy;
 
-		sy = sin( DEG2RAD( vAngles[1] ) );
-		cy = cos( DEG2RAD( vAngles[1] ) );
+		sy = sin(DEG2RAD(vAngles[1]));
+		cy = cos(DEG2RAD(vAngles[1]));
 
-		sp = sin( DEG2RAD( vAngles[0] ) );
-		cp = cos( DEG2RAD( vAngles[0] ) );
+		sp = sin(DEG2RAD(vAngles[0]));
+		cp = cos(DEG2RAD(vAngles[0]));
 
 		vForward.x = cp*cy;
 		vForward.y = cp*sy;
 		vForward.z = -sp;
 	}
 
+	Vector AngleVector(QAngle meme)
+	{
+		auto sy = sin(meme.y / 180.f * static_cast<float>(3.141592654f));
+		auto cy = cos(meme.y / 180.f * static_cast<float>(3.141592654f));
+
+		auto sp = sin(meme.x / 180.f * static_cast<float>(3.141592654f));
+		auto cp = cos(meme.x / 180.f* static_cast<float>(3.141592654f));
+
+		return Vector(cp*cy, cp*sy, -sp);
+	}
+	float DistancePointToLine(Vector Point, Vector LineOrigin, Vector Dir)
+	{
+		auto PointDir = Point - LineOrigin;
+
+		auto TempOffset = PointDir.Dot(Dir) / (Dir.x*Dir.x + Dir.y*Dir.y + Dir.z*Dir.z);
+		if (TempOffset < 0.000001f)
+			return FLT_MAX;
+
+		auto PerpendicularPoint = LineOrigin + (Dir * TempOffset);
+
+		return (Point - PerpendicularPoint).Length();
+	}
 	void VectorAngles( const Vector vForward , Vector& vAngle )
 	{
 		float tmp , yaw , pitch;
@@ -519,7 +529,7 @@ namespace Engine
 
 		return false;
 	}
-////[enc_string_disable /]
+//[enc_string_disable /]
 	IMaterial* CreateMaterial( bool bFlat , bool bShouldIgnoreZ )
 	{
 		static int iCreated = 0;
@@ -566,7 +576,7 @@ namespace Engine
 		pCreatedMaterial->IncrementReferenceCount();
 		return pCreatedMaterial;
 	}
-////[enc_string_enable /]
+//[enc_string_enable /]
 	void ForceMaterial( Color color , IMaterial* material , bool useColor , bool forceMaterial )
 	{
 		if ( useColor )
@@ -581,7 +591,7 @@ namespace Engine
 		if ( forceMaterial )
 			Interfaces::ModelRender()->ForcedMaterialOverride( material );
 	}
-////[enc_string_disable /]
+//[enc_string_disable /]
 	BOOL SearchFiles( LPCTSTR lpszFileName , LPSEARCHFUNC lpSearchFunc , BOOL bInnerFolders = FALSE )
 	{
 		LPTSTR part;

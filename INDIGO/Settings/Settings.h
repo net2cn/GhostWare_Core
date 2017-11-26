@@ -29,21 +29,22 @@ namespace Settings
 			int aim_RcsSmooth;
 			int aim_RcsClampType;
 			bool aim_AutoPistol;
-			//[swap_lines]
+			//[/swap_lines]
 		};
 		//[swap_lines]
 		extern bool aim_ActiveAll;
+		extern int aim_Backtracktickrate;
+		extern bool aim_Backtrack;
 		extern bool aim_Deathmatch;
 		extern bool aim_WallAttack;
 		extern bool aim_CheckSmoke;
-		extern bool aim_FollowTarget;
 		extern bool aim_AntiJump;
 		extern int aim_RcsType;
 		extern bool aim_DrawFov;
 		extern bool aim_DrawSpot;
 		
 		extern weapon_aim_s weapon_aim_settings[33];
-		//[swap_lines]
+		//[/swap_lines]
 	}
 
 	namespace Triggerbot
@@ -63,7 +64,7 @@ namespace Settings
 			int trigger_AssistFov;
 			int trigger_AssistFovType;
 			int trigger_AssistSmooth;
-			//[swap_lines]
+			//[/swap_lines]
 		};
 		//[swap_lines]
 		extern int trigger_Enable;
@@ -78,7 +79,7 @@ namespace Settings
 		extern bool trigger_DrawFovAssist;
 		
 		extern weapon_trigger_s weapon_trigger_settings[33];
-		//[swap_lines]
+		//[/swap_lines]
 	}
 
 	namespace Esp
@@ -120,7 +121,7 @@ namespace Settings
 		extern float chams_Color_TT[3];
 		extern float chams_Color_VCT[3];
 		extern float chams_Color_VTT[3];
-		//[swap_lines]
+		//[/swap_lines]
 	}
 
 	namespace Radar
@@ -137,7 +138,7 @@ namespace Settings
 		extern float rad_Color_TT[3];
 		extern float rad_Color_VCT[3];
 		extern float rad_Color_VTT[3];
-		//[swap_lines]
+		//[/swap_lines]
 	}
 
 	namespace Skin
@@ -148,44 +149,41 @@ namespace Settings
 		extern int knf_tt_model;
 		extern int knf_tt_skin;
 		extern int gloves_skin;
-		//[swap_lines]
+		//[/swap_lines]
 	}
 
 	namespace Misc
 	{
 		//[swap_lines]
+		extern char misc_SkyName[64];
+		extern bool misc_EPostprocess;
+		extern bool misc_SniperAim;
+		extern bool misc_Postprocess;
 		extern bool misc_Bhop;
 		extern bool misc_Punch;
-		extern bool misc_SniperAim;
-		extern bool misc_NoFlash;	
 		extern bool misc_NoSmoke;
+		extern bool misc_NoFlash;		
 		extern bool misc_AutoStrafe;
 		extern bool misc_AutoAccept;
-		extern bool misc_ThirdPerson;
 		extern bool misc_Spectators;
 		extern bool misc_FovChanger;
 		extern int misc_FovView;
 		extern int misc_FovModelView;
-		extern float misc_SniperAimColor[3];
-		//[swap_lines]
+		extern float misc_AwpAimColor[3];
 	}
 
 	namespace Knifebot
 	{
-		//[swap_lines]
 		extern bool knf_Active;
 		extern bool knf_Team;
 		extern int knf_Attack;
 		extern int knf_DistAttack;
 		extern int knf_DistAttack2;
-		//[swap_lines]
 	}
 }
 
-////[enc_string_enable /]
-
+//Fixed http://smef.pw/indigo/ | all credits can be found there
 #define HACK_NAME "GhostWare CSGO Bokoblin"
-
 #define AIMBOT_TEXT "\xE8\x87\xAA\xE7\x9E\x84"
 #define CONFIG_TEXT "\xE8\xAE\xBE\xE7\xBD\xAE"
 #define TRIGGER_TEXT "\xE6\x89\xB3\xE6\x9C\xBA"
@@ -195,16 +193,15 @@ namespace Settings
 #define SKIN_TEXT "\xE7\x9A\xAE\xE8\x82\xA4"
 #define MISC_TEXT "\xE6\x9D\x82\xE9\xA1\xB9"
 
-#define CVAR_AIMBOT_ACTIVEALL "aim_ActiveAll"
 #define CVAR_AIMBOT_DEATHMATCH "aim_Deathmatch"
 #define CVAR_AIMBOT_WALLATTACK "aim_WallAttack"
 #define CVAR_AIMBOT_CHECKSMOKE "aim_CheckSmoke"
-#define CVAR_AIMBOT_FOLLOWTARGET "aim_FollowTarget"
 #define CVAR_AIMBOT_ANTIJUMP	"aim_IgnoreJump"
 #define CVAR_AIMBOT_RCSTYPE "aim_RcsType"
 #define CVAR_AIMBOT_DRAWFOV "aim_DrawFov"
 #define CVAR_AIMBOT_DRAWSPOT "aim_DrawSpot"
 
+#define CVAR_AIMBOT_ACTIVEALL "aim_ActiveAll"
 #define CVAR_AIMBOT_ACTIVE "aim_Active"
 #define CVAR_AIMBOT_SMOOTH "aim_Smooth"
 #define CVAR_AIMBOT_FOV "aim_Fov"
@@ -313,11 +310,15 @@ namespace Settings
 #define CVAR_SKIN_TT_SKIN "knf_tt_skin"
 #define CVAR_SKIN_GLOVES "gloves_skin"
 
+#define CVAR_MISC_EPOSTPROCESS "misc_EPostprocess"
+#define CVAR_MISC_NOSMOKE "misc_NoSmoke"
+#define CVAR_MISC_POSTPROCESS "misc_Postprocess"
+#define CVAR_AIMBOT_BACKTRACK "aim_Backtrack"
+#define CVAR_AIMBOT_BACKTRACK_TICK "aim_Backtracktickrate"
 #define CVAR_MISC_BHOP "misc_Bhop"
 #define CVAR_MISC_PUNCH "misc_Punch"
-#define CVAR_MISC_AWPAIM "misc_AwpAim"
+#define CVAR_MISC_SNIPERAIM "misc_SniperAim"
 #define CVAR_MISC_NOFLASH "misc_NoFlash"
-#define CVAR_MISC_NOSMOKE "misc_NoSmoke"
 #define CVAR_MISC_AUTOSTRAFE "misc_AutoStrafe"
 #define CVAR_MISC_AUTOACCEPT "misc_AutoAccept"
 #define CVAR_MISC_SPECTATORS "misc_Spectators"

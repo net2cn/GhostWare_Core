@@ -23,7 +23,7 @@ namespace Engine
 
 		const char*		GetName();
 		const char*		GetPrintName();
-//[swap_lines]
+//[/swap_lines]
 	};
 
 	class CBaseAttributableItem : public IClientEntity
@@ -41,7 +41,7 @@ namespace Engine
 		int*			GetFallbackSeed();
 		int*			GetFallbackStatTrak();
 		CBaseViewModel*	GetViewModel();
-//[swap_lines]
+//[/swap_lines]
 	};
 
 	enum WEAPON_TYPE

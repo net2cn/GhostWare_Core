@@ -99,7 +99,7 @@ namespace Engine
 
 	void CRender::DrawLine( int x1 , int y1 , int x2 , int y2 , Color color )
 	{
-		DWORD dxLineColor = D3DCOLOR_RGBA(color.r(), color.g(), color.b(), color.a());
+		DWORD dxLineColor = D3DCOLOR_RGBA( color.r() , color.g() , color.b() , color.a() );
 
 		D3DTLVERTEX D3DTLV[2] = { 0 };
 

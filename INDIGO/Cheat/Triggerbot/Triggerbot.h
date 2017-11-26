@@ -53,7 +53,7 @@ public:
 	void TriggerBot();
 
 	void OnCreateMove( CUserCmd* pCmd , CMe* pLocal );
-//[swap_lines]
+//[/swap_lines]
 private:
 
 	CMe*		m_pLocal;

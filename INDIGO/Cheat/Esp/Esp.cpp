@@ -1,8 +1,8 @@
 #include "Esp.h"
 
 using namespace Client;
-////[enc_string_enable /]
-////[junk_enable /]
+//[enc_string_enable /]
+//[junk_enable /]
 CSoundEsp::CSoundEsp()
 {
 	SoundColor = Color::White();
@@ -152,16 +152,14 @@ void CEsp::OnRender()
 	if ( g_pTriggerbot )
 		g_pTriggerbot->TriggerShowStatus();
 
-	// Check if player is using a sniper...
-	if (Settings::Misc::misc_SniperAim && IsLocalAlive() 
-		&& (g_pPlayers->GetLocal()->WeaponIndex == WEAPON_AWP 
-			|| g_pPlayers->GetLocal()->WeaponIndex == WEAPON_SSG08 
-			|| g_pPlayers->GetLocal()->WeaponIndex == WEAPON_SCAR20 
-			|| g_pPlayers->GetLocal()->WeaponIndex == WEAPON_G3SG1))
+	if (Settings::Misc::misc_SniperAim && IsLocalAlive() && g_pPlayers->GetLocal()->WeaponIndex == WEAPON_AWP ||
+		g_pPlayers->GetLocal()->WeaponIndex == WEAPON_SSG08 ||
+		g_pPlayers->GetLocal()->WeaponIndex == WEAPON_SCAR20 ||
+		g_pPlayers->GetLocal()->WeaponIndex == WEAPON_G3SG1) 
 	{
-		Color AwpAimColor = Color(int(Settings::Misc::misc_SniperAimColor[0] * 255.f),
-			int(Settings::Misc::misc_SniperAimColor[1] * 255.f),
-			int(Settings::Misc::misc_SniperAimColor[2] * 255.f));
+		Color AwpAimColor = Color(int(Settings::Misc::misc_AwpAimColor[0] * 255.f),
+			int(Settings::Misc::misc_AwpAimColor[1] * 255.f),
+			int(Settings::Misc::misc_AwpAimColor[2] * 255.f));
 
 		g_pRender->DrawFillBox(iScreenWidth / 2 - 1, iScreenHeight / 2 - 1, 3, 3, AwpAimColor);
 	}
@@ -235,8 +233,8 @@ void CEsp::OnRender()
 							( pEntity->GetClientClass()->m_ClassID == (int)CLIENT_CLASS_ID::CC4 ||
 							 pEntity->GetClientClass()->m_ClassID == (int)CLIENT_CLASS_ID::CPlantedC4 ) )
 						{
-							g_pRender->Text( (int)vEntScreen.x , (int)vEntScreen.y , true , true , Color::Yellow() ,
-											 "C4" );
+							g_pRender->Text( (int)vEntScreen.x , (int)vEntScreen.y , true , true , Color::Green() ,
+											 "|------|C4 Explosive|------|" );
 						}
 
 						if ( Settings::Esp::esp_WorldWeapons && !strstr( pModelName , "models/weapons/w_eq_" )
@@ -440,46 +438,46 @@ void CEsp::OnDrawModelExecute( IMatRenderContext* ctx , const DrawModelState_t &
 				else
 					TeamVisibleColor = TeamHideColor;
 
-				if ( CheckTeam )
+				if (CheckTeam)
 				{
-					if ( Settings::Esp::esp_Visible <= 2 )
+					if (Settings::Esp::esp_Visible <= 2)
 					{
-						if ( Settings::Esp::esp_Chams == 1 )
+						if (Settings::Esp::esp_Chams == 1)
 						{
-							ForceMaterial( TeamHideColor , hidden_flat );
-							hidden_flat->SetMaterialVarFlag( MATERIAL_VAR_IGNOREZ , true );
+							ForceMaterial(TeamHideColor, hidden_flat);
+							hidden_flat->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
 						}
-						else if ( Settings::Esp::esp_Chams >= 2 )
+						else if (Settings::Esp::esp_Chams >= 2)
 						{
-							ForceMaterial( TeamHideColor , hidden_tex );
-							hidden_tex->SetMaterialVarFlag( MATERIAL_VAR_IGNOREZ , true );
+							ForceMaterial(TeamHideColor, hidden_tex);
+							hidden_tex->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
 						}
 					}
 					else
 					{
-						if ( Settings::Esp::esp_Chams == 1 )
+						if (Settings::Esp::esp_Chams == 1)
 						{
-							ForceMaterial( TeamHideColor , hidden_flat );
-							hidden_flat->SetMaterialVarFlag( MATERIAL_VAR_IGNOREZ , false );
+							ForceMaterial(TeamHideColor, hidden_flat);
+							hidden_flat->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
 						}
-						else if ( Settings::Esp::esp_Chams >= 2 )
+						else if (Settings::Esp::esp_Chams >= 2)
 						{
-							ForceMaterial( TeamHideColor , hidden_tex );
-							hidden_tex->SetMaterialVarFlag( MATERIAL_VAR_IGNOREZ , false );
+							ForceMaterial(TeamHideColor, hidden_tex);
+							hidden_tex->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
 						}
 					}
 
-					Interfaces::ModelRender()->DrawModelExecute( ctx , state , pInfo , pCustomBoneToWorld );
+					Interfaces::ModelRender()->DrawModelExecute(ctx, state, pInfo, pCustomBoneToWorld);
 
-					if ( Settings::Esp::esp_Chams == 1 )
+					if (Settings::Esp::esp_Chams == 1)
 					{
-						ForceMaterial( TeamVisibleColor , visible_flat );
-						visible_flat->SetMaterialVarFlag( MATERIAL_VAR_IGNOREZ , false );
+						ForceMaterial(TeamVisibleColor, visible_flat);
+						visible_flat->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
 					}
-					else if ( Settings::Esp::esp_Chams >= 2 )
+					else if (Settings::Esp::esp_Chams >= 2)
 					{
-						ForceMaterial( TeamVisibleColor , visible_tex );
-						visible_tex->SetMaterialVarFlag( MATERIAL_VAR_IGNOREZ , false );
+						ForceMaterial(TeamVisibleColor, visible_tex);
+						visible_tex->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
 					}
 				}
 			}
@@ -528,22 +526,22 @@ void CEsp::DrawPlayerEsp( CPlayer* pPlayer )
 		{
 			if ( !Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawBox(x, y, Width, Height, EspVisibleColor);
+				g_pRender->DrawBox( x , y , Width , Height , EspVisibleColor );
 			}
 			else if ( Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawOutlineBox(x, y, Width, Height, EspVisibleColor);
+				g_pRender->DrawOutlineBox( x , y , Width , Height , EspVisibleColor );
 			}
 		}
 		else if ( Settings::Esp::esp_Style >= 1 )
 		{
 			if ( !Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawCoalBox(x, y, Width, Height, EspVisibleColor);
+				g_pRender->DrawCoalBox( x , y , Width , Height , EspVisibleColor );
 			}
 			else if ( Settings::Esp::esp_Outline )
 			{
-				g_pRender->DrawOutlineCoalBox(x, y, Width, Height, EspVisibleColor);
+				g_pRender->DrawOutlineCoalBox( x , y , Width , Height , EspVisibleColor );
 			}
 		}
 	}
@@ -634,7 +632,7 @@ void CEsp::DrawPlayerEsp( CPlayer* pPlayer )
 
 	if ( Settings::Esp::esp_Weapon && !pPlayer->WeaponName.empty() )
 	{
-		string WeaponStr = pPlayer->WeaponName;
+		string WeaponStr = pPlayer->WeaponName; WeaponStr.erase(0, 6);
 
 		if ( Settings::Esp::esp_Ammo && pPlayer->iWAmmo )
 		{

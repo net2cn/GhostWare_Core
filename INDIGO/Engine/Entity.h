@@ -27,6 +27,7 @@ namespace Engine
 		int		GetHealth();
 		int		GetArmor();
 		int		GetTeam();
+		float	GetSimTime();
 		int		GetShotsFired();
 		int		GetIsScoped();
 		int		GetTickBase();
@@ -57,7 +58,7 @@ namespace Engine
 		mstudiobbox_t* GetHitBox( int nHitbox );
 
 		mstudiohitboxset_t* GetHitBoxSet();
-//[swap_lines]
+//[/swap_lines]
 	};
 
 	class CBaseViewModel : public IClientEntity
@@ -70,7 +71,7 @@ namespace Engine
 
 		DWORD	GetOwner();
 		DWORD	GetWeapon();
-//[swap_lines]
+//[/swap_lines]
 	};
 
 	enum PLAYER_TEAM
@@ -217,7 +218,7 @@ namespace Engine
 		CTEPlantBomb = 181 ,
 		CTEFireBullets = 168 ,
 		CTERadioIcon = 185 ,
-		CPlantedC4 = 107 ,
+		CPlantedC4 = 108 ,
 		CCSTeam = 38 ,
 		CCSPlayerResource = 36 ,
 		CCSPlayer = 35 ,

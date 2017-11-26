@@ -3,7 +3,7 @@
 using namespace Client;
 
 #pragma warning(disable:4244)
-////[junk_enable /]
+//[junk_enable /]
 CTriggerbot::CTriggerbot()
 {
 	m_pLocal = nullptr;
@@ -289,7 +289,7 @@ bool CTriggerbot::TriggerCheckTeam( CPlayer * pPlayer )
 	bool CheckVis = false;
 
 	// –абота триггера только на:
-	if ( Settings::Triggerbot::trigger_Deathmatch == false && m_pLocal->Team != pPlayer->Team ) // ѕротивнико?
+	if ( Settings::Triggerbot::trigger_Deathmatch == false && m_pLocal->Team != pPlayer->Team ) // ѕротивников
 	{
 		CheckTeam = true;
 	}
@@ -488,7 +488,7 @@ void CTriggerbot::TriggerAssist( CPlayer * pPlayer )
 {
 	if ( Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_Assist )
 	{
-		// если режи?1 ?мы не стре?ем ?не ?вофе асиста вообще ?асис?выключен то включаем ег?
+		// если режим 1 и мы не стрел€ем и не в вофе асиста вообще и асист выключен то включаем его
 		if ( Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_Assist == 1 && !CheckPlayerAssistTriggerPos() && !( m_pCmd->buttons & IN_ATTACK ) && iTriggerShotsFired == 0 )
 		{
 			if ( !bAssist )
@@ -595,8 +595,8 @@ void CTriggerbot::TriggerAssist( CPlayer * pPlayer )
 					}
 				}
 
-				// режи?1, пока не стрельни?1 ра??тригер?ил?просто выстре?то наводк?работает инач?отключае?асис?
-				// во 2 режиме всегда буде?наводить 
+				// режим 1, пока не стрельним 1 раз в тригере или просто выстрел то наводка работает иначе отключаем асист
+				// во 2 режиме всегда будет наводить 
 				if ( Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_Assist == 1 && pPlayer->bTriggerFov && iTriggerShotsFired )
 					bAssist = false;
 			}
@@ -661,7 +661,7 @@ void CTriggerbot::TriggerBot()
 			if ( Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_Assist )
 				iAssistHeadFov = GetTriggerAssistHeadFov( pPlayer );
 
-			if ( Settings::Triggerbot::trigger_Enable == 1 ) // режи?1 только бокс?
+			if ( Settings::Triggerbot::trigger_Enable == 1 ) // режим 1 только боксы
 			{
 				if ( Settings::Triggerbot::weapon_trigger_settings[iWeaponID].trigger_HeadOnly )
 				{
@@ -735,7 +735,7 @@ void CTriggerbot::TriggerBot()
 					}
 				}
 			}
-			else if ( Settings::Triggerbot::trigger_Enable >= 2 ) // режи?3 только трей?лайн бе?бокс?
+			else if ( Settings::Triggerbot::trigger_Enable >= 2 ) // режим 3 только трейс лайн без бокса
 			{
 				if ( CheckPlayerTriggerLine( pPlayer ) )
 				{
@@ -806,7 +806,7 @@ void CTriggerbot::TriggerBot()
 				}
 			}
 
-			// —тре?ть ?снайпера?только ?зуме
+			// —трел€ть в снайперах только в зуме
 			if ( m_pLocal->WeaponType != WEAPON_TYPE_SNIPER )
 			{
 				bSniperNoZoom = true;

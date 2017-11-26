@@ -138,6 +138,7 @@ namespace DynSkin
 				for ( ++start; start < size; ++start )
 				{
 					const auto& p = file->at( start );
+					if (file->GetStringAt(start, 37) == "SFUI_LoginPerfectWorld_AntiAddiction1") { start += 600; }
 					if ( p == '\"' )
 					{
 						if ( qcount < 4 )
@@ -157,9 +158,6 @@ namespace DynSkin
 							vpos[0] = file->FindFirstOf( "\"" , start , 0 ) - 1;
 							vpos[1] = file->FindFirstOf( "\"" , vpos[0] , 0 );
 
-							// this is the main fix here:
-							// y3t made his map an unordered_map which only allows for 1 unique key per entry, so logically the latest paint_kit would be the unique key
-							// we change to a multimap, & rather then overwriting the index we'll just regularly insert the data.
 							_sublevels.insert( pair<string , CLevel*>( string( const_cast< char* >( &file->at( vpos[1] + 1 ) ) , vpos[0] - vpos[1] ) , new CLevel( start , file ) ) );
 						}
 						else if ( p == '}' )
@@ -222,7 +220,7 @@ namespace DynSkin
 				auto& res = vt.find( pkdesctag.substr( 1 , pkdesctag.size() + 1 ) );
 				if ( res == vt.end() )
 				{
-					pkdesctag[6] = 'k';//FUCK IT DAMN VALVE L2SPELL FFS
+					pkdesctag[6] = 'k';
 					res = vt.find( pkdesctag.substr( 1 , pkdesctag.size() + 1 ) );
 					if ( res == vt.end() )
 						continue;
@@ -258,7 +256,7 @@ namespace DynSkin
 				return false;
 
 			_csgo_english = new File::Valve::CConfig();
-			if (!_csgo_english->Load(gamePath + "/resource/" + gameShortName + "_dutch.txt", true))
+			if ( !_csgo_english->Load( gamePath + "/resource/" + gameShortName + "_english.txt" , true ) )
 				return false;
 
 			// honestly this entire fix is so fucking ghetto kill me please

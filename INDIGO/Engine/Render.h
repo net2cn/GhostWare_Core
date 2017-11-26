@@ -41,7 +41,7 @@ namespace Engine
 		void DrawVerBar( int x , int y , int w , int h , int val , Color color1 , Color color2 );
 		
 		void Text( int x , int y , bool center , bool shadow , Color color , const char* format , ... );
-//[swap_lines]
+//[/swap_lines]
 		IDirect3DDevice9*		m_pDevice;
 
 	private:
@@ -57,7 +57,7 @@ namespace Engine
 		IDirect3DStateBlock9*	m_pStateBlockText;
 
 		DWORD					dwOld_D3DRS_COLORWRITEENABLE;
-//[swap_lines]
+//[/swap_lines]
 	};
 
 	namespace D3D9

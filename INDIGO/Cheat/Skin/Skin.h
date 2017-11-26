@@ -20,7 +20,7 @@ struct EconomyItemCfg
 	int nFallbackPaintKit = 0;
 	int iEntityQuality = 4;
 	int nFallbackStatTrak = -1;
-	float flFallbackWear = 0.1f;
+	float flFallbackWear = 0.00000001f;
 };
 
 struct WeaponSkins_s
@@ -83,7 +83,7 @@ void Gloves_OnFrameStageNotify( ClientFrameStage_t Stage );
 
 void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct , void *pOut );
 
-// охярнкер?
+// охярнкерш
 //[enc_string_enable /]
 #define WEAPON_DEAGLE_STR		"deagle"		// 0
 #define WEAPON_ELITE_STR		"elite"			// 1
@@ -97,7 +97,7 @@ void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct
 #define WEAPON_REVOLVER_STR		"revolver"		// 8
 #define WEAPON_TEC9_STR			"tec9"			// 9
 
-// дпнанбхй?, юбрнлюрш
+// дпнанбхйх , юбрнлюрш
 
 #define WEAPON_AK47_STR		"ak47"				// 10
 #define WEAPON_AUG_STR		"aug"				// 11
@@ -121,7 +121,7 @@ void Hook_SetViewModelSequence( const CRecvProxyData *pDataConst , void *pStruct
 #define WEAPON_G3SG1_STR	"g3sg1"				// 29
 #define WEAPON_SCAR20_STR	"scar20"			// 30
 
-// ямюиоепй?
+// ямюиоепйх
 
 #define WEAPON_AWP_STR		"awp"				// 31
 #define WEAPON_SSG08_STR	"ssg08"				// 32

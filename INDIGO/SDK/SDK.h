@@ -42,8 +42,9 @@
 #include "ISurface.h"
 #include "IGameEvent.h"
 #include "TextureGroupNames.h"
+#include "CVar.h"
 
-////[enc_string_enable /]
+//[enc_string_enable /]
 
 #define CREATEINTERFACE_PROCNAME "CreateInterface"
 #define VENGINE_CLIENT_INTERFACE_VERSION "VEngineClient014"
@@ -67,7 +68,7 @@
 #define VSTDLIB_DLL	"vstdlib.dll"
 #define INPUTSYSTEM_DLL	"inputsystem.dll"
 
-////[enc_string_disable /]
+//[enc_string_disable /]
 
 #define GLOBAL_VARS_PATTERN "\xA1\x00\x00\x00\x00\x8B\x4D\xFC\x8B\x55\x08"
 #define GLOBAL_VARS_MASK "x????xxxxxx"
@@ -95,6 +96,7 @@ namespace SDK
 		static ISurface*			Surface();
 		static IGameEventManager2*	GameEvent();
 		static IInputSystem*		InputSystem();
+		static ConVar*              GetConVar();
 
 	private:
 		static IVEngineClient*		g_pEngine;
@@ -112,21 +114,22 @@ namespace SDK
 		static ISurface*			g_pSurface;
 		static IGameEventManager2*	g_pGameEventMgr;
 		static IInputSystem*		g_pInputSystem;
+		static ConVar*              g_pConVar;
 	};
 }
 
-inline void**& GetVTable( void* instance )
+inline void**& GetVTable(void* instance)
 {
-	return *reinterpret_cast<void***>( (size_t)instance );
+	return *reinterpret_cast<void***>((size_t)instance);
 }
 
-inline const void** GetVTable( const void* instance )
+inline const void** GetVTable(const void* instance)
 {
-	return *reinterpret_cast<const void***>( (size_t)instance );
+	return *reinterpret_cast<const void***>((size_t)instance);
 }
 
 template<typename T>
-inline T GetMethod( const void* instance , size_t index )
+inline T GetMethod(const void* instance, size_t index)
 {
-	return reinterpret_cast<T> ( GetVTable( instance )[index] );
+	return reinterpret_cast<T> (GetVTable(instance)[index]);
 }

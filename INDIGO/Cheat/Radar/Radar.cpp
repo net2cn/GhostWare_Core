@@ -1,7 +1,7 @@
 #include "Radar.h"
 
 using namespace Client;
-////[junk_enable /]
+//[junk_enable /]
 void CRadar::RadarRange( float* x , float* y , float range )
 {
 	if ( fabs( ( *x ) ) > range || fabs( ( *y ) ) > range )
@@ -94,9 +94,9 @@ void CRadar::OnRenderPlayer()
 
 		if ( pPlayer && pPlayer->m_pEntity && pPlayer->bUpdate )
 		{
-			if ( Settings::Radar::rad_InGame )
+			if (Settings::Radar::rad_InGame)
 			{
-				if ( *pPlayer->m_pEntity->IsSpotted() == false )
+				if (*pPlayer->m_pEntity->IsSpotted() == false)
 					*pPlayer->m_pEntity->IsSpotted() = true;
 			}
 

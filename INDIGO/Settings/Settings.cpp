@@ -1,7 +1,7 @@
 #include "Settings.h"
 
-////[enc_string_enable /]
-////[junk_enable /]
+//[enc_string_enable /]
+//[junk_enable /]
 
 using namespace Client;
 
@@ -12,10 +12,11 @@ namespace Settings
 		CSX::Cvar::InitPath( szIniFile.c_str() );
 
 		Aimbot::aim_ActiveAll = CSX::Cvar::LoadCvar(AIMBOT_TEXT, CVAR_AIMBOT_ACTIVEALL, Aimbot::aim_ActiveAll);
+		Aimbot::aim_Backtrack = CSX::Cvar::LoadCvar(AIMBOT_TEXT, CVAR_AIMBOT_BACKTRACK, Aimbot::aim_Backtrack) != false;
+		Aimbot::aim_Backtracktickrate = CSX::Cvar::LoadCvar(AIMBOT_TEXT, CVAR_AIMBOT_BACKTRACK_TICK, Aimbot::aim_Backtracktickrate);
 		Aimbot::aim_Deathmatch = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_DEATHMATCH , Aimbot::aim_Deathmatch );
 		Aimbot::aim_WallAttack = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_WALLATTACK , Aimbot::aim_WallAttack );
 		Aimbot::aim_CheckSmoke = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_CHECKSMOKE , Aimbot::aim_CheckSmoke );
-		Aimbot::aim_FollowTarget = CSX::Cvar::LoadCvar(AIMBOT_TEXT, CVAR_AIMBOT_FOLLOWTARGET, Aimbot::aim_FollowTarget);
 		Aimbot::aim_AntiJump = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_ANTIJUMP , Aimbot::aim_AntiJump );
 		Aimbot::aim_RcsType = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_RCSTYPE , Aimbot::aim_RcsType );
 		Aimbot::aim_DrawFov = CSX::Cvar::LoadCvar( AIMBOT_TEXT , CVAR_AIMBOT_DRAWFOV , Aimbot::aim_DrawFov );
@@ -23,13 +24,12 @@ namespace Settings
 
 		for ( DWORD i = 0; i < WEAPON_DATA_SIZE; i++ )
 		{
-			// Default weapon_aim_settings
-			// Pistols.
+			// пистолет?
 			if ( i <= 9 )
 			{
 				Aimbot::weapon_aim_settings[i].aim_Active = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_ACTIVE , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Smooth = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SMOOTH , 50 );
-				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 250 );
+				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 35 );
 				Aimbot::weapon_aim_settings[i].aim_FovType = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOVTYPE , 1 );
 				Aimbot::weapon_aim_settings[i].aim_BestHit = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_BESTHIT , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Spot = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SPOT , 5 );
@@ -38,12 +38,12 @@ namespace Settings
 				Aimbot::weapon_aim_settings[i].aim_AutoPistol = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_AUTOPISTOL , 0 );
 			}
 
-			// Rifles, SMGs & AutoSnipers
+			// автоматы
 			if ( i >= 10 && i <= 30 )
 			{
 				Aimbot::weapon_aim_settings[i].aim_Active = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_ACTIVE , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Smooth = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SMOOTH , 50 );
-				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 250 );
+				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 35 );
 				Aimbot::weapon_aim_settings[i].aim_FovType = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOVTYPE , 1 );
 				Aimbot::weapon_aim_settings[i].aim_BestHit = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_BESTHIT , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Spot = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SPOT , 5 );
@@ -54,12 +54,12 @@ namespace Settings
 				Aimbot::weapon_aim_settings[i].aim_RcsClampType = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_RCSCLAMPTYPE , 0 );
 			}
 
-			// Snipers. (AWP & SSG08)
+			// снайперк?
 			if ( i >= 31 && i <= 32 )
 			{
 				Aimbot::weapon_aim_settings[i].aim_Active = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_ACTIVE , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Smooth = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SMOOTH , 50 );
-				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 250 );
+				Aimbot::weapon_aim_settings[i].aim_Fov = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOV , 35 );
 				Aimbot::weapon_aim_settings[i].aim_FovType = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_FOVTYPE , 1 );
 				Aimbot::weapon_aim_settings[i].aim_BestHit = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_BESTHIT , 0 );
 				Aimbot::weapon_aim_settings[i].aim_Spot = CSX::Cvar::LoadCvar( pWeaponData[i] , CVAR_AIMBOT_SPOT , 5 );
@@ -179,11 +179,13 @@ namespace Settings
 		if ( Interfaces::Engine()->IsConnected() )
 			ForceFullUpdate();
 
+		Misc::misc_EPostprocess = CSX::Cvar::LoadCvar(MISC_TEXT, CVAR_MISC_EPOSTPROCESS, Misc::misc_EPostprocess) != false;
+		Misc::misc_Postprocess = CSX::Cvar::LoadCvar(MISC_TEXT, CVAR_MISC_POSTPROCESS, Misc::misc_Postprocess) != false;
 		Misc::misc_Bhop = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_BHOP , Misc::misc_Bhop ) != false;
 		Misc::misc_Punch = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_PUNCH , Misc::misc_Punch ) != false;
-		Misc::misc_SniperAim = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_AWPAIM , Misc::misc_SniperAim ) != false;
-		Misc::misc_NoFlash = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_NOFLASH , Misc::misc_NoFlash ) != false;
 		Misc::misc_NoSmoke = CSX::Cvar::LoadCvar(MISC_TEXT, CVAR_MISC_NOSMOKE, Misc::misc_NoSmoke) != false;
+		Misc::misc_NoFlash = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_NOFLASH , Misc::misc_NoFlash ) != false;
+		Misc::misc_SniperAim = CSX::Cvar::LoadCvar(MISC_TEXT, CVAR_MISC_SNIPERAIM, Misc::misc_SniperAim) != false;
 		Misc::misc_AutoStrafe = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_AUTOSTRAFE , Misc::misc_AutoStrafe ) != false;
 		Misc::misc_AutoAccept = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_AUTOACCEPT , Misc::misc_AutoAccept ) != false;
 		Misc::misc_Spectators = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_SPECTATORS , Misc::misc_Spectators ) != false;
@@ -193,7 +195,7 @@ namespace Settings
 
 		string Color_AWPAIM = CSX::Cvar::LoadCvar( MISC_TEXT , CVAR_MISC_AWPAIM_COLOR , "255,0,0" );
 
-		ScanColorFromCvar( Color_AWPAIM.c_str() , Misc::misc_SniperAimColor );
+		ScanColorFromCvar( Color_AWPAIM.c_str() , Misc::misc_AwpAimColor );
 	}
 
 	void SaveSettings( string szIniFile )
@@ -204,11 +206,12 @@ namespace Settings
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_DEATHMATCH , Aimbot::aim_Deathmatch );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_WALLATTACK , Aimbot::aim_WallAttack );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_CHECKSMOKE , Aimbot::aim_CheckSmoke );
-		CSX::Cvar::SaveCvar(AIMBOT_TEXT, CVAR_AIMBOT_FOLLOWTARGET, Aimbot::aim_FollowTarget);
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_ANTIJUMP , Aimbot::aim_AntiJump );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_RCSTYPE , Aimbot::aim_RcsType );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_DRAWFOV , Aimbot::aim_DrawFov );
 		CSX::Cvar::SaveCvar( AIMBOT_TEXT , CVAR_AIMBOT_DRAWSPOT , Aimbot::aim_DrawSpot );
+		CSX::Cvar::SaveCvar(AIMBOT_TEXT, CVAR_AIMBOT_BACKTRACK, Aimbot::aim_Backtrack);
+		CSX::Cvar::SaveCvar(AIMBOT_TEXT, CVAR_AIMBOT_BACKTRACK_TICK, Aimbot::aim_Backtracktickrate);
 
 		for ( DWORD i = 0; i < WEAPON_DATA_SIZE; i++ )
 		{
@@ -408,11 +411,15 @@ namespace Settings
 			CSX::Cvar::SaveCvar( SKIN_TEXT , pWeaponData[i] , g_SkinChangerCfg[pWeaponItemIndexData[i]].nFallbackPaintKit );
 		}
 
+		CSX::Cvar::SaveCvar(MISC_TEXT, CVAR_MISC_EPOSTPROCESS, Misc::misc_EPostprocess);
+		CSX::Cvar::SaveCvar(MISC_TEXT, CVAR_MISC_POSTPROCESS, Misc::misc_Postprocess);
+		CSX::Cvar::SaveCvar(AIMBOT_TEXT, CVAR_AIMBOT_BACKTRACK, Aimbot::aim_Backtrack);
+		Aimbot::aim_Backtracktickrate = CSX::Cvar::LoadCvar(AIMBOT_TEXT, CVAR_AIMBOT_BACKTRACK_TICK, Aimbot::aim_Backtracktickrate);
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_BHOP , Misc::misc_Bhop );
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_PUNCH , Misc::misc_Punch );
 		CSX::Cvar::SaveCvar(MISC_TEXT, CVAR_MISC_NOSMOKE, Misc::misc_NoSmoke);
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_NOFLASH , Misc::misc_NoFlash );
-		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_AWPAIM , Misc::misc_SniperAim );
+		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_SNIPERAIM , Misc::misc_SniperAim );
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_AUTOSTRAFE , Misc::misc_AutoStrafe );
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_AUTOACCEPT , Misc::misc_AutoAccept );
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_SPECTATORS , Misc::misc_Spectators );
@@ -421,9 +428,9 @@ namespace Settings
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_FOV_MDL_VIEW , Misc::misc_FovModelView );
 
 		string Color_AWP_AIM =
-			to_string( int( Misc::misc_SniperAimColor[0] * 255.f ) ) + "," +
-			to_string( int( Misc::misc_SniperAimColor[1] * 255.f ) ) + "," +
-			to_string( int( Misc::misc_SniperAimColor[2] * 255.f ) );
+			to_string( int( Misc::misc_AwpAimColor[0] * 255.f ) ) + "," +
+			to_string( int( Misc::misc_AwpAimColor[1] * 255.f ) ) + "," +
+			to_string( int( Misc::misc_AwpAimColor[2] * 255.f ) );
 
 		CSX::Cvar::SaveCvar( MISC_TEXT , CVAR_MISC_AWPAIM_COLOR , Color_AWP_AIM );
 	}
@@ -439,14 +446,15 @@ namespace Settings
 
 	namespace Aimbot
 	{
+		bool aim_Backtrack = false;
 		bool aim_ActiveAll = false;
+		int aim_Backtracktickrate = 1;
 		bool aim_Deathmatch = false;
 		bool aim_WallAttack = false;
 		bool aim_CheckSmoke = false;
-		bool aim_FollowTarget = false;
 		bool aim_AntiJump = false;
 		int aim_RcsType = 0;
-		bool aim_DrawFov = true;
+		bool aim_DrawFov = false;
 		bool aim_DrawSpot = false;
 
 		weapon_aim_s weapon_aim_settings[33] = { 0 };
@@ -471,28 +479,28 @@ namespace Settings
 	namespace Esp
 	{
 		int esp_Style = 0; // 0 - Box 1 - CoalBox
-		int esp_Size = 5;
+		int esp_Size = 0;
 		bool esp_Line = false;
 		bool esp_Outline = false; // Box ( 0 - Box 1 - OutlineBox ) ,
 						  // CoalBox ( 0 - CoalBox 1 - OutlineCoalBox )	
 
 		bool esp_Name = false;
 		bool esp_Rank = false;
-		int esp_Health = 1;
-		int esp_Armor = 1;
+		int esp_Health = 0;
+		int esp_Armor = 0;
 		bool esp_Weapon = false;
 		bool esp_Ammo = false;
 		bool esp_Distance = false;
 		bool esp_Sound = false;
 
 		bool esp_Skeleton = 0;
-		int esp_BulletTrace = 1500;
+		int esp_BulletTrace = 0;
 		bool esp_Team = 1;
 		bool esp_Enemy = 1;
 		int esp_Visible = 1;
 
 		int esp_Chams = 0;
-		bool esp_Bomb = true;
+		bool esp_Bomb = false;
 		int esp_BombTimer = 40;
 		bool esp_WorldWeapons = false;
 		bool esp_WorldGrenade = false;
@@ -543,18 +551,20 @@ namespace Settings
 
 	namespace Misc
 	{
+		char misc_SkyName[64] = { 0 };
+		bool misc_EPostprocess = false;
+		bool misc_Postprocess = false;
 		bool misc_Bhop = false;
 		bool misc_Punch = false;
-		bool misc_NoFlash = false;
 		bool misc_NoSmoke = false;
+		bool misc_NoFlash = false;
 		bool misc_SniperAim = false;
 		bool misc_AutoStrafe = false;
 		bool misc_AutoAccept = false;
-		bool misc_ThirdPerson = false;
 		bool misc_Spectators = false;
 		bool misc_FovChanger = false;
 		int misc_FovView = 90;
 		int misc_FovModelView = 60;
-		float misc_SniperAimColor[3] = { 0.f,0.f,0.f };
+		float misc_AwpAimColor[3] = { 0.f,0.f,0.f };
 	}
 }

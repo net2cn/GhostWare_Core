@@ -19,5 +19,5 @@ public:
 	void OnRenderPlayer();
 	void OnRenderSounds();
 	void OnRender();
-//[swap_lines]
+//[/swap_lines]
 };

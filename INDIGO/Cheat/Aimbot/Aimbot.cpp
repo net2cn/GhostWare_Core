@@ -1,10 +1,12 @@
 #include "Aimbot.h"
 
+backtrackData headPositions[64][16];
+
 using namespace Client;
 
 #pragma warning(disable:4244)
-////[junk_enable /]
-////[enc_string_enable /]
+//[junk_enable /]
+//[enc_string_enable /]
 byte tt_ct_best_hit_1[6] =
 {
 	HITBOX_HEAD,
@@ -44,7 +46,7 @@ bool CAimbot::IsEnable()
 		return false;
 
 	//aim_ActiveAll will override aim_Active.
-	if ( !(Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Active || Settings::Aimbot::aim_ActiveAll) )
+	if (!(Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_Active || Settings::Aimbot::aim_ActiveAll))
 		return false;
 
 	if ( !m_pLocal->WeaponAmmo || m_pLocal->bInReload )
@@ -198,6 +200,90 @@ int CAimbot::GetBestHitBox()
 	return m_lBestHitbox;
 }
 
+void CAimbot::Backtrack(CUserCmd* pCmd)
+{
+	if (Settings::Aimbot::aim_Backtrack)
+	{
+
+		int bestTargetIndex = -1;
+		float bestFov = FLT_MAX;
+		CBaseEntity* local = (CBaseEntity*)Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetLocalPlayer());
+		PlayerInfo info;
+		for (int i = 0; i < SDK::Interfaces::Engine()->GetMaxClients(); i++)
+		{
+			auto entity = (CBaseEntity*)SDK::Interfaces::EntityList()->GetClientEntity(i);
+
+			if (!entity || !local)
+				continue;
+
+			if (entity == local)
+				continue;
+
+			if (!Interfaces::Engine()->GetPlayerInfo(i, &info))
+				continue;
+
+			if (entity->IsDormant())
+				continue;
+
+			/*	if (checkteams)
+			{
+			if (entity->m_iTeamNum() == local->m_iTeamNum())
+			continue;
+			}*/
+
+			if (!entity->IsDead())
+			{
+				float simtime = entity->GetSimTime();
+				Vector hitboxPos = entity->GetHitboxPosition(0 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 16 & 17 & 18 & 19 & 10 & 11);
+
+				headPositions[i][pCmd->command_number % MAXBACKTRACKTICKS] = backtrackData{ simtime, hitboxPos };
+				Vector ViewDir = AngleVector(pCmd->viewangles + (local->GetAimPunchAngle() * 2.f));
+				float FOVDistance = DistancePointToLine(hitboxPos, local->GetEyePosition(), ViewDir);
+
+				if (bestFov > FOVDistance)
+				{
+					bestFov = FOVDistance;
+					bestTargetIndex = i;
+				}
+			}
+		}
+
+		float bestTargetSimTime;
+		if (bestTargetIndex != -1)
+		{
+			float tempFloat = FLT_MAX;
+
+			Vector ViewDir = AngleVector(pCmd->viewangles + (local->GetAimPunchAngle() * 2.f));
+
+			for (int t = 0; t <= MAXBACKTRACKTICKS - 1; ++t)
+			{
+				float tempFOVDistance = DistancePointToLine(headPositions[bestTargetIndex][t].hitboxPos, local->GetEyePosition(), ViewDir);
+
+				if (tempFloat > tempFOVDistance && headPositions[bestTargetIndex][t].simtime > Interfaces::GlobalVars()->curtime - 1)
+				{
+
+					tempFloat = tempFOVDistance;
+					bestTargetSimTime = headPositions[bestTargetIndex][t].simtime;
+				}
+			}
+			/*if (cmd->buttons & IN_ATTACK2)
+			{
+			QAngle imgay;
+			math::vector_angles((headPositions[bestTargetIndex][12].hitboxPos - local->get_eye_pos()), imgay);
+			g_EngineClient->SetViewAngles(imgay);
+			}*/
+
+			if (pCmd->buttons & IN_ATTACK)
+			{
+				pCmd->tick_count = TIME_TO_TICKS(bestTargetSimTime);
+
+			}
+
+		}
+
+	}
+}
+
 void CAimbot::OnRender()
 {	
 	if ( !IsEnable() || m_iBestTarget == -1 || m_iBestHitbox == -1 )
@@ -237,18 +323,10 @@ void CAimbot::Aimbot()
 	m_bAimShot = false;
 	m_bTargetFov = false;
 
-	// Check if user enabled aimbot.
 	if ( !IsEnable() )
 		return;
 
-	// If user click fire button we will start aimbot scanning. Here we use m_bAttack to save user action.
-	m_bAttack = (m_pCmd->buttons & IN_ATTACK);
-
-	// If user checked FollowTarget we will set m_bAttack to true so we can override following dectection.
-	if (Settings::Aimbot::aim_FollowTarget)
-	{
-		m_bAttack = true;
-	}
+	m_bAttack = ( m_pCmd->buttons & IN_ATTACK );
 
 	if ( !g_pPlayers->GetPlayer( m_iBestTarget )->bUpdate )
 	{
@@ -264,7 +342,6 @@ void CAimbot::Aimbot()
 	{
 		if ( Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_AutoPistol && m_pLocal->WeaponType == WEAPON_TYPE_PISTOL && !m_bAutoPistolEn )
 		{
-			//Do AutoPistol here.
 			AutoPistol();
 		}
 	}
@@ -286,6 +363,7 @@ void CAimbot::Aimbot()
 	if ( m_iBestHitbox == -1 )
 		return;
 
+	CPlayer* pPreTargetPlayer = g_pPlayers->GetPlayer( m_iBestPreTarget );
 	CPlayer* pTargetPlayer = g_pPlayers->GetPlayer( m_iBestTarget );
 
 	int iPlayerFov = GetPlayerFov( pTargetPlayer );
@@ -306,7 +384,6 @@ void CAimbot::Aimbot()
 
 	if ( Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_AutoPistol && m_pLocal->WeaponType == WEAPON_TYPE_PISTOL )
 	{
-		// Check if user enabled AutoPistol.
 		if ( m_bTargetFov && !m_bAttack )
 		{
 			m_bAutoPistolEn = true;
@@ -458,10 +535,8 @@ void CAimbot::Aimbot()
 
 		if ( m_bClamp )
 		{
-			//If user enable aim_CheckSmoke...
 			if ( Settings::Aimbot::aim_CheckSmoke )
 			{
-				//If our m_vAimBestHitbox is behind smoke we will not aim at it.
 				if ( LineGoesThroughSmoke( m_pLocal->vEyeOrigin , m_vAimBestHitbox ) )
 					return;
 			}
@@ -469,7 +544,6 @@ void CAimbot::Aimbot()
 			AimbotSet();
 		}
 
-		//Do AutoShotgun here.
 		if ( m_pLocal->WeaponType == WEAPON_TYPE_SHOTGUN || !Settings::Aimbot::weapon_aim_settings[iWeaponID].aim_AutoPistol )
 		{
 			if ( m_bAimShot )

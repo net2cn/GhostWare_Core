@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 #define FIND_W2MATRIX_PATTERN		"\xA1\x00\x00\x00\x00\x83\xF8\x01\x7E\x11\x69\xC8"
-////[enc_string_enable /]
+//[enc_string_enable /]
 #define FIND_W2MATRIX_MASK			"x????xxxxxxx"
 
 #define BASE_PLAYER					"DT_BasePlayer"
@@ -56,6 +56,8 @@
 #define BASE_ENTITY_MODEL_INDEX		"m_nModelIndex"
 #define BASE_ENTITY_SPOTTED			"m_bSpotted"
 
+#define SimTime						"m_flSimulationTime"
+
 #define BASE_VIEW_MODEL				"DT_BaseViewModel"
 #define BASE_VIEW_MODEL_OWNER		"m_hOwner"
 #define BASE_VIEW_MODEL_WEAPON		"m_hWeapon"
@@ -69,14 +71,14 @@ namespace Engine
 	{
 		namespace Entity
 		{
-//[swap_lines]
+			//[swap_lines]
 			extern DWORD m_hMyWeapons;
 			extern DWORD m_hMyWearables;
 			extern DWORD m_hViewModel;
 			extern DWORD m_nTickBase;
 			extern DWORD m_iObserverMode;
 			extern DWORD m_hObserverTarget;
-			
+
 			extern DWORD m_lifeState;
 
 			extern DWORD m_bHasHelmet;
@@ -92,7 +94,7 @@ namespace Engine
 
 			extern DWORD m_aimPunchAngle;
 			extern DWORD m_viewPunchAngle;
-			
+
 			extern DWORD m_vecVelocity;
 			extern DWORD m_vecViewOffset;
 
@@ -119,9 +121,10 @@ namespace Engine
 			extern DWORD m_hOwner;
 			extern DWORD m_hWeapon;
 			extern DWORD m_bSpotted;
+			extern DWORD m_flSimulationTime;
 
 			extern DWORD m_zoomLevel;
-//[swap_lines]
+			//[/swap_lines]
 		}
 
 		bool	Initialize();

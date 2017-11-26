@@ -21,13 +21,13 @@
 class CLicense
 {
 private:
-	string	GetUrlData( string url );
-	string	StringToHex( const string input );
-	string	GetHashText( const void * data , const size_t data_size );
+	string	GetUrlData(string url);
+	string	StringToHex(const string input);
+	string	GetHashText(const void * data, const size_t data_size);
 
 	string	GetHwUID();
 	DWORD	GetVolumeID();
-	string	GetCompUserName( bool User );
+	string	GetCompUserName(bool User);
 	string	GetSerialKey();
 	string	GetHashSerialKey();
 
@@ -35,11 +35,11 @@ public:
 
 	string	GetSerial();
 	string	GetSerial64();
-	string  GetIP( string hostname );
-	bool	CheckLicenseURL( string URL , string GATE , string KEY );
+	string  GetIP(string hostname);
+	bool	CheckLicenseURL(string URL, string GATE, string KEY);
 	bool	CheckLicense();
 	bool SocketListenClient();
 	static void StartHeartbeatVerification();
 };
 
-string base64_encode( char const* bytes_to_encode , unsigned int in_len );
+string base64_encode(char const* bytes_to_encode, unsigned int in_len);

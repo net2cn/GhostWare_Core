@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-////[junk_enable /]
+//[junk_enable /]
 	NetVarManager g_NetVar;
 
 	bool NetVarManager::Init( ClientClass* pClientClass )

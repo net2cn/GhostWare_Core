@@ -32,13 +32,12 @@ namespace Engine
 		WEAPON_TYPE		WeaponType;
 		int				WeaponIndex;
 		int				WeaponAmmo;
-		int				ScopeLevel;
 
 		PLAYER_TEAM		Team;
 
 		CBaseEntity*	m_pEntity;
 		CBaseWeapon*	m_pWeaponEntity;
-//[swap_lines]
+//[/swap_lines]
 	};
 
 	class CPlayer
@@ -80,7 +79,7 @@ namespace Engine
 		bool			bTriggerFov;
 
 		CBaseEntity*	m_pEntity;
-//[swap_lines]
+//[/swap_lines]
 	};
 
 	class CPlayers
@@ -98,7 +97,7 @@ namespace Engine
 		void		Clear();
 
 		void		GetHitBoxSkeleton( int nHitBoxOne , int nHitBoxTwo , CBaseEntity* pEntity , Vector* vOut );
-//[swap_lines]
+//[/swap_lines]
 	private:
 		CMe*		m_pMe;
 		CPlayer*	m_pPlayers;

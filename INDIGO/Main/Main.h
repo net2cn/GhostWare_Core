@@ -2,7 +2,6 @@
 
 #pragma warning(disable:4996)
 
-#include <WinSock2.h>
 #include <Windows.h>
 #include <iostream>
 #include <memory>

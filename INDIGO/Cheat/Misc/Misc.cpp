@@ -1,8 +1,9 @@
 #include "Misc.h"
 
+
 using namespace Client;
-////[junk_enable /]
-////[enc_string_enable /]
+//[junk_enable /]
+//[enc_string_enable /]
 void CMisc::OnRender()
 {
 	if ( Settings::Misc::misc_Punch )
@@ -24,26 +25,42 @@ void CMisc::OnCreateMove( CUserCmd* pCmd )
 		}
 	}
 
+	if (Settings::Misc::misc_SkyName) { ConVar* skybox = Interfaces::GetConVar()->FindVar("sv_skyname"); if (skybox) skybox->SetValue(Settings::Misc::misc_SkyName); }
+
+	if (Settings::Misc::misc_Postprocess)
+	{
+		if (Interfaces::Engine()->IsInGame())
+		{
+			ConVar* skybox = Interfaces::GetConVar()->FindVar("mat_postprocess_enable");
+
+			skybox->SetValue( 0 );
+		}
+	}
+// i tried to mess around with a silder value, but i couldnt be fucked the define is POSTPROCESS_VALUE is you want to try, but dont be cancerous and spam me on discord
+//yes disable post process is coding fucked cancerous, i couldnt be fucked to code/paste a better one so if you want add it by yourself
+	if (Settings::Misc::misc_EPostprocess)
+	{
+		if (Interfaces::Engine()->IsInGame())
+		{
+			ConVar* skybox = Interfaces::GetConVar()->FindVar("mat_postprocess_enable");
+
+			skybox->SetValue("1");
+		}
+	}
+
 	if ( Settings::Misc::misc_AutoStrafe && !( g_pPlayers->GetLocal()->iFlags & FL_ONGROUND ) )
 	{
-		//if ( pCmd->mousedx < 0 )
-		//{
-		//	pCmd->sidemove = -450.0f;
-		//}
-		//else if ( pCmd->mousedx > 0 )
-		//{
-		//	pCmd->sidemove = 450.0f;
-		//}
-
-		if (!(pCmd->buttons & IN_FORWARD) && !(pCmd->buttons & IN_BACK) && !(pCmd->buttons & IN_MOVELEFT) && !(pCmd->buttons & IN_MOVERIGHT))
+		if ( pCmd->mousedx < 0 )
 		{
-			if (pCmd->mousedx > 1 || pCmd->mousedx < -1)
-			{
-				pCmd->sidemove = pCmd->mousedx < 0.f ? -450.f : 450.f;
-			}
+			pCmd->sidemove = -450.0f;
+		}
+		else if ( pCmd->mousedx > 0 )
+		{
+			pCmd->sidemove = 450.0f;
 		}
 	}
 }
+
 
 void CMisc::OnDrawModelExecute()
 {
@@ -109,7 +126,7 @@ void CMisc::OnDrawModelExecute()
 
 void CMisc::OnPlaySound( const char* pszSoundName )
 {
-	if ( Settings::Misc::misc_AutoAccept && !strcmp( pszSoundName , "UI/competitive_accept_beep.wav" ) )
+	if (Settings::Misc::misc_AutoAccept && !strcmp(pszSoundName, "!UI/competitive_accept_beep.wav"))
 	{
 		typedef void( *IsReadyCallBackFn )( );
 
@@ -118,7 +135,7 @@ void CMisc::OnPlaySound( const char* pszSoundName )
 		if ( !IsReadyCallBack )
 		{
 			IsReadyCallBack = (IsReadyCallBackFn)(
-				CSX::Memory::FindPattern( CLIENT_DLL , "55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 8B 8E" , 0 ) );
+				CSX::Memory::FindPattern(CLIENT_DLL, "55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 83 BE", 0));
 
 			#if ENABLE_DEBUG_FILE == 1
 				CSX::Log::Add( "::IsReadyCallBack = %X", IsReadyCallBack);
@@ -138,7 +155,10 @@ void CMisc::OnOverrideView( CViewSetup * pSetup )
 	{
 		CBaseEntity* pPlayer = (CBaseEntity*)Interfaces::EntityList()->GetClientEntity( Interfaces::Engine()->GetLocalPlayer() );
 
-		if ( !pPlayer )
+		if (!pPlayer)
+			return;
+
+		if (pPlayer->GetIsScoped())
 			return;
 
 		if ( pPlayer->IsDead() )
@@ -154,21 +174,21 @@ void CMisc::OnOverrideView( CViewSetup * pSetup )
 	}
 }
 
-void CMisc::OnGetViewModelFOV( float& fov )
+void CMisc::OnGetViewModelFOV(float& fov)
 {
-	if ( Settings::Misc::misc_FovChanger && !Interfaces::Engine()->IsTakingScreenshot() )
+	if (Settings::Misc::misc_FovChanger && !Interfaces::Engine()->IsTakingScreenshot())
 	{
-		CBaseEntity* pPlayer = (CBaseEntity*)Interfaces::EntityList()->GetClientEntity( Interfaces::Engine()->GetLocalPlayer() );
+		CBaseEntity* pPlayer = (CBaseEntity*)Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetLocalPlayer());
 
-		if ( !pPlayer )
+		if (!pPlayer)
 			return;
 
-		if ( pPlayer->IsDead() )
+		if (pPlayer->IsDead())
 		{
-			if ( pPlayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && pPlayer->GetObserverTarget() )
-				pPlayer = (CBaseEntity*)Interfaces::EntityList()->GetClientEntityFromHandle( pPlayer->GetObserverTarget() );
+			if (pPlayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && pPlayer->GetObserverTarget())
+				pPlayer = (CBaseEntity*)Interfaces::EntityList()->GetClientEntityFromHandle(pPlayer->GetObserverTarget());
 
-			if ( !pPlayer )
+			if (!pPlayer)
 				return;
 		}
 
@@ -278,7 +298,7 @@ void CMisc::OnRenderSpectatorList()
 						default:
 							break;
 					}
-////[junk_enable /]
+//[junk_enable /]
 					g_pRender->Text( iScreenWidth - 300 , 300 + ( DrawIndex * 13 ) , false , true , PlayerObsColor , "%s" , Name.c_str() );
 					DrawIndex++;
 				}

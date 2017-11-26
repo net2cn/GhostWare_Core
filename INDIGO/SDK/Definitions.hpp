@@ -169,7 +169,6 @@ public:
 	bool bIsRevolver; // 0x022C
 	bool bCannotShootUnderwater; // 0x0230
 };
-
 namespace SDK
 {
 	typedef void* ( *CreateInterfaceFn )( const char *pName , int *pReturnCode );

@@ -2,6 +2,10 @@
 
 #include "../../Engine/Engine.h"
 
+#define MAXBACKTRACKTICKS ((int)Settings::Aimbot::aim_Backtracktickrate)
+#define TICK_INTERVAL			(Interfaces::GlobalVars()->interval_per_tick)
+#define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
+
 class CTimer;
 
 namespace Engine
@@ -31,6 +35,8 @@ public:
 	int		GetBestTarget();
 	int		GetBestHitBox();
 
+	void Backtrack(CUserCmd * pCmd);
+
 	void	OnRender();
 
 	void	Aimbot();
@@ -38,7 +44,7 @@ public:
 
 	void	AutoPistol();
 	void	OnCreateMove( CUserCmd* pCmd , CMe* pLocal );
-//[swap_lines]
+//[/swap_lines]
 private:
 
 	CMe*		m_pLocal;
